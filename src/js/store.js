@@ -61,6 +61,20 @@ class AppStore {
       this.state.meals = meals;
       this.state.customers = customers;
       this.state.orders = orders;
+
+      // Dynamically offset dates for the first 25 orders to fall within the last 7 days
+      // to populate the dashboard timeline chart and active date filters.
+      const now = new Date();
+      this.state.orders.forEach((o, i) => {
+        if (i < 25) {
+          const daysAgo = i % 7;
+          const d = new Date(now);
+          d.setDate(now.getDate() - daysAgo);
+          d.setHours(Math.floor(Math.random() * 8) + 10, Math.floor(Math.random() * 60)); // Random hour between 10am and 6pm
+          o.orderDate = d.toISOString();
+        }
+      });
+
       this.state.delivery = delivery;
       this.state.ratings = ratings;
 
@@ -214,6 +228,12 @@ class AppStore {
   }
 
   updateOrderStatus(orderId, status) {
+    // Cancel the simulation timer if it exists to prevent simulation from overwriting admin manual updates
+    if (this.state.orderStatusTimers[orderId]) {
+      clearInterval(this.state.orderStatusTimers[orderId]);
+      delete this.state.orderStatusTimers[orderId];
+    }
+
     const orders = this.state.orders.map(o => 
       o.orderId === orderId ? { ...o, status } : o
     );
@@ -228,6 +248,13 @@ class AppStore {
     }
 
     this.setState({ orders, delivery, activeOrder });
+  }
+
+  assignDriver(orderId, driverName, driverPhone) {
+    const delivery = this.state.delivery.map(d => 
+      d.orderId === orderId ? { ...d, driverName, driverPhone } : d
+    );
+    this.setState({ delivery });
   }
 
   // --- Admin operations ---
