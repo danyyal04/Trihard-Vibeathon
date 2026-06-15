@@ -132,7 +132,7 @@ export function renderMockMap(status) {
         <path d="M 250 10 L 250 50" fill="none" stroke="#DFDCD7" stroke-width="8" stroke-linecap="round"/>
 
         <!-- Route trace line -->
-        <path d="M 50 150 L 120 150 L 120 90 L 250 90 L 250 50 L 350 50" fill="none" stroke="#C97C5D" stroke-width="3" stroke-dasharray="8 4" stroke-linecap="round" class="opacity-60"/>
+        <path d="M 50 150 L 120 150 L 120 90 L 250 90 L 250 50 L 350 50" fill="none" stroke="#0AADAD" stroke-width="3" stroke-dasharray="8 4" stroke-linecap="round" class="opacity-60"/>
 
         <!-- Restaurant Node (Start) -->
         <circle cx="50" cy="150" r="10" fill="#1B263B" stroke="#FFFFFF" stroke-width="2.5"/>
@@ -146,11 +146,11 @@ export function renderMockMap(status) {
         ${status !== 'delivered' ? `
           <g transform="translate(${driverX}, ${driverY})" class="transition-all duration-1000 ease-in-out">
             <!-- Ripple Pulse -->
-            <circle cx="0" cy="0" r="14" fill="#C97C5D" class="opacity-20">
+            <circle cx="0" cy="0" r="14" fill="#0AADAD" class="opacity-20">
               <animate attributeName="r" values="8;18;8" dur="2s" repeatCount="indefinite" />
             </circle>
             <!-- Pin -->
-            <circle cx="0" cy="0" r="7" fill="#C97C5D" stroke="#FFFFFF" stroke-width="1.5"/>
+            <circle cx="0" cy="0" r="7" fill="#0AADAD" stroke="#FFFFFF" stroke-width="1.5"/>
             <!-- Tiny Bike/Driver Indicator -->
             <circle cx="0" cy="0" r="2.5" fill="#FFFFFF"/>
           </g>

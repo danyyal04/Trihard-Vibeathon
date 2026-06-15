@@ -145,8 +145,8 @@ class App {
       this.navHeader.classList.remove('hidden');
       this.navMobile.classList.remove('hidden');
       this.sidebarAdmin.classList.add('hidden');
-      this.sidebarAdmin.classList.remove('flex');
-      this.navHeader.classList.toggle('hero-nav', state.activeView === 'home');
+      // Keep header white on all pages (no dark hero-nav override)
+      this.navHeader.classList.remove('hero-nav');
       
       contentWrapper.classList.remove('w-full', 'px-6', 'md:px-10');
       contentWrapper.classList.add('max-w-7xl', 'px-4', 'md:px-8');
