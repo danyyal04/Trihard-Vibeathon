@@ -193,6 +193,9 @@ class App {
         case 'track-order':
           customerViews.renderTrackOrder(this.viewContainer);
           break;
+        case 'review-shared-order':
+          customerViews.renderReviewSharedOrder(this.viewContainer);
+          break;
         case 'admin-customers':
           adminViews.renderCustomers(this.viewContainer);
           break;

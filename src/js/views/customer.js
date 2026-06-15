@@ -17,6 +17,70 @@ let catalogFilters = {
 
 let trackOrderResult = null;
 
+let sharedPaymentSelections = {
+  Sarah: 'online',
+  Alex: 'online',
+  John: 'cash',
+  Emily: 'online'
+};
+
+let sharedPaymentStatuses = {
+  Sarah: 'pending',
+  Alex: 'paid',
+  John: 'cash',
+  Emily: 'pending'
+};
+
+const sharedOrderRows = [
+  { id: 1, customer: 'Sarah', avatar: 'SR', item: 'Chicken Dumplings', qty: 2, price: 12.00, image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=200&auto=format&fit=crop&q=80' },
+  { id: 2, customer: 'Sarah', avatar: 'SR', item: 'Iced Tea', qty: 1, price: 4.00, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=200&auto=format&fit=crop&q=80' },
+  { id: 3, customer: 'Alex', avatar: 'AL', item: 'Shrimp Dumplings', qty: 1, price: 9.00, image: 'https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=200&auto=format&fit=crop&q=80' },
+  { id: 4, customer: 'John', avatar: 'JN', item: 'Fried Dumplings', qty: 2, price: 14.00, image: 'https://images.unsplash.com/photo-1525755662778-989d0524087e?w=200&auto=format&fit=crop&q=80' },
+  { id: 5, customer: 'Emily', avatar: 'EM', item: 'Jasmine Tea', qty: 2, price: 6.00, image: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?w=200&auto=format&fit=crop&q=80' },
+  { id: 6, customer: 'Alex', avatar: 'AL', item: 'Signature Dumpling Platter', qty: 2, price: 18.50, image: 'https://images.unsplash.com/photo-1563379091339-03246963d51a?w=200&auto=format&fit=crop&q=80' },
+  { id: 7, customer: 'Emily', avatar: 'EM', item: 'Chili Oil Wontons', qty: 2, price: 15.00, image: 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=200&auto=format&fit=crop&q=80' }
+];
+
+const avatarTone = {
+  Sarah: 'bg-pink-400',
+  Alex: 'bg-blue-400',
+  John: 'bg-indigo-500',
+  Emily: 'bg-amber-500'
+};
+
+function statusBadge(status) {
+  if (status === 'paid') {
+    return '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-green-100 text-green-700">Paid</span>';
+  }
+  if (status === 'cash') {
+    return '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-blue-100 text-blue-700">Cash Collection</span>';
+  }
+  return '<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-orange-100 text-orange-700">Pending</span>';
+}
+
+function collectSharedSummary() {
+  const participants = Object.keys(sharedPaymentSelections);
+  const grouped = participants.map((name) => {
+    const rows = sharedOrderRows.filter((row) => row.customer === name);
+    const subtotal = rows.reduce((sum, row) => sum + row.price, 0);
+    return {
+      name,
+      avatar: rows[0]?.avatar || name.slice(0, 2).toUpperCase(),
+      rows,
+      subtotal,
+      method: sharedPaymentSelections[name] || 'online',
+      status: sharedPaymentStatuses[name] || 'pending'
+    };
+  });
+
+  const totalItems = sharedOrderRows.reduce((sum, row) => sum + row.qty, 0);
+  const grandTotal = sharedOrderRows.reduce((sum, row) => sum + row.price, 0);
+  const paidCount = grouped.filter((g) => g.status === 'paid').length;
+  const pendingCount = grouped.length - paidCount;
+
+  return { grouped, totalItems, grandTotal, paidCount, pendingCount, totalParticipants: grouped.length };
+}
+
 export const customerViews = {
 
   // ─── 1. LANDING PAGE ────────────────────────────────────────────────────────
@@ -363,70 +427,126 @@ export const customerViews = {
     if (!drawerContainer || !footerContainer) return;
 
     const cart = store.state.cart;
-
+    
     if (cart.length === 0) {
       drawerContainer.innerHTML = `
         <div class="py-24 text-center text-secondary">
-          <div class="text-5xl mb-4">🥟</div>
+          <svg class="w-16 h-16 mx-auto mb-4 text-secondary/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
           <p class="font-display font-semibold text-primary mb-1">Your cart is empty</p>
-          <p class="text-xs text-secondary-light">Browse our dumplings and start ordering!</p>
+          <p class="text-xs text-secondary-light">Explore our catalog and add hot meals.</p>
         </div>
       `;
+
       footerContainer.innerHTML = `
-        <button onclick="window.app.closeCartDrawer(); window.app.switchView('catalog');"
-          class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3.5 rounded-2xl transition-all cursor-pointer text-sm">
-          Browse Dumplings
+        <button 
+          onclick="window.app.closeCartDrawer(); window.app.switchView('catalog');" 
+          class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3.5 rounded-2xl transition-all cursor-pointer text-sm"
+        >
+          Browse Meals
         </button>
       `;
+
+      // Wire up table selection highlights in the same tick
+      requestAnimationFrame(() => {
+        const grid = document.getElementById('table-picker-grid');
+        if (!grid) return;
+        grid.querySelectorAll('.table-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            grid.querySelectorAll('.table-btn').forEach(b => {
+              b.classList.remove('bg-primary','text-white','border-primary','shadow-md');
+              b.classList.add('border-secondary/10','bg-white','text-secondary');
+            });
+            btn.classList.add('bg-primary','text-white','border-primary','shadow-md');
+            btn.classList.remove('border-secondary/10','bg-white','text-secondary');
+            // Show simulated members
+            const members = window._tableMembers?.[btn.dataset.table] || [];
+            const list = document.getElementById('cart-members-list');
+            if (list) {
+              if (members.length === 0) {
+                list.innerHTML = '<span class="text-xs text-secondary-light italic">No members yet — be the first!</span>';
+              } else {
+                list.innerHTML = members.map(m => `
+                  <span class="flex items-center gap-1.5 bg-background border border-secondary/10 rounded-full pl-1 pr-3 py-0.5">
+                    <span class="w-5 h-5 rounded-full ${m.tone} text-white text-[9px] font-bold flex items-center justify-center">${m.av}</span>
+                    <span class="text-xs font-medium text-primary">${m.name}</span>
+                  </span>
+                `).join('');
+              }
+            }
+            // Store chosen table in a temporary variable for confirmJoinTable
+            window._chosenTable = btn.dataset.table;
+          });
+        });
+      });
+
       return;
     }
 
+    // Load Cart Item Cards
     drawerContainer.innerHTML = cart.map(item => {
       const meal = store.state.meals.find(m => m.mealId === item.mealId);
       if (!meal) return '';
       return `
         <div class="flex items-center gap-4 p-3.5 bg-background rounded-2xl border border-secondary/5">
-          <img src="${meal.image}" alt="${meal.mealName}" class="w-16 h-16 rounded-xl object-cover border border-secondary/10"
-            onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100'" />
+          <img src="${meal.image}" alt="${meal.mealName}" class="w-16 h-16 rounded-xl object-cover border border-secondary/10" />
           <div class="flex-grow min-w-0">
             <h4 class="font-display font-semibold text-sm text-primary truncate">${meal.mealName}</h4>
-            <span class="text-xs text-secondary-light block mb-2">RM ${meal.price.toFixed(2)}</span>
+            <span class="text-xs text-secondary-light block mb-2">$${meal.price.toFixed(2)}</span>
+            
+            <!-- Adjust Qty -->
             <div class="flex items-center gap-3">
-              <button onclick="window.app.updateCartQuantity('${meal.mealId}', ${item.quantity - 1})"
-                class="w-7 h-7 bg-white border border-secondary/15 rounded-lg text-primary hover:bg-background-dark transition-all flex items-center justify-center cursor-pointer text-sm font-bold active:scale-90">−</button>
+              <button 
+                onclick="window.app.updateCartQuantity('${meal.mealId}', ${item.quantity - 1})"
+                class="w-7 h-7 bg-white border border-secondary/15 rounded-lg text-primary hover:bg-background-dark transition-all flex items-center justify-center cursor-pointer text-sm font-bold active:scale-90"
+              >
+                -
+              </button>
               <span class="text-xs font-semibold text-primary w-4 text-center">${item.quantity}</span>
-              <button onclick="window.app.updateCartQuantity('${meal.mealId}', ${item.quantity + 1})"
-                class="w-7 h-7 bg-white border border-secondary/15 rounded-lg text-primary hover:bg-background-dark transition-all flex items-center justify-center cursor-pointer text-sm font-bold active:scale-90">+</button>
+              <button 
+                onclick="window.app.updateCartQuantity('${meal.mealId}', ${item.quantity + 1})"
+                class="w-7 h-7 bg-white border border-secondary/15 rounded-lg text-primary hover:bg-background-dark transition-all flex items-center justify-center cursor-pointer text-sm font-bold active:scale-90"
+              >
+                +
+              </button>
             </div>
           </div>
-          <button onclick="window.app.removeFromCart('${meal.mealId}')"
-            class="text-secondary/40 hover:text-accent p-2 rounded-xl hover:bg-accent/5 transition-colors cursor-pointer" aria-label="Remove item">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-1.816A2.25 2.25 0 0012.25 2.25h-2.5a2.25 2.25 0 00-2.25 2.25v1.816m-3 0h10.982"/></svg>
+          
+          <!-- Delete button -->
+          <button 
+            onclick="window.app.removeFromCart('${meal.mealId}')" 
+            class="text-secondary/40 hover:text-accent p-2 rounded-xl hover:bg-accent/5 transition-colors cursor-pointer"
+            aria-label="Remove item"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-1.816A2.25 2.25 0 0112.25 2.25h-2.5a2.25 2.25 0 00-2.25 2.25v1.816m-3 0h10.982"/></svg>
           </button>
         </div>
       `;
     }).join('');
 
+    // Load Footer calculations
     const subtotal = store.getCartTotal();
-    const deliveryFee = cart.length >= 2 ? 0 : 3.00;
+    const deliveryFee = 3.99;
     const total = subtotal + deliveryFee;
 
     footerContainer.innerHTML = `
       <div class="space-y-2.5 mb-6 text-xs">
         <div class="flex items-center justify-between text-secondary-light">
-          <span>Subtotal</span><span>RM ${subtotal.toFixed(2)}</span>
+          <span>Subtotal</span>
+          <span>$${subtotal.toFixed(2)}</span>
         </div>
         <div class="flex items-center justify-between text-secondary-light">
           <span>Delivery Fee</span>
-          <span class="${deliveryFee === 0 ? 'text-success font-semibold' : ''}">${deliveryFee === 0 ? 'FREE (2+ packs)' : 'RM ' + deliveryFee.toFixed(2)}</span>
+          <span>$${deliveryFee.toFixed(2)}</span>
         </div>
         <div class="flex items-center justify-between text-sm font-bold text-primary pt-2.5 border-t border-secondary/10">
-          <span>Total</span>
-          <span class="font-display">RM ${total.toFixed(2)}</span>
+          <span>Total Price</span>
+          <span class="font-display">$${total.toFixed(2)}</span>
         </div>
       </div>
-      <button onclick="window.app.switchView('checkout'); window.app.closeCartDrawer();"
-        class="w-full bg-accent hover:bg-accent-dark text-white font-semibold py-3.5 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer text-sm">
+      <button 
+        onclick="window.app.switchView('checkout'); window.app.closeCartDrawer();" 
+        class="w-full bg-accent hover:bg-accent-dark text-white font-semibold py-3.5 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer text-sm"
+      >
         Proceed to Checkout
       </button>
     `;
@@ -891,6 +1011,241 @@ export const customerViews = {
     `;
   },
 
+  renderReviewSharedOrder(container) {
+    const session = store.state.tableSession;
+    const liveCart = store.state.cart;
+
+    // Build rows: live cart if session exists, else static demo data
+    let rows;
+    let tableNo = 'T05';
+    let orderId = 'ORD-7821';
+
+    if (session && liveCart.length > 0) {
+      tableNo = session.tableNo;
+      orderId = `ORD-${tableNo.slice(1)}${liveCart.length}${liveCart[0].quantity || 1}`;
+      rows = liveCart.map((item, i) => {
+        const meal = store.state.meals.find(m => m.mealId === item.mealId);
+        const who = item.addedBy || session.myName;
+        const member = session.members.find(m => m.name === who) || { avatar: who.slice(0,2).toUpperCase(), tone: 'bg-secondary' };
+        return {
+          id: i + 1,
+          customer: who,
+          avatar: member.avatar,
+          tone: member.tone,
+          item: meal ? meal.mealName : 'Unknown Item',
+          qty: item.quantity,
+          price: meal ? meal.price * item.quantity : 0,
+          image: meal ? meal.image : 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=200&auto=format&fit=crop&q=80'
+        };
+      });
+    } else {
+      rows = sharedOrderRows;
+    }
+
+    // Group by participant
+    const seenNames = [...new Set(rows.map(r => r.customer))];
+    const grouped = seenNames.map(name => {
+      const personRows = rows.filter(r => r.customer === name);
+      const subtotal = personRows.reduce((s, r) => s + r.price, 0);
+      const member = session?.members.find(m => m.name === name);
+      return {
+        name,
+        avatar: member?.avatar || personRows[0]?.avatar || name.slice(0,2).toUpperCase(),
+        tone: member?.tone || avatarTone[name] || 'bg-secondary',
+        rows: personRows,
+        subtotal,
+        method: sharedPaymentSelections[name] || 'online',
+        status: sharedPaymentStatuses[name] || 'pending'
+      };
+    });
+
+    const totalItems = rows.reduce((s, r) => s + r.qty, 0);
+    const grandTotal = rows.reduce((s, r) => s + r.price, 0);
+    const paidCount = grouped.filter(g => g.status === 'paid').length;
+    const pendingCount = grouped.length - paidCount;
+    const progress = grouped.length > 0 ? Math.round((paidCount / grouped.length) * 100) : 0;
+
+    container.innerHTML = `
+      <section class="max-w-2xl mx-auto space-y-5 pb-8 animate-fade-in">
+        <div class="text-center space-y-1.5">
+          <h1 class="font-display text-3xl font-extrabold text-primary">Review Shared Order</h1>
+          <p class="text-sm text-secondary-light">Check everyone's orders before payment.</p>
+        </div>
+
+        <div class="glass-card rounded-[2rem] p-5 border border-secondary/5 space-y-3">
+          <h2 class="font-display font-bold text-base text-primary">Shared Cart Summary</h2>
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="bg-background rounded-xl p-3 border border-secondary/5">
+              <p class="text-secondary-light font-semibold uppercase tracking-wide text-[10px]">Table No.</p>
+              <p class="font-display font-bold text-primary text-sm mt-0.5">${tableNo}</p>
+            </div>
+            <div class="bg-background rounded-xl p-3 border border-secondary/5">
+              <p class="text-secondary-light font-semibold uppercase tracking-wide text-[10px]">Order Number</p>
+              <p class="font-display font-bold text-primary text-sm mt-0.5">${orderId}</p>
+            </div>
+            <div class="bg-background rounded-xl p-3 border border-secondary/5">
+              <p class="text-secondary-light font-semibold uppercase tracking-wide text-[10px]">Participants</p>
+              <p class="font-display font-bold text-primary text-sm mt-0.5">${grouped.length}</p>
+            </div>
+            <div class="bg-background rounded-xl p-3 border border-secondary/5">
+              <p class="text-secondary-light font-semibold uppercase tracking-wide text-[10px]">Total Items</p>
+              <p class="font-display font-bold text-primary text-sm mt-0.5">${totalItems}</p>
+            </div>
+          </div>
+          <div class="bg-primary text-white rounded-xl p-3.5 flex items-center justify-between">
+            <span class="text-xs font-semibold uppercase tracking-wider text-white/80">Grand Total</span>
+            <span class="font-display text-lg font-extrabold">RM ${grandTotal.toFixed(2)}</span>
+          </div>
+        </div>
+
+        <div class="glass-card rounded-[2rem] p-5 border border-secondary/5 space-y-3">
+          <h2 class="font-display font-bold text-base text-primary">Split Order Table</h2>
+          <div class="rounded-2xl border border-secondary/10 overflow-hidden bg-white">
+            <div class="grid grid-cols-12 gap-2 px-3 py-2.5 text-[10px] font-bold uppercase tracking-wider text-secondary-light bg-background border-b border-secondary/10">
+              <span class="col-span-3">Customer</span>
+              <span class="col-span-5">Menu Ordered</span>
+              <span class="col-span-2 text-center">Qty</span>
+              <span class="col-span-2 text-right">Price</span>
+            </div>
+            <div class="divide-y divide-secondary/5 max-h-[320px] overflow-y-auto">
+              ${rows.map(row => `
+                <div class="grid grid-cols-12 gap-2 px-3 py-2.5 items-center text-xs hover:bg-background/30 transition-colors">
+                  <div class="col-span-3 flex items-center gap-2 min-w-0">
+                    <div class="w-7 h-7 rounded-full ${row.tone || avatarTone[row.customer] || 'bg-primary'} text-white flex items-center justify-center font-bold text-[10px] flex-shrink-0">${row.avatar}</div>
+                    <span class="font-medium text-primary truncate">${row.customer}</span>
+                  </div>
+                  <div class="col-span-5 flex items-center gap-2 min-w-0">
+                    <img src="${row.image}" alt="${row.item}" class="w-8 h-8 rounded-lg object-cover border border-secondary/10 flex-shrink-0"/>
+                    <span class="text-secondary truncate">${row.item}</span>
+                  </div>
+                  <div class="col-span-2 text-center font-semibold text-primary">${row.qty}</div>
+                  <div class="col-span-2 text-right font-display font-bold text-primary">RM ${row.price.toFixed(2)}</div>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        </div>
+
+        <div class="space-y-3">
+          <h2 class="font-display font-bold text-base text-primary px-1">Individual Payment Summary</h2>
+          ${grouped.map(entry => `
+            <div class="glass-card rounded-[2rem] p-5 border border-secondary/5 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                  <div class="w-9 h-9 rounded-full ${entry.tone} text-white flex items-center justify-center font-bold text-xs">${entry.avatar}</div>
+                  <div>
+                    <h3 class="font-display text-base font-bold text-primary">${entry.name}</h3>
+                    <p class="text-[11px] text-secondary-light">${entry.rows.length} item(s)</p>
+                  </div>
+                </div>
+                ${statusBadge(entry.status)}
+              </div>
+              <div class="bg-background rounded-2xl p-3 border border-secondary/5 text-xs space-y-1.5">
+                ${entry.rows.map(item => `<div class="flex items-center justify-between"><span class="text-secondary">${item.item} ×${item.qty}</span><span class="font-semibold text-primary">RM ${item.price.toFixed(2)}</span></div>`).join('')}
+                <div class="pt-2 border-t border-secondary/10 flex items-center justify-between">
+                  <span class="text-secondary-light font-semibold">Subtotal</span>
+                  <span class="font-display font-bold text-primary">RM ${entry.subtotal.toFixed(2)}</span>
+                </div>
+              </div>
+              <div class="space-y-2">
+                <p class="text-[11px] uppercase tracking-wider font-bold text-secondary-light">Payment Method</p>
+                <div class="grid grid-cols-2 gap-2">
+                  <button onclick="window.app.setSharedPaymentMethod('${entry.name}','online')" class="p-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${entry.method === 'online' ? 'bg-success/10 border-success/30 text-success' : 'bg-white border-secondary/15 text-secondary hover:bg-background-dark'}">Online Payment</button>
+                  <button onclick="window.app.setSharedPaymentMethod('${entry.name}','cash')" class="p-2.5 rounded-xl border text-xs font-semibold transition-all cursor-pointer ${entry.method === 'cash' ? 'bg-blue-100 border-blue-300 text-blue-700' : 'bg-white border-secondary/15 text-secondary hover:bg-background-dark'}">Cash Payment</button>
+                </div>
+              </div>
+              ${entry.method === 'online' ? `
+                <div class="bg-success/5 border border-success/20 rounded-2xl p-3.5 space-y-3">
+                  <div class="grid grid-cols-4 gap-2 text-center">
+                    <div class="bg-white border border-secondary/10 rounded-xl p-2 text-[10px] font-semibold text-secondary">QR</div>
+                    <div class="bg-white border border-secondary/10 rounded-xl p-2 text-[10px] font-semibold text-secondary">Touch 'n Go</div>
+                    <div class="bg-white border border-secondary/10 rounded-xl p-2 text-[10px] font-semibold text-secondary">DuitNow</div>
+                    <div class="bg-white border border-secondary/10 rounded-xl p-2 text-[10px] font-semibold text-secondary">Online Banking</div>
+                  </div>
+                  <button onclick="window.app.markParticipantPaid('${entry.name}')" class="w-full bg-success hover:bg-success-dark text-white font-semibold py-2.5 rounded-xl transition-all cursor-pointer text-sm">Pay Now</button>
+                </div>
+              ` : `
+                <div class="bg-blue-50 border border-blue-200 rounded-2xl p-3.5 flex items-center justify-between">
+                  <div class="flex items-center gap-2.5">
+                    <div class="w-8 h-8 rounded-xl bg-blue-100 text-blue-700 flex items-center justify-center text-base">💵</div>
+                    <div>
+                      <p class="text-xs font-semibold text-blue-800">Please pay at the counter.</p>
+                      <p class="text-[11px] text-blue-600">Awaiting Cash Payment</p>
+                    </div>
+                  </div>
+                  <button onclick="window.app.markParticipantCash('${entry.name}')" class="text-[11px] font-bold px-3 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white transition-colors cursor-pointer">Confirm</button>
+                </div>
+              `}
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="glass-card rounded-[2rem] p-5 border border-secondary/5 space-y-3">
+          <h2 class="font-display font-bold text-base text-primary">Payment Progress</h2>
+          <div class="grid grid-cols-3 gap-3 text-center text-xs">
+            <div class="bg-background rounded-xl p-2.5 border border-secondary/5"><p class="text-secondary-light">Total</p><p class="font-display text-base font-bold text-primary">${grouped.length}</p></div>
+            <div class="bg-green-50 rounded-xl p-2.5 border border-green-100"><p class="text-green-600">Paid</p><p class="font-display text-base font-bold text-green-700">${paidCount}</p></div>
+            <div class="bg-orange-50 rounded-xl p-2.5 border border-orange-100"><p class="text-orange-600">Pending</p><p class="font-display text-base font-bold text-orange-700">${pendingCount}</p></div>
+          </div>
+          <div class="space-y-1.5">
+            <div class="h-3 bg-background-dark rounded-full overflow-hidden">
+              <div class="shared-progress-fill h-full rounded-full bg-gradient-to-r from-success to-success-light" style="width:${progress}%"></div>
+            </div>
+            <div class="flex items-center justify-between text-[11px]">
+              <span class="text-secondary-light">${progress}% Completed</span>
+              <div class="flex gap-1.5">
+                <span class="px-2 py-0.5 rounded-full bg-green-100 text-green-700 text-[10px] font-bold">Paid</span>
+                <span class="px-2 py-0.5 rounded-full bg-orange-100 text-orange-700 text-[10px] font-bold">Pending</span>
+                <span class="px-2 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[10px] font-bold">Cash Collection</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sticky bottom-20 md:bottom-4 space-y-2">
+          <button onclick="window.app.switchView('checkout')" class="w-full bg-accent hover:bg-accent-dark text-white font-semibold py-3.5 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer text-sm">Proceed to Individual Payments</button>
+          <button onclick="window.app.switchView('catalog')" class="w-full bg-white border border-secondary/15 text-secondary hover:bg-background-dark font-semibold py-3.5 rounded-2xl transition-all cursor-pointer text-sm">Edit Shared Order</button>
+        </div>
+      </section>
+    `;
+
+    requestAnimationFrame(() => {
+      const bar = container.querySelector('.shared-progress-fill');
+      if (!bar) return;
+      const target = bar.style.width;
+      bar.style.width = '0%';
+      bar.classList.add('shared-progress-fill--animated');
+      requestAnimationFrame(() => { bar.style.width = target; });
+    });
+  },
+
+  setSharedPaymentMethod(name, method) {
+    sharedPaymentSelections[name] = method;
+    if (sharedPaymentStatuses[name] === 'cash' && method === 'online') {
+      sharedPaymentStatuses[name] = 'pending';
+    }
+    const container = document.getElementById('view-container');
+    if (store.state.activeView === 'review-shared-order' && container) {
+      this.renderReviewSharedOrder(container);
+    }
+  },
+
+  markParticipantPaid(name) {
+    sharedPaymentStatuses[name] = 'paid';
+    const container = document.getElementById('view-container');
+    if (store.state.activeView === 'review-shared-order' && container) {
+      this.renderReviewSharedOrder(container);
+    }
+  },
+
+  markParticipantCash(name) {
+    sharedPaymentStatuses[name] = 'cash';
+    const container = document.getElementById('view-container');
+    if (store.state.activeView === 'review-shared-order' && container) {
+      this.renderReviewSharedOrder(container);
+    }
+  },
+
   trackOrderLookup(query) {
     const q = query.trim();
     if (!q) return;
@@ -1104,3 +1459,45 @@ window.app.catalogPage = customerViews.catalogPage.bind(customerViews);
 window.app.submitCheckout = customerViews.submitCheckout.bind(customerViews);
 window.app.submitApplication = customerViews.submitApplication.bind(customerViews);
 window.app.trackOrderLookup = customerViews.trackOrderLookup.bind(customerViews);
+window.app.setSharedPaymentMethod = customerViews.setSharedPaymentMethod.bind(customerViews);
+window.app.markParticipantPaid = customerViews.markParticipantPaid.bind(customerViews);
+window.app.markParticipantCash = customerViews.markParticipantCash.bind(customerViews);
+
+// Table session helpers
+window.app.selectCartTable = function(tableNo) {
+  window._chosenTable = tableNo;
+};
+
+window.app.confirmJoinTable = function() {
+  const tableNo = window._chosenTable;
+  const nameInput = document.getElementById('cart-session-name');
+  const myName = nameInput ? nameInput.value.trim() : '';
+  if (!tableNo) {
+    window.app.showFloatingAlert('Please select a table first.', 'info');
+    return;
+  }
+  if (!myName) {
+    window.app.showFloatingAlert('Please enter your name.', 'info');
+    return;
+  }
+  store.joinTable({ tableNo, myName });
+  window._chosenTable = null;
+  customerViews.renderCartDrawer();
+};
+
+window.app.leaveTable = function() {
+  store.leaveTable();
+  customerViews.renderCartDrawer();
+};
+
+// Simulated members already seated at each table
+window._tableMembers = {
+  T01: [],
+  T02: [{ name: 'Alex', av: 'AL', tone: 'bg-blue-400' }],
+  T03: [{ name: 'John', av: 'JN', tone: 'bg-indigo-500' }, { name: 'Emily', av: 'EM', tone: 'bg-amber-500' }],
+  T04: [],
+  T05: [{ name: 'Alex', av: 'AL', tone: 'bg-blue-400' }, { name: 'John', av: 'JN', tone: 'bg-indigo-500' }, { name: 'Emily', av: 'EM', tone: 'bg-amber-500' }],
+  T06: [{ name: 'Emily', av: 'EM', tone: 'bg-amber-500' }],
+  T07: [],
+  T08: [{ name: 'Alex', av: 'AL', tone: 'bg-blue-400' }],
+};
