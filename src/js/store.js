@@ -3,7 +3,7 @@
 class AppStore {
   constructor() {
     this.state = {
-      activeView: 'home', // 'home' | 'catalog' | 'checkout' | 'tracking' | 'apply' | 'track-order' | 'admin-dash' | 'admin-orders' | 'admin-customers'
+      activeView: 'home', // 'home'|'catalog'|'checkout'|'confirmation'|'tracking'|'apply'|'track-order'|'admin-dash'|'admin-orders'|'admin-customers'
       meals: [],
       customers: [],
       orders: [],
@@ -12,6 +12,7 @@ class AppStore {
       cart: [], // [{ mealId, quantity, addedBy }]
       tableSession: null, // { tableNo, myName, members: [{ name, avatar, tone }] }
       activeOrder: null, // Order currently being tracked by customer
+      confirmedCartSnapshot: [], // Cart items saved at order time for confirmation screen
       selectedMealId: null, // For details modal
       adminSelectedCustomerId: null, // Admin details view drawer
       orderStatusTimers: {} // Dynamic simulated status updates
@@ -151,39 +152,41 @@ class AppStore {
   placeOrder(addressDetails) {
     const orderId = `ord_${randomId(1000, 9999)}`;
     const trackingId = `track_${randomId(8000, 9999)}`;
-    
-    // Create new order record
+
+    const deliveryFee = this.state.cart.length >= 2 ? 0 : 3.00;
+    const subtotal = this.getCartTotal();
+
     const newOrder = {
       orderId,
-      customerId: 'cust_001', // Standard guest customer ID
-      mealId: this.state.cart[0].mealId, // Main item reference
+      customerId: 'cust_001',
+      mealId: this.state.cart[0].mealId,
       quantity: this.state.cart.reduce((s, i) => s + i.quantity, 0),
-      amount: parseFloat(this.getCartTotal().toFixed(2)),
+      amount: parseFloat((subtotal + deliveryFee).toFixed(2)),
       status: 'received',
       orderDate: new Date().toISOString()
     };
 
-    // Create delivery tracking record
     const newTracking = {
       trackingId,
       orderId,
       status: 'received',
-      estimatedTime: new Date(Date.now() + 35 * 60 * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
-      driverName: 'Marcus Vance',
-      driverPhone: '+1 (555) 019-3382',
+      estimatedTime: new Date(Date.now() + 15 * 60 * 1000).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      driverName: 'Hot Meal Bar Team',
+      driverPhone: '+60 7-555 0000',
       details: addressDetails
     };
 
-    // Update memory cache
+    // Snapshot cart before clearing (for confirmation screen)
+    const cartSnapshot = [...this.state.cart];
+
     this.state.orders.unshift(newOrder);
     this.state.delivery.unshift(newTracking);
-    
-    // Set active customer order being tracked
     this.state.activeOrder = newOrder;
-    this.clearCart();
-    this.setState({ activeView: 'tracking' });
+    this.state.confirmedCartSnapshot = cartSnapshot;
 
-    // Start simulation timer
+    this.clearCart();
+    this.setState({ activeView: 'confirmation' });
+
     this.startOrderSimulation(orderId);
   }
 

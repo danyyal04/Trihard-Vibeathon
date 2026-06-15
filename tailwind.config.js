@@ -18,9 +18,9 @@ export default {
           dark: '#2B3C50'
         },
         accent: {
-          DEFAULT: '#C97C5D',
-          light: '#E29777',
-          dark: '#B06143'
+          DEFAULT: '#0AADAD',
+          light: '#15CBCB',
+          dark: '#078A8A'
         },
         background: {
           DEFAULT: '#F8F5F2',
@@ -45,7 +45,7 @@ export default {
       boxShadow: {
         premium: '0 10px 30px -10px rgba(27, 38, 59, 0.08)',
         'premium-hover': '0 20px 40px -12px rgba(27, 38, 59, 0.15)',
-        'accent-glow': '0 8px 20px -6px rgba(201, 124, 93, 0.3)'
+        'accent-glow': '0 8px 20px -6px rgba(10, 173, 173, 0.35)'
       }
     },
   },

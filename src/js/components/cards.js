@@ -12,7 +12,7 @@ export function renderRatingStars(rating) {
       html += `<svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20">
         <defs>
           <linearGradient id="halfStar">
-            <stop offset="50%" stop-color="#C97C5D"/>
+            <stop offset="50%" stop-color="#0AADAD"/>
             <stop offset="50%" stop-color="#E0DCD3"/>
           </linearGradient>
         </defs>
@@ -60,7 +60,7 @@ export function renderMealCard(meal) {
         <div class="flex items-center justify-between pt-3 border-t border-secondary/5 mt-auto">
           <div>
             <span class="text-xs text-secondary-light block">Price</span>
-            <span class="text-lg font-bold text-primary font-display">$${meal.price.toFixed(2)}</span>
+            <span class="text-lg font-bold text-primary font-display">RM ${meal.price.toFixed(2)}</span>
           </div>
           <button 
             class="bg-accent hover:bg-accent-dark text-white p-3 rounded-2xl shadow-accent-glow hover:shadow-none transition-all flex items-center justify-center cursor-pointer active:scale-95"
