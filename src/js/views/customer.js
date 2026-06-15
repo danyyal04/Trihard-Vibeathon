@@ -35,33 +35,7 @@ export const customerViews = {
     });
 
     container.innerHTML = `
-      <!-- Hero Banner -->
-      <section class="relative bg-primary rounded-[2rem] overflow-hidden mb-12 p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8 shadow-premium text-white">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-dark/80 to-transparent z-0"></div>
-        
-        <div class="max-w-xl relative z-10 space-y-5">
-          <span class="text-accent bg-accent/15 border border-accent/20 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">Gourmet Delivery</span>
-          <h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-white font-extrabold leading-tight">
-            Exquisite Hot Meals, Delivered to <span class="text-accent">Your Door</span>
-          </h1>
-          <p class="text-secondary-light text-sm md:text-base leading-relaxed">
-            Experience premium restaurant culinary creations, curated fresh daily and delivered hot under 35 minutes.
-          </p>
-          <div class="flex flex-wrap gap-4 pt-2">
-            <button onclick="window.app.switchView('catalog')" class="bg-accent hover:bg-accent-dark text-white font-semibold px-7 py-3.5 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer active:scale-95 text-sm">
-              Explore Catalog
-            </button>
-            <button onclick="window.app.switchView('catalog'); window.app.setCatalogCategory('Seafood');" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold px-7 py-3.5 rounded-2xl transition-all cursor-pointer active:scale-95 text-sm">
-              View Seafood
-            </button>
-          </div>
-        </div>
-        
-        <!-- Hero Image Mock -->
-        <div class="relative z-10 w-full max-w-xs lg:max-w-md aspect-square rounded-full border-[8px] border-white/5 overflow-hidden shadow-2xl">
-          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80" alt="Premium Meal Platter" class="w-full h-full object-cover"/>
-        </div>
-      </section>
+      <div id="premium-hero-root"></div>
 
       <!-- Category quick selection -->
       <section class="mb-12">
@@ -117,6 +91,13 @@ export const customerViews = {
         </div>
       </section>
     `;
+
+    const premiumHeroRoot = container.querySelector('#premium-hero-root');
+    if (premiumHeroRoot) {
+      import('../../react/PremiumHero.jsx').then(({ mountPremiumHero }) => {
+        if (premiumHeroRoot.isConnected) mountPremiumHero(premiumHeroRoot);
+      });
+    }
   },
 
   // Render Meals Catalog View (Search, Sort, Filters, and Paginated list)

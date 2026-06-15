@@ -145,6 +145,7 @@ class App {
       this.navMobile.classList.remove('hidden');
       this.sidebarAdmin.classList.add('hidden');
       this.sidebarAdmin.classList.remove('flex');
+      this.navHeader.classList.toggle('hero-nav', state.activeView === 'home');
       
       contentWrapper.classList.remove('w-full', 'px-6', 'md:px-10');
       contentWrapper.classList.add('max-w-7xl', 'px-4', 'md:px-8');
@@ -158,6 +159,8 @@ class App {
 
     // 2. Render view container
     if (this.viewContainer) {
+      window.unmountPremiumHero?.();
+
       // Clear viewport
       this.viewContainer.innerHTML = '';
       
@@ -268,4 +271,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   app.start();
 });
-
