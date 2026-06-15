@@ -127,30 +127,34 @@ class App {
     // 1. Manage visible layouts Shell
     const contentWrapper = document.getElementById('content-wrapper');
     const mainBody = document.getElementById('main-body');
+    const adminHeader = document.getElementById('admin-mobile-header');
 
     if (isAdmin) {
       this.navHeader.classList.add('hidden');
       this.navMobile.classList.add('hidden');
       this.sidebarAdmin.classList.remove('hidden');
       this.sidebarAdmin.classList.add('flex');
+      if (adminHeader) adminHeader.classList.remove('hidden');
       
       contentWrapper.classList.remove('max-w-7xl', 'px-4', 'md:px-8');
       contentWrapper.classList.add('w-full', 'px-6', 'md:px-10');
       
-      mainBody.classList.remove('pt-24');
-      mainBody.classList.add('lg:pl-64', 'pt-6');
+      mainBody.classList.remove('pt-24', 'lg:pl-64', 'pt-6');
+      mainBody.classList.add('lg:pl-64', 'lg:pt-6', 'pt-20');
       
       this.updateAdminSidebarActiveLink(state.activeView);
+      this.closeAdminSidebar(); // Close sidebar on transition
     } else {
       this.navHeader.classList.remove('hidden');
       this.navMobile.classList.remove('hidden');
       this.sidebarAdmin.classList.add('hidden');
       this.sidebarAdmin.classList.remove('flex');
+      if (adminHeader) adminHeader.classList.add('hidden');
       
       contentWrapper.classList.remove('w-full', 'px-6', 'md:px-10');
       contentWrapper.classList.add('max-w-7xl', 'px-4', 'md:px-8');
       
-      mainBody.classList.remove('lg:pl-64', 'pt-6');
+      mainBody.classList.remove('lg:pl-64', 'lg:pt-6', 'pt-20', 'pt-6');
       mainBody.classList.add('pt-24');
       
       this.updateHeaderCartBadge(store.getCartCount());
@@ -228,11 +232,11 @@ class App {
     links.forEach(link => {
       const route = link.getAttribute('data-admin-route');
       if (route === activeView) {
-        link.classList.add('bg-white/10', 'text-white', 'border-l-4', 'border-accent');
-        link.classList.remove('text-white/60');
+        link.classList.add('bg-accent/10', 'text-accent-dark', 'font-bold', 'border-l-4', 'border-accent');
+        link.classList.remove('text-secondary', 'hover:text-primary', 'hover:bg-background');
       } else {
-        link.classList.remove('bg-white/10', 'text-white', 'border-l-4', 'border-accent');
-        link.classList.add('text-white/60');
+        link.classList.remove('bg-accent/10', 'text-accent-dark', 'font-bold', 'border-l-4', 'border-accent');
+        link.classList.add('text-secondary', 'hover:text-primary', 'hover:bg-background');
       }
     });
   }
@@ -248,6 +252,55 @@ class App {
         badge.classList.add('hidden');
       }
     });
+  }
+
+  // Toggle admin sidebar drawer (mobile/tablet viewports)
+  toggleAdminSidebar() {
+    const sidebar = document.getElementById('sidebar-admin');
+    if (sidebar) {
+      if (sidebar.classList.contains('-translate-x-full')) {
+        sidebar.classList.remove('-translate-x-full');
+        sidebar.classList.add('translate-x-0');
+        this.showSidebarBackdrop();
+      } else {
+        sidebar.classList.add('-translate-x-full');
+        sidebar.classList.remove('translate-x-0');
+        this.hideSidebarBackdrop();
+      }
+    }
+  }
+  
+  // Close admin sidebar drawer
+  closeAdminSidebar() {
+    const sidebar = document.getElementById('sidebar-admin');
+    if (sidebar && !sidebar.classList.contains('-translate-x-full')) {
+      sidebar.classList.add('-translate-x-full');
+      sidebar.classList.remove('translate-x-0');
+      this.hideSidebarBackdrop();
+    }
+  }
+
+  // Display backdrop overlay on mobile/tablet side-slide menu
+  showSidebarBackdrop() {
+    let backdrop = document.getElementById('sidebar-backdrop');
+    if (!backdrop) {
+      backdrop = document.createElement('div');
+      backdrop.id = 'sidebar-backdrop';
+      backdrop.className = 'fixed inset-0 bg-primary-dark/40 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 opacity-0';
+      backdrop.onclick = () => this.closeAdminSidebar();
+      document.body.appendChild(backdrop);
+    }
+    backdrop.classList.remove('hidden');
+    setTimeout(() => backdrop.classList.remove('opacity-0'), 10);
+  }
+
+  // Hide backdrop overlay
+  hideSidebarBackdrop() {
+    const backdrop = document.getElementById('sidebar-backdrop');
+    if (backdrop) {
+      backdrop.classList.add('opacity-0');
+      setTimeout(() => backdrop.classList.add('hidden'), 300);
+    }
   }
 }
 
@@ -269,6 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
   window.app.removeFromCart = app.removeFromCart.bind(app);
   window.app.updateCartQuantity = app.updateCartQuantity.bind(app);
   window.app.submitRating = app.submitRating.bind(app);
+  window.app.toggleAdminSidebar = app.toggleAdminSidebar.bind(app);
+  window.app.closeAdminSidebar = app.closeAdminSidebar.bind(app);
 
   app.start();
 });

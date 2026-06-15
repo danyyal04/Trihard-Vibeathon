@@ -49,7 +49,7 @@ export function renderRevenueChart(canvasId, timelineData) {
     ctx.stroke();
 
     // Axis label
-    ctx.fillText(`$${Math.round(val)}`, padding.left - 10, y);
+    ctx.fillText(`RM ${Math.round(val)}`, padding.left - 10, y);
   }
 
   // Draw X-Axis Labels
@@ -66,8 +66,8 @@ export function renderRevenueChart(canvasId, timelineData) {
 
   // Draw Gradient area under line
   const grad = ctx.createLinearGradient(0, padding.top, 0, padding.top + graphHeight);
-  grad.addColorStop(0, 'rgba(201, 124, 93, 0.25)'); // Accent light transparent
-  grad.addColorStop(1, 'rgba(201, 124, 93, 0.00)');
+  grad.addColorStop(0, 'rgba(10, 173, 173, 0.25)'); // Brand Accent light transparent
+  grad.addColorStop(1, 'rgba(10, 173, 173, 0.00)');
 
   ctx.beginPath();
   timelineData.forEach((d, i) => {
@@ -113,7 +113,7 @@ export function renderRevenueChart(canvasId, timelineData) {
     }
   });
 
-  ctx.strokeStyle = '#C97C5D'; // Accent color (Warm Copper)
+  ctx.strokeStyle = '#0AADAD'; // Brand Accent color (turquoise)
   ctx.lineWidth = 3.5;
   ctx.lineCap = 'round';
   ctx.stroke();
@@ -128,7 +128,7 @@ export function renderRevenueChart(canvasId, timelineData) {
     ctx.arc(x, y, 6, 0, Math.PI * 2);
     ctx.fillStyle = '#FFFFFF';
     ctx.fill();
-    ctx.strokeStyle = '#C97C5D';
+    ctx.strokeStyle = '#0AADAD';
     ctx.lineWidth = 2.5;
     ctx.stroke();
 
@@ -136,6 +136,6 @@ export function renderRevenueChart(canvasId, timelineData) {
     ctx.fillStyle = '#1B263B'; // Primary
     ctx.font = 'bold 9px Inter, sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText(`$${Math.round(d.amount)}`, x, y - 12);
+    ctx.fillText(`RM ${Math.round(d.amount)}`, x, y - 12);
   });
 }
