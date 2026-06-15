@@ -1112,10 +1112,15 @@ export const customerViews = {
         const { order, tracking, meal, customer } = trackOrderResult;
         resultHtml = `
           <div class="glass-card rounded-[2rem] p-6 md:p-8 border border-secondary/5 space-y-6 animate-slide-up">
-            <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-secondary/5 pb-5 gap-3">
-              <div>
-                <span class="text-[10px] text-accent font-semibold uppercase tracking-wider">Order Found</span>
-                <h2 class="font-display text-2xl font-bold text-primary mt-0.5">#${order.orderId}</h2>
+            <div class="flex flex-col md:flex-row md:items-start md:items-center justify-between border-b border-secondary/5 pb-5 gap-4">
+              <div class="flex items-center gap-3">
+                <button onclick="window.app.clearTrackOrderSearch()" class="p-2.5 rounded-xl border border-secondary/15 bg-white text-secondary hover:text-accent hover:bg-background-dark transition-all cursor-pointer shadow-sm active:scale-95 flex items-center justify-center" title="Back to Recent Orders">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+                </button>
+                <div>
+                  <span class="text-[10px] text-accent font-semibold uppercase tracking-wider">Order Found</span>
+                  <h2 class="font-display text-2xl font-bold text-primary mt-0.5">#${order.orderId}</h2>
+                </div>
               </div>
               <span class="px-4 py-1.5 rounded-full text-xs font-bold ${statusColors[order.status] || 'bg-gray-100 text-gray-700'}">
                 ${statusLabels[order.status] || order.status}
@@ -1145,8 +1150,12 @@ export const customerViews = {
         `;
       } else {
         resultHtml = `
-          <div class="glass-card rounded-[2rem] p-12 text-center border border-secondary/5">
-            <div class="text-4xl mb-4">🔍</div>
+          <div class="glass-card rounded-[2rem] p-12 text-center border border-secondary/5 relative">
+            <button onclick="window.app.clearTrackOrderSearch()" class="absolute top-6 left-6 flex items-center gap-1.5 text-xs font-bold text-secondary hover:text-accent transition-colors cursor-pointer bg-white px-3 py-1.5 border border-secondary/10 rounded-xl hover:bg-background/50 shadow-sm active:scale-95">
+              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18"/></svg>
+              Back
+            </button>
+            <div class="text-4xl mb-4 mt-4">🔍</div>
             <p class="font-display font-bold text-lg text-primary mb-2">Order Not Found</p>
             <p class="text-xs text-secondary-light">No order matches "<strong>${trackOrderResult.query}</strong>". Please check your order ID and try again.</p>
           </div>
@@ -1499,6 +1508,14 @@ export const customerViews = {
     }
   },
 
+  clearTrackOrderSearch() {
+    trackOrderResult = null;
+    const container = document.getElementById('view-container');
+    if (store.state.activeView === 'track-order' && container) {
+      this.renderTrackOrder(container);
+    }
+  },
+
   // ─── 4. SELLER REGISTRATION ──────────────────────────────────────────────────
   
   renderApplyJob(container) {
@@ -1720,6 +1737,7 @@ window.app.catalogPage = customerViews.catalogPage.bind(customerViews);
 window.app.submitCheckout = customerViews.submitCheckout.bind(customerViews);
 window.app.submitApplication = customerViews.submitApplication.bind(customerViews);
 window.app.trackOrderLookup = customerViews.trackOrderLookup.bind(customerViews);
+window.app.clearTrackOrderSearch = customerViews.clearTrackOrderSearch.bind(customerViews);
 window.app.setSharedPaymentMethod = customerViews.setSharedPaymentMethod.bind(customerViews);
 window.app.setSharedOnlinePaymentChannel = customerViews.setSharedOnlinePaymentChannel.bind(customerViews);
 window.app.markParticipantPaid = customerViews.markParticipantPaid.bind(customerViews);
