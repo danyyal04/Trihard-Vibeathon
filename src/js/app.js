@@ -37,6 +37,7 @@ class App {
   // View router
   switchView(view) {
     store.setState({ activeView: view });
+    if (window.__dumplingSetRoute) window.__dumplingSetRoute(view);
   }
 
   // Details Modal controls
@@ -173,6 +174,9 @@ class App {
           break;
         case 'checkout':
           customerViews.renderCheckout(this.viewContainer);
+          break;
+        case 'confirmation':
+          customerViews.renderConfirmation(this.viewContainer);
           break;
         case 'tracking':
           customerViews.renderTracking(this.viewContainer);

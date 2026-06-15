@@ -35,8 +35,8 @@ export const adminViews = {
               <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             </div>
             <div>
-              <span class="text-xs text-secondary-light block uppercase font-bold tracking-wider">Total Sales</span>
-              <span class="text-2xl font-extrabold text-primary font-display">$${metrics.kpis.totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+              <span class="text-xs text-secondary-light block uppercase font-bold tracking-wider">Total Revenue</span>
+              <span class="text-2xl font-extrabold text-primary font-display">RM ${metrics.kpis.totalRevenue.toLocaleString('en-MY', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
             </div>
           </div>
 
@@ -93,7 +93,7 @@ export const adminViews = {
 
           <!-- Popular items ledger -->
           <div class="bg-white rounded-[2rem] p-6 border border-secondary/5 shadow-premium">
-            <h3 class="font-display font-bold text-lg text-primary border-b border-secondary/5 pb-4 mb-4">Top 5 Popular Dishes</h3>
+            <h3 class="font-display font-bold text-lg text-primary border-b border-secondary/5 pb-4 mb-4">Top 5 Best-Selling Dumplings</h3>
             <div class="space-y-4">
               ${metrics.popularMeals.map((meal, idx) => `
                 <div class="flex items-center justify-between">
@@ -106,7 +106,7 @@ export const adminViews = {
                   </div>
                   <div class="text-right">
                     <span class="text-xs font-bold text-primary block">${meal.quantity} orders</span>
-                    <span class="text-[10px] text-secondary-light">$${(meal.price * meal.quantity).toFixed(2)}</span>
+                    <span class="text-[10px] text-secondary-light">RM ${(meal.price * meal.quantity).toFixed(2)}</span>
                   </div>
                 </div>
               `).join('')}
@@ -130,7 +130,7 @@ export const adminViews = {
     container.innerHTML = `
       <div class="bg-white rounded-[2rem] p-6 md:p-8 border border-secondary/5 shadow-premium space-y-6 animate-fade-in">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-secondary/5 pb-4">
-          <h2 class="font-display text-2xl font-bold text-primary">Order Management</h2>
+          <h2 class="font-display text-2xl font-bold text-primary">Orders & Settlement Management</h2>
           
           <!-- Filter elements -->
           <div class="flex flex-wrap items-center gap-3">
@@ -208,7 +208,7 @@ export const adminViews = {
     container.innerHTML = `
       <div class="bg-white rounded-[2rem] p-6 md:p-8 border border-secondary/5 shadow-premium space-y-6 animate-fade-in">
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-secondary/5 pb-4">
-          <h2 class="font-display text-2xl font-bold text-primary">Customer Directory</h2>
+          <h2 class="font-display text-2xl font-bold text-primary">Customer Profiles</h2>
           
           <!-- Search input -->
           <div class="relative w-full md:w-64">
@@ -248,6 +248,12 @@ export const adminViews = {
     if (store.state.activeView === 'admin-customers' && container) {
       this.renderCustomers(container);
     }
+  },
+
+  adminMarkSettled(orderId) {
+    localStorage.setItem(`hmb_settled_${orderId}`, 'true');
+    this.refreshOrders();
+    window.app.showFloatingAlert(`Order #${orderId} marked as settled.`, 'success');
   }
 };
 
@@ -259,3 +265,4 @@ window.app.adminOrdersPage = adminViews.adminOrdersPage.bind(adminViews);
 window.app.adminUpdateStatus = adminViews.adminUpdateStatus.bind(adminViews);
 window.app.adminCustomersSearch = adminViews.adminCustomersSearch.bind(adminViews);
 window.app.adminCustomersPage = adminViews.adminCustomersPage.bind(adminViews);
+window.app.adminMarkSettled = adminViews.adminMarkSettled.bind(adminViews);
