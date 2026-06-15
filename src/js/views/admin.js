@@ -367,12 +367,12 @@ export const adminViews = {
         </div>
       </div>
 
-      <!-- Details Side Drawer Overlay -->
-      <div id="order-drawer-backdrop" class="fixed inset-0 bg-primary-dark/40 backdrop-blur-sm z-50 hidden transition-opacity duration-300 opacity-0" onclick="window.app.closeOrderDetails()">
-        <div id="order-drawer-panel" class="fixed inset-y-0 right-0 w-full max-w-lg bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col justify-between" onclick="event.stopPropagation()">
+      <!-- Centered Order Details Modal -->
+      <div id="order-drawer-backdrop" class="fixed inset-0 bg-primary-dark/40 backdrop-blur-sm z-50 hidden items-center justify-center p-4 md:p-6 transition-opacity duration-300 opacity-0" onclick="window.app.closeOrderDetails()">
+        <div id="order-drawer-panel" class="relative bg-white rounded-[2rem] border border-secondary/10 shadow-2xl max-w-2xl w-full max-h-[85vh] flex flex-col justify-between overflow-hidden transform scale-95 transition-all duration-300" onclick="event.stopPropagation()">
           <!-- Header -->
-          <div class="h-20 border-b border-secondary/5 px-6 flex items-center justify-between">
-            <h3 class="font-display font-bold text-lg text-primary" id="drawer-order-id-label">Order Details</h3>
+          <div class="h-16 border-b border-secondary/5 px-6 flex items-center justify-between flex-shrink-0">
+            <h3 class="font-display font-bold text-base text-primary" id="drawer-order-id-label">Order Details</h3>
             <button onclick="window.app.closeOrderDetails()" class="text-secondary/40 hover:text-primary p-2 rounded-full hover:bg-background transition-colors cursor-pointer">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
@@ -513,7 +513,7 @@ export const adminViews = {
     }
   },
 
-  // Open Sliding details drawer
+  // Open Centered details modal card
   openOrderDetails(orderId) {
     activeDetailsOrderId = orderId;
     const backdrop = document.getElementById('order-drawer-backdrop');
@@ -526,26 +526,30 @@ export const adminViews = {
       inner.innerHTML = this.renderDetailsDrawerContent(orderId);
       
       backdrop.classList.remove('hidden');
+      backdrop.classList.add('flex');
       setTimeout(() => {
         backdrop.classList.remove('opacity-0');
-        panel.classList.remove('translate-x-full');
-        panel.classList.add('translate-x-0');
+        backdrop.classList.add('opacity-100');
+        panel.classList.remove('scale-95');
+        panel.classList.add('scale-100');
       }, 10);
     }
   },
 
-  // Close sliding details drawer
+  // Close details modal card
   closeOrderDetails() {
     activeDetailsOrderId = null;
     const backdrop = document.getElementById('order-drawer-backdrop');
     const panel = document.getElementById('order-drawer-panel');
 
     if (backdrop && panel) {
+      backdrop.classList.remove('opacity-100');
       backdrop.classList.add('opacity-0');
-      panel.classList.remove('translate-x-0');
-      panel.classList.add('translate-x-full');
+      panel.classList.remove('scale-100');
+      panel.classList.add('scale-95');
       setTimeout(() => {
         backdrop.classList.add('hidden');
+        backdrop.classList.remove('flex');
       }, 300);
     }
   },
