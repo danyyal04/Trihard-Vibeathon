@@ -2,11 +2,11 @@
 
 export function renderTrackingStepper(status) {
   const steps = [
-    { key: 'received', label: 'Order Received', desc: 'We have received your order.' },
-    { key: 'preparing', label: 'Preparing', desc: 'Our chef is preparing the ingredients.' },
-    { key: 'cooking', label: 'Cooking', desc: 'Your hot meal is cooking in the kitchen.' },
-    { key: 'out_for_delivery', label: 'Out for Delivery', desc: 'Driver is heading to your location.' },
-    { key: 'delivered', label: 'Delivered', desc: 'Enjoy your hot meal!' }
+    { key: 'received', label: 'Order Received', desc: 'Your order has been received by Hot Meal Ba.' },
+    { key: 'preparing', label: 'Preparing Pack', desc: 'We are packing your frozen dumplings.' },
+    { key: 'cooking', label: 'Quality Check', desc: 'Final quality check before dispatch.' },
+    { key: 'out_for_delivery', label: 'Out for Delivery', desc: 'On the way to you — or ready for pickup!' },
+    { key: 'delivered', label: 'Collected / Delivered', desc: 'Enjoy your dumplings! 🥟' }
   ];
 
   const statusIndices = {
@@ -132,25 +132,25 @@ export function renderMockMap(status) {
         <path d="M 250 10 L 250 50" fill="none" stroke="#DFDCD7" stroke-width="8" stroke-linecap="round"/>
 
         <!-- Route trace line -->
-        <path d="M 50 150 L 120 150 L 120 90 L 250 90 L 250 50 L 350 50" fill="none" stroke="#C97C5D" stroke-width="3" stroke-dasharray="8 4" stroke-linecap="round" class="opacity-60"/>
+        <path d="M 50 150 L 120 150 L 120 90 L 250 90 L 250 50 L 350 50" fill="none" stroke="#0AADAD" stroke-width="3" stroke-dasharray="8 4" stroke-linecap="round" class="opacity-60"/>
 
         <!-- Restaurant Node (Start) -->
         <circle cx="50" cy="150" r="10" fill="#1B263B" stroke="#FFFFFF" stroke-width="2.5"/>
-        <text x="50" y="172" fill="#1B263B" font-family="Outfit, sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Gourmet Kitchen</text>
+        <text x="50" y="172" fill="#1B263B" font-family="Outfit, sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Hot Meal Ba</text>
         
         <!-- Customer Node (Destination) -->
         <circle cx="350" cy="50" r="10" fill="#2A9D8F" stroke="#FFFFFF" stroke-width="2.5"/>
-        <text x="350" y="32" fill="#2A9D8F" font-family="Outfit, sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Your Home</text>
+        <text x="350" y="32" fill="#2A9D8F" font-family="Outfit, sans-serif" font-size="8" font-weight="bold" text-anchor="middle">Your Room / KTF</text>
 
         <!-- Dynamic Delivery Driver Icon Node -->
         ${status !== 'delivered' ? `
           <g transform="translate(${driverX}, ${driverY})" class="transition-all duration-1000 ease-in-out">
             <!-- Ripple Pulse -->
-            <circle cx="0" cy="0" r="14" fill="#C97C5D" class="opacity-20">
+            <circle cx="0" cy="0" r="14" fill="#0AADAD" class="opacity-20">
               <animate attributeName="r" values="8;18;8" dur="2s" repeatCount="indefinite" />
             </circle>
             <!-- Pin -->
-            <circle cx="0" cy="0" r="7" fill="#C97C5D" stroke="#FFFFFF" stroke-width="1.5"/>
+            <circle cx="0" cy="0" r="7" fill="#0AADAD" stroke="#FFFFFF" stroke-width="1.5"/>
             <!-- Tiny Bike/Driver Indicator -->
             <circle cx="0" cy="0" r="2.5" fill="#FFFFFF"/>
           </g>
@@ -166,7 +166,7 @@ export function renderMockMap(status) {
         </div>
         <div>
           <h5 class="text-[10px] text-secondary-light font-medium uppercase tracking-wider">Courier</h5>
-          <p class="text-xs font-bold text-primary">${status === 'delivered' ? 'Arrived' : 'Marcus Vance (En route)'}</p>
+          <p class="text-xs font-bold text-primary">${status === 'delivered' ? 'Delivered!' : 'Hot Meal Ba Team (En route)'}</p>
         </div>
       </div>
     </div>

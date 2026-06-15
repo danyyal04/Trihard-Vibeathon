@@ -1,748 +1,552 @@
 [
   {
     "mealId": "meal_001",
-    "mealName": "Truffle Wild Mushroom Bruschetta",
-    "category": "Starters",
-    "price": 14.01,
-    "rating": 4.4,
-    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 31,
-    "description": "A light, beautifully presented appetizer prepared with fresh seasonal ingredients. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Beef & Cabbage Gyoza (10pcs)",
+    "category": "Beef",
+    "price": 9.90,
+    "rating": 4.5,
+    "image": "https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Classic pan-fried beef and cabbage dumplings with a crispy golden base. Handcrafted with 100% halal beef and fresh cabbage wrapped in silky thin dough.",
+    "ingredients": ["Halal Beef", "Cabbage", "Ginger", "Sesame Oil", "Soy Sauce", "Spring Onion"]
   },
   {
     "mealId": "meal_002",
-    "mealName": "Crispy Calamari with Garlic Aioli",
-    "category": "Starters",
-    "price": 13.88,
-    "rating": 4.8,
-    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
+    "mealName": "Spicy Beef Pan-Fried Dumplings (10pcs)",
+    "category": "Beef",
+    "price": 10.50,
+    "rating": 4.3,
+    "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
     "prepTime": 12,
-    "description": "A light, beautifully presented appetizer prepared with fresh seasonal ingredients. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "description": "Bold and spicy beef dumplings with a fiery chilli kick. Pan-fry to golden perfection for a satisfying and flavourful meal.",
+    "ingredients": ["Halal Beef", "Chilli Paste", "Garlic", "Sesame Oil", "Cabbage", "Spring Onion"]
   },
   {
     "mealId": "meal_003",
-    "mealName": "Burrata with Heirloom Tomatoes",
-    "category": "Starters",
-    "price": 11.51,
-    "rating": 4.2,
+    "mealName": "Beef & Leek Potstickers (10pcs)",
+    "category": "Beef",
+    "price": 10.90,
+    "rating": 4.7,
     "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 33,
-    "description": "A light, beautifully presented appetizer prepared with fresh seasonal ingredients. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "prepTime": 12,
+    "description": "Juicy beef and leek potstickers with a perfectly crispy bottom. A traditional favourite with a satisfying bite and rich umami flavour.",
+    "ingredients": ["Halal Beef", "Leek", "Ginger", "Soy Sauce", "Sesame Oil", "White Pepper"]
   },
   {
     "mealId": "meal_004",
-    "mealName": "Seared Sea Scallops",
-    "category": "Starters",
-    "price": 11.09,
-    "rating": 4.6,
-    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 25,
-    "description": "A light, beautifully presented appetizer prepared with fresh seasonal ingredients. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Beef & Ginger Steam Dumplings (10pcs)",
+    "category": "Beef",
+    "price": 9.50,
+    "rating": 4.2,
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 15,
+    "description": "Delicately steamed beef dumplings infused with fresh ginger. Light yet filling, these are perfect for a healthy and wholesome meal.",
+    "ingredients": ["Halal Beef", "Fresh Ginger", "Soy Sauce", "Sesame Oil", "Cabbage", "Spring Onion"]
   },
   {
     "mealId": "meal_005",
-    "mealName": "Stuffed Zucchini Flowers",
-    "category": "Starters",
-    "price": 10.22,
-    "rating": 4.3,
-    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 27,
-    "description": "A light, beautifully presented appetizer prepared with fresh seasonal ingredients. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Black Pepper Beef Dumplings (10pcs)",
+    "category": "Beef",
+    "price": 11.90,
+    "rating": 4.8,
+    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Aromatic black pepper beef dumplings with a bold peppery punch. A best-seller at Hot Meal Bar — rich, juicy, and absolutely addictive.",
+    "ingredients": ["Halal Beef", "Black Pepper", "Garlic", "Onion", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_006",
-    "mealName": "Artisan Cheese & Charcuterie Platter",
-    "category": "Starters",
-    "price": 15.33,
+    "mealName": "Teriyaki Beef Gyoza (10pcs)",
+    "category": "Beef",
+    "price": 11.50,
     "rating": 4.4,
-    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 25,
-    "description": "A light, beautifully presented appetizer prepared with fresh seasonal ingredients. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Japanese-inspired teriyaki glazed beef gyoza with a sweet and savoury filling. Pan-fry until golden for a crispy outer shell with a juicy centre.",
+    "ingredients": ["Halal Beef", "Teriyaki Sauce", "Garlic", "Ginger", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_007",
-    "mealName": "Sweet Potato Croquettes",
-    "category": "Starters",
-    "price": 10.56,
-    "rating": 4.7,
-    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 13,
-    "description": "A light, beautifully presented appetizer prepared with fresh seasonal ingredients. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Beef & Chive Dumplings (20pcs)",
+    "category": "Beef",
+    "price": 18.90,
+    "rating": 4.6,
+    "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 15,
+    "description": "Classic beef and chive dumplings, a timeless combination loved by all. This value 20pcs pack is perfect for sharing with family.",
+    "ingredients": ["Halal Beef", "Chinese Chives", "Ginger", "Soy Sauce", "Sesame Oil", "White Pepper"]
   },
   {
     "mealId": "meal_008",
-    "mealName": "Spiced Pumpkin Soup",
-    "category": "Starters",
-    "price": 12.01,
+    "mealName": "Cumin Beef Pan-Fried Dumplings (10pcs)",
+    "category": "Beef",
+    "price": 10.90,
     "rating": 4.5,
-    "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 13,
-    "description": "A light, beautifully presented appetizer prepared with fresh seasonal ingredients. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Fragrant cumin-spiced beef dumplings inspired by northern Chinese cuisine. Bold cumin aroma with a juicy beef filling — uniquely irresistible.",
+    "ingredients": ["Halal Beef", "Cumin", "Garlic", "Onion", "Sesame Oil", "Coriander"]
   },
   {
     "mealId": "meal_009",
-    "mealName": "Slow-Braised Beef Short Ribs",
-    "category": "Mains",
-    "price": 37.29,
-    "rating": 4.2,
-    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 27,
-    "description": "A hearty, slow-cooked or pan-seared main dish prepared to perfection by our head chef. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Beef & Carrot Steam Dumplings (20pcs)",
+    "category": "Beef",
+    "price": 17.90,
+    "rating": 4.3,
+    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 15,
+    "description": "Wholesome beef and carrot steamed dumplings packed with nutrition. Lightly seasoned for a clean, satisfying taste in every bite.",
+    "ingredients": ["Halal Beef", "Carrot", "Ginger", "Soy Sauce", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_010",
-    "mealName": "Pan-Seared Duck Breast with Cherry Port Sauce",
-    "category": "Mains",
-    "price": 25.89,
-    "rating": 4.8,
-    "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 32,
-    "description": "A hearty, slow-cooked or pan-seared main dish prepared to perfection by our head chef. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Signature Beef Xiao Long Bao (8pcs)",
+    "category": "Beef",
+    "price": 14.90,
+    "rating": 4.9,
+    "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 18,
+    "description": "Our signature soup dumplings — thin-skinned parcels filled with rich halal beef broth and minced beef. The crown jewel of our menu.",
+    "ingredients": ["Halal Beef", "Beef Broth Gelatin", "Ginger", "Soy Sauce", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_011",
-    "mealName": "Herb-Crusted Rack of Lamb",
-    "category": "Mains",
-    "price": 24.27,
-    "rating": 4.2,
-    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 28,
-    "description": "A hearty, slow-cooked or pan-seared main dish prepared to perfection by our head chef. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Chicken & Corn Dumplings (10pcs)",
+    "category": "Chicken",
+    "price": 8.90,
+    "rating": 4.5,
+    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Light and tasty chicken and sweet corn dumplings — a crowd favourite among students. Easy to cook and perfect for any meal of the day.",
+    "ingredients": ["Halal Chicken", "Sweet Corn", "Ginger", "Sesame Oil", "Soy Sauce", "Spring Onion"]
   },
   {
     "mealId": "meal_012",
-    "mealName": "Filet Mignon with Chimichurri",
-    "category": "Mains",
-    "price": 24.2,
+    "mealName": "Honey Garlic Chicken Gyoza (10pcs)",
+    "category": "Chicken",
+    "price": 9.50,
     "rating": 4.7,
-    "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 11,
-    "description": "A hearty, slow-cooked or pan-seared main dish prepared to perfection by our head chef. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Sweet honey and roasted garlic chicken gyoza with a caramelised crust. Irresistibly fragrant with a perfectly balanced sweet-savoury filling.",
+    "ingredients": ["Halal Chicken", "Honey", "Garlic", "Sesame Oil", "Soy Sauce", "Ginger"]
   },
   {
     "mealId": "meal_013",
-    "mealName": "Free-Range Chicken Ballotine",
-    "category": "Mains",
-    "price": 34.83,
+    "mealName": "Chicken & Mushroom Potstickers (10pcs)",
+    "category": "Chicken",
+    "price": 9.90,
     "rating": 4.2,
-    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 10,
-    "description": "A hearty, slow-cooked or pan-seared main dish prepared to perfection by our head chef. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Earthy shiitake mushroom and tender chicken potstickers with a satisfying umami depth. Pan-fry for a golden crispy base.",
+    "ingredients": ["Halal Chicken", "Shiitake Mushroom", "Ginger", "Oyster Sauce", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_014",
-    "mealName": "Smoked Pork Belly with Apple Puree",
-    "category": "Mains",
-    "price": 31.51,
-    "rating": 4.4,
-    "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 24,
-    "description": "A hearty, slow-cooked or pan-seared main dish prepared to perfection by our head chef. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Lemongrass Chicken Dumplings (10pcs)",
+    "category": "Chicken",
+    "price": 9.90,
+    "rating": 4.6,
+    "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Fragrant lemongrass and chicken dumplings with a Southeast Asian twist. Bright, aromatic, and bursting with refreshing flavour.",
+    "ingredients": ["Halal Chicken", "Lemongrass", "Galangal", "Kaffir Lime", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_015",
-    "mealName": "Truffle Butter Tagliatelle",
-    "category": "Mains",
-    "price": 26.11,
-    "rating": 4.9,
-    "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 31,
-    "description": "A hearty, slow-cooked or pan-seared main dish prepared to perfection by our head chef. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Chicken & Spinach Steam Dumplings (10pcs)",
+    "category": "Chicken",
+    "price": 8.50,
+    "rating": 4.3,
+    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 15,
+    "description": "Nutritious steamed chicken and spinach dumplings — light, clean and healthy. Ideal for diet-conscious students who love tasty food.",
+    "ingredients": ["Halal Chicken", "Spinach", "Garlic", "Sesame Oil", "Soy Sauce", "White Pepper"]
   },
   {
     "mealId": "meal_016",
-    "mealName": "Venison Loin with Roasted Root Vegetables",
-    "category": "Mains",
-    "price": 19.95,
-    "rating": 4.1,
-    "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 15,
-    "description": "A hearty, slow-cooked or pan-seared main dish prepared to perfection by our head chef. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Crispy Chicken Gyoza (20pcs)",
+    "category": "Chicken",
+    "price": 16.90,
+    "rating": 4.8,
+    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Our signature crispy-bottom chicken gyoza in an economical 20pcs pack. Golden and crunchy on the outside, juicy and flavourful on the inside.",
+    "ingredients": ["Halal Chicken", "Cabbage", "Garlic", "Ginger", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_017",
-    "mealName": "Pan-Seared Salmon with Herb Crust",
-    "category": "Seafood",
-    "price": 40.88,
-    "rating": 4.2,
-    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 23,
-    "description": "Freshly caught seafood prepared with fine herbs, premium oils, and citrus zests. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Chicken Xiao Long Bao (8pcs)",
+    "category": "Chicken",
+    "price": 13.90,
+    "rating": 4.4,
+    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 18,
+    "description": "Delicate chicken soup dumplings filled with rich chicken broth and minced chicken. Sip the broth first, then savour the filling.",
+    "ingredients": ["Halal Chicken", "Chicken Broth Gelatin", "Ginger", "Soy Sauce", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_018",
-    "mealName": "Chilean Sea Bass in Miso Broth",
-    "category": "Seafood",
-    "price": 24.27,
-    "rating": 4.4,
+    "mealName": "BBQ Chicken Pan-Fried Dumplings (10pcs)",
+    "category": "Chicken",
+    "price": 10.50,
+    "rating": 4.5,
     "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 31,
-    "description": "Freshly caught seafood prepared with fine herbs, premium oils, and citrus zests. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "prepTime": 12,
+    "description": "Smoky BBQ-marinated chicken dumplings pan-fried to crispy perfection. A bold, indulgent treat that hits all the right notes.",
+    "ingredients": ["Halal Chicken", "BBQ Sauce", "Garlic", "Onion", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_019",
-    "mealName": "Grilled Tiger Prawns with Lemon Garlic Butter",
-    "category": "Seafood",
-    "price": 25.98,
-    "rating": 4.2,
-    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 15,
-    "description": "Freshly caught seafood prepared with fine herbs, premium oils, and citrus zests. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Chicken & Cheese Gyoza (10pcs)",
+    "category": "Chicken",
+    "price": 10.90,
+    "rating": 4.1,
+    "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "A fusion twist — creamy cheese melted into seasoned chicken filling, wrapped in a thin gyoza skin. Indulgent, melty, and utterly satisfying.",
+    "ingredients": ["Halal Chicken", "Mozzarella Cheese", "Garlic", "Parsley", "White Pepper", "Soy Sauce"]
   },
   {
     "mealId": "meal_020",
-    "mealName": "Lobster Thermidor",
-    "category": "Seafood",
-    "price": 39.86,
-    "rating": 4.2,
+    "mealName": "Thai Basil Chicken Dumplings (20pcs)",
+    "category": "Chicken",
+    "price": 17.90,
+    "rating": 4.7,
     "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 32,
-    "description": "Freshly caught seafood prepared with fine herbs, premium oils, and citrus zests. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "prepTime": 12,
+    "description": "Fragrant Thai holy basil chicken dumplings with a sweet-spicy profile. Inspired by the beloved Pad Kra Pao, reimagined as a dumpling.",
+    "ingredients": ["Halal Chicken", "Thai Basil", "Chilli", "Garlic", "Fish Sauce", "Oyster Sauce"]
   },
   {
     "mealId": "meal_021",
-    "mealName": "Bouillabaisse Marseillaise",
-    "category": "Seafood",
-    "price": 30.19,
-    "rating": 4.2,
-    "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 13,
-    "description": "Freshly caught seafood prepared with fine herbs, premium oils, and citrus zests. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Classic Har Gow (10pcs)",
+    "category": "Prawn",
+    "price": 13.90,
+    "rating": 4.8,
+    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 15,
+    "description": "Traditional Cantonese steamed prawn dumplings with a translucent skin and plump, juicy prawn filling. A timeless dim sum classic.",
+    "ingredients": ["Fresh Prawn", "Bamboo Shoots", "Sesame Oil", "White Pepper", "Salt", "Starch Skin"]
   },
   {
     "mealId": "meal_022",
-    "mealName": "Seafood Risotto Nero",
-    "category": "Seafood",
-    "price": 24.94,
-    "rating": 4.7,
+    "mealName": "Prawn & Chives Dumplings (10pcs)",
+    "category": "Prawn",
+    "price": 12.90,
+    "rating": 4.5,
     "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 18,
-    "description": "Freshly caught seafood prepared with fine herbs, premium oils, and citrus zests. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "prepTime": 15,
+    "description": "Succulent prawn and fragrant chive dumplings — a classic pairing that never disappoints. Steam or pan-fry for best results.",
+    "ingredients": ["Fresh Prawn", "Chinese Chives", "Ginger", "Sesame Oil", "Soy Sauce", "White Pepper"]
   },
   {
     "mealId": "meal_023",
-    "mealName": "Crispy Skin Barramundi",
-    "category": "Seafood",
-    "price": 29.16,
-    "rating": 4.8,
-    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 20,
-    "description": "Freshly caught seafood prepared with fine herbs, premium oils, and citrus zests. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Crystal Prawn Gyoza (10pcs)",
+    "category": "Prawn",
+    "price": 14.90,
+    "rating": 4.7,
+    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Premium crystal-skin prawn gyoza with a see-through wrapper that shows off the fresh prawn inside. Light, elegant, and delicious.",
+    "ingredients": ["Fresh Prawn", "Bamboo Shoots", "Sesame Oil", "Ginger", "White Pepper", "Starch Skin"]
   },
   {
     "mealId": "meal_024",
-    "mealName": "Octopus Carpaccio with Citrus Dressing",
-    "category": "Seafood",
-    "price": 35.24,
-    "rating": 4.5,
-    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 18,
-    "description": "Freshly caught seafood prepared with fine herbs, premium oils, and citrus zests. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Prawn & Garlic Butter Potstickers (10pcs)",
+    "category": "Prawn",
+    "price": 13.50,
+    "rating": 4.4,
+    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Indulgent prawn potstickers with a rich garlic butter filling. Pan-fry to achieve a gorgeous golden crust and irresistible buttery aroma.",
+    "ingredients": ["Fresh Prawn", "Garlic", "Butter", "Parsley", "White Pepper", "Salt"]
   },
   {
     "mealId": "meal_025",
-    "mealName": "Wild Mushroom & Truffle Risotto",
-    "category": "Vegetarian",
-    "price": 18.88,
+    "mealName": "Prawn & Mushroom Steam Dumplings (10pcs)",
+    "category": "Prawn",
+    "price": 13.90,
     "rating": 4.2,
-    "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 14,
-    "description": "A nutrient-dense, flavorful vegetarian delight celebrating fresh garden produce. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 15,
+    "description": "Flavourful prawn and shiitake mushroom steamed dumplings with deep umami notes. A healthy and satisfying option for any time of day.",
+    "ingredients": ["Fresh Prawn", "Shiitake Mushroom", "Ginger", "Soy Sauce", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_026",
-    "mealName": "Roasted Butternut Squash Wellington",
-    "category": "Vegetarian",
-    "price": 20.02,
-    "rating": 4.6,
-    "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 26,
-    "description": "A nutrient-dense, flavorful vegetarian delight celebrating fresh garden produce. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Prawn Xiao Long Bao (8pcs)",
+    "category": "Prawn",
+    "price": 15.90,
+    "rating": 4.9,
+    "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 18,
+    "description": "Premium prawn soup dumplings bursting with rich, flavourful broth and fresh prawn. Our most-loved prawn dumpling — a must-try!",
+    "ingredients": ["Fresh Prawn", "Prawn Broth Gelatin", "Ginger", "Soy Sauce", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_027",
-    "mealName": "Eggplant Parmigiana Stack",
-    "category": "Vegetarian",
-    "price": 21.24,
-    "rating": 4.5,
-    "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80",
+    "mealName": "Spicy Prawn Pan-Fried Dumplings (10pcs)",
+    "category": "Prawn",
+    "price": 14.50,
+    "rating": 4.6,
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
     "prepTime": 12,
-    "description": "A nutrient-dense, flavorful vegetarian delight celebrating fresh garden produce. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "description": "Fiery chilli prawn pan-fried dumplings for spice lovers. A crispy golden crust with a juicy, spicy prawn filling that packs a punch.",
+    "ingredients": ["Fresh Prawn", "Chilli Paste", "Garlic", "Ginger", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_028",
-    "mealName": "Quinoa and Roasted Vegetable Bowl",
-    "category": "Vegetarian",
-    "price": 21.94,
+    "mealName": "Prawn & Tofu Dumplings (10pcs)",
+    "category": "Prawn",
+    "price": 12.50,
     "rating": 4.3,
-    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
+    "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
     "prepTime": 15,
-    "description": "A nutrient-dense, flavorful vegetarian delight celebrating fresh garden produce. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "description": "Silky prawn and tofu dumplings with a soft, pillowy texture. Lightly seasoned to let the natural sweetness of fresh prawn shine through.",
+    "ingredients": ["Fresh Prawn", "Soft Tofu", "Ginger", "Sesame Oil", "Soy Sauce", "White Pepper"]
   },
   {
     "mealId": "meal_029",
-    "mealName": "Miso Glazed Tofu with Bok Choy",
-    "category": "Vegetarian",
-    "price": 20.81,
-    "rating": 4.7,
-    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 34,
-    "description": "A nutrient-dense, flavorful vegetarian delight celebrating fresh garden produce. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Tiger Prawn Gyoza (10pcs)",
+    "category": "Prawn",
+    "price": 16.90,
+    "rating": 4.8,
+    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Premium whole tiger prawn gyoza — one large, plump prawn per dumpling. An indulgent treat for prawn enthusiasts who want the best.",
+    "ingredients": ["Tiger Prawn", "Garlic", "Ginger", "Sesame Oil", "Soy Sauce", "White Pepper"]
   },
   {
     "mealId": "meal_030",
-    "mealName": "Spinach & Ricotta Gnocchi",
-    "category": "Vegetarian",
-    "price": 18.08,
-    "rating": 4.9,
-    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 18,
-    "description": "A nutrient-dense, flavorful vegetarian delight celebrating fresh garden produce. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Prawn & Lemongrass Dumplings (20pcs)",
+    "category": "Prawn",
+    "price": 24.90,
+    "rating": 4.5,
+    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 15,
+    "description": "Refreshing prawn and lemongrass dumplings with a bright, citrusy aroma. This 20pcs value pack is great for sharing or meal prepping.",
+    "ingredients": ["Fresh Prawn", "Lemongrass", "Kaffir Lime", "Galangal", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_031",
-    "mealName": "Mediterranean Falafel Platter",
-    "category": "Vegetarian",
-    "price": 16.15,
-    "rating": 4.3,
-    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 18,
-    "description": "A nutrient-dense, flavorful vegetarian delight celebrating fresh garden produce. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Garden Veggie Dumplings (10pcs)",
+    "category": "Vegetable",
+    "price": 7.90,
+    "rating": 4.2,
+    "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Fresh and wholesome garden vegetable dumplings packed with colourful seasonal vegetables. Light, healthy, and delicious for everyone.",
+    "ingredients": ["Cabbage", "Carrot", "Mushroom", "Spring Onion", "Ginger", "Sesame Oil"]
   },
   {
     "mealId": "meal_032",
-    "mealName": "Spiced Cauliflower Steak",
-    "category": "Vegetarian",
-    "price": 19.59,
-    "rating": 4.8,
-    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 11,
-    "description": "A nutrient-dense, flavorful vegetarian delight celebrating fresh garden produce. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Spinach & Tofu Potstickers (10pcs)",
+    "category": "Vegetable",
+    "price": 8.50,
+    "rating": 4.5,
+    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Nutritious spinach and silken tofu potstickers with a satisfying bite. Pan-fry until golden for a crispy contrast to the soft, flavourful filling.",
+    "ingredients": ["Spinach", "Silken Tofu", "Garlic", "Sesame Oil", "Soy Sauce", "White Pepper"]
   },
   {
     "mealId": "meal_033",
-    "mealName": "Dark Chocolate Fondant",
-    "category": "Desserts",
-    "price": 8.43,
-    "rating": 4.8,
-    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 13,
-    "description": "A premium sweet finish combining decadent chocolate, rich cream, or fresh summer fruits. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Mixed Mushroom Dumplings (10pcs)",
+    "category": "Vegetable",
+    "price": 8.90,
+    "rating": 4.7,
+    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Umami-rich dumplings filled with a blend of shiitake, oyster, and button mushrooms. A vegetarian delight bursting with deep earthy flavour.",
+    "ingredients": ["Shiitake Mushroom", "Oyster Mushroom", "Button Mushroom", "Garlic", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_034",
-    "mealName": "Madagascar Vanilla Crème Brûlée",
-    "category": "Desserts",
-    "price": 14.6,
-    "rating": 4.2,
-    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 33,
-    "description": "A premium sweet finish combining decadent chocolate, rich cream, or fresh summer fruits. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Kimchi Veggie Dumplings (10pcs)",
+    "category": "Vegetable",
+    "price": 8.90,
+    "rating": 4.3,
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Korean-inspired kimchi vegetable dumplings with a tangy, spicy kick. A bold fusion flavour that's become a student favourite at UTM.",
+    "ingredients": ["Kimchi", "Tofu", "Glass Noodles", "Spring Onion", "Sesame Oil", "Gochugaru"]
   },
   {
     "mealId": "meal_035",
-    "mealName": "Warm Apple & Blackberry Tart",
-    "category": "Desserts",
-    "price": 12.26,
-    "rating": 4.2,
-    "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 13,
-    "description": "A premium sweet finish combining decadent chocolate, rich cream, or fresh summer fruits. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Sweet Corn & Cheese Gyoza (10pcs)",
+    "category": "Vegetable",
+    "price": 8.50,
+    "rating": 4.6,
+    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Creamy sweet corn and melted cheese gyoza — a fusion crowd-pleaser. Pan-fry for a golden crunch that gives way to a warm, gooey centre.",
+    "ingredients": ["Sweet Corn", "Mozzarella Cheese", "Cheddar Cheese", "Spring Onion", "Black Pepper", "Butter"]
   },
   {
     "mealId": "meal_036",
-    "mealName": "Classic Tiramisu Classico",
-    "category": "Desserts",
-    "price": 11.56,
-    "rating": 4.3,
-    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 20,
-    "description": "A premium sweet finish combining decadent chocolate, rich cream, or fresh summer fruits. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Edamame & Carrot Dumplings (10pcs)",
+    "category": "Vegetable",
+    "price": 7.50,
+    "rating": 4.1,
+    "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Light and colourful edamame and carrot dumplings — a fresh, healthy option packed with plant-based protein and natural sweetness.",
+    "ingredients": ["Edamame", "Carrot", "Ginger", "Sesame Oil", "Soy Sauce", "Spring Onion"]
   },
   {
     "mealId": "meal_037",
-    "mealName": "Salted Caramel Soufflé",
-    "category": "Desserts",
-    "price": 12.94,
-    "rating": 4.1,
+    "mealName": "Pumpkin & Ginger Steam Dumplings (10pcs)",
+    "category": "Vegetable",
+    "price": 8.90,
+    "rating": 4.4,
     "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 34,
-    "description": "A premium sweet finish combining decadent chocolate, rich cream, or fresh summer fruits. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "prepTime": 15,
+    "description": "Warming pumpkin and ginger steamed dumplings with a subtly sweet, comforting flavour. Beautifully orange-hued wrappers make these a visual treat too.",
+    "ingredients": ["Pumpkin", "Fresh Ginger", "Tofu", "Sesame Oil", "Soy Sauce", "Spring Onion"]
   },
   {
     "mealId": "meal_038",
-    "mealName": "Artisanal Gelato Selection",
-    "category": "Desserts",
-    "price": 12.09,
-    "rating": 4.9,
-    "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 21,
-    "description": "A premium sweet finish combining decadent chocolate, rich cream, or fresh summer fruits. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Cabbage & Egg Potstickers (10pcs)",
+    "category": "Vegetable",
+    "price": 7.90,
+    "rating": 4.5,
+    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Simple yet satisfying cabbage and egg potstickers — a classic comfort food. Crispy-bottomed with a fluffy, flavourful filling inside.",
+    "ingredients": ["Cabbage", "Egg", "Glass Noodles", "Spring Onion", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_039",
-    "mealName": "Matcha Mille-Feuille",
-    "category": "Desserts",
-    "price": 10.4,
-    "rating": 4.4,
-    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 32,
-    "description": "A premium sweet finish combining decadent chocolate, rich cream, or fresh summer fruits. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Broccoli & Cheddar Gyoza (10pcs)",
+    "category": "Vegetable",
+    "price": 8.90,
+    "rating": 4.8,
+    "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Western-inspired broccoli and cheddar cheese gyoza — a surprisingly delightful combination. Golden and crispy with a gooey, cheesy centre.",
+    "ingredients": ["Broccoli", "Cheddar Cheese", "Garlic", "Butter", "Black Pepper", "Salt"]
   },
   {
     "mealId": "meal_040",
-    "mealName": "Deconstructed Lemon Meringue Pie",
-    "category": "Desserts",
-    "price": 8.55,
-    "rating": 4.7,
-    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 15,
-    "description": "A premium sweet finish combining decadent chocolate, rich cream, or fresh summer fruits. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Veggie Xiao Long Bao (8pcs)",
+    "category": "Vegetable",
+    "price": 12.90,
+    "rating": 4.6,
+    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 18,
+    "description": "Vegetarian soup dumplings filled with rich mushroom broth and seasoned vegetables. A stunning meatless version of the beloved Xiao Long Bao.",
+    "ingredients": ["Shiitake Mushroom", "Mushroom Broth Gelatin", "Tofu", "Ginger", "Sesame Oil", "Spring Onion"]
   },
   {
     "mealId": "meal_041",
-    "mealName": "Pressed Green Juice",
-    "category": "Beverages",
-    "price": 4.12,
-    "rating": 4.3,
-    "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 10,
-    "description": "An organic, freshly brewed or cold-pressed refreshment to perfectly pair with your meal. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Student Bundle — Chicken (30pcs)",
+    "category": "Combo Pack",
+    "price": 22.90,
+    "rating": 4.5,
+    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Our most popular student bundle! 30pcs of crispy chicken dumplings — great value for hostel cooking. Stock up your freezer and eat well all week.",
+    "ingredients": ["Halal Chicken", "Cabbage", "Garlic", "Ginger", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_042",
-    "mealName": "Hibiscus Iced Herbal Infusion",
-    "category": "Beverages",
-    "price": 8.43,
+    "mealName": "Family Pack — Mixed (50pcs)",
+    "category": "Combo Pack",
+    "price": 42.90,
     "rating": 4.7,
-    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 23,
-    "description": "An organic, freshly brewed or cold-pressed refreshment to perfectly pair with your meal. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 15,
+    "description": "The ultimate family pack with 50 assorted dumplings — a mix of beef, chicken, prawn and vegetables. Perfect for family gatherings and events.",
+    "ingredients": ["Halal Beef", "Halal Chicken", "Fresh Prawn", "Mixed Vegetables", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_043",
-    "mealName": "Espresso Macchiato",
-    "category": "Beverages",
-    "price": 8.31,
-    "rating": 4.6,
-    "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 17,
-    "description": "An organic, freshly brewed or cold-pressed refreshment to perfectly pair with your meal. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Best Seller Combo — Beef + Chicken (40pcs)",
+    "category": "Combo Pack",
+    "price": 35.90,
+    "rating": 4.8,
+    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Our two best-selling flavours combined! 20pcs of beef dumplings and 20pcs of chicken dumplings in one great-value pack. A guaranteed crowd-pleaser.",
+    "ingredients": ["Halal Beef", "Halal Chicken", "Cabbage", "Ginger", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_044",
-    "mealName": "Sparkling Elderflower Pressé",
-    "category": "Beverages",
-    "price": 4.69,
-    "rating": 4.2,
+    "mealName": "Sampler Pack — All 5 Types (30pcs)",
+    "category": "Combo Pack",
+    "price": 28.90,
+    "rating": 4.6,
     "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 13,
-    "description": "An organic, freshly brewed or cold-pressed refreshment to perfectly pair with your meal. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "prepTime": 15,
+    "description": "Can't decide? Try them all! 6pcs each of beef, chicken, prawn, vegetable, and our special XLB dumplings. The perfect sampler for first-time customers.",
+    "ingredients": ["Halal Beef", "Halal Chicken", "Fresh Prawn", "Mixed Vegetables", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_045",
-    "mealName": "Craft Ginger Beer",
-    "category": "Beverages",
-    "price": 6.38,
-    "rating": 4.5,
-    "image": "https://images.unsplash.com/photo-1482049016688-2d3e1b311543?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 31,
-    "description": "An organic, freshly brewed or cold-pressed refreshment to perfectly pair with your meal. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Beef Lover Pack (30pcs)",
+    "category": "Combo Pack",
+    "price": 27.90,
+    "rating": 4.4,
+    "image": "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "For the ultimate beef dumpling fan — 30pcs of our finest beef varieties. Mix of black pepper, cabbage, and leek beef dumplings in one pack.",
+    "ingredients": ["Halal Beef", "Cabbage", "Leek", "Black Pepper", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_046",
-    "mealName": "Cold Brew Nitro Coffee",
-    "category": "Beverages",
-    "price": 5.75,
-    "rating": 4.5,
-    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 19,
-    "description": "An organic, freshly brewed or cold-pressed refreshment to perfectly pair with your meal. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Prawn Special Combo (30pcs)",
+    "category": "Combo Pack",
+    "price": 36.90,
+    "rating": 4.9,
+    "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 15,
+    "description": "A premium prawn lover's dream — 30pcs featuring har gow, prawn gyoza, and spicy prawn dumplings. The freshest seafood dumplings on campus.",
+    "ingredients": ["Tiger Prawn", "Fresh Prawn", "Bamboo Shoots", "Ginger", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_047",
-    "mealName": "Fresh Passionfruit Lemonade",
-    "category": "Beverages",
-    "price": 8.27,
-    "rating": 4.8,
-    "image": "https://images.unsplash.com/photo-1467003909585-2f8a72700288?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 16,
-    "description": "An organic, freshly brewed or cold-pressed refreshment to perfectly pair with your meal. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Veggie Delight Pack (30pcs)",
+    "category": "Combo Pack",
+    "price": 21.90,
+    "rating": 4.2,
+    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "A wholesome 30pcs vegetarian assortment — garden veggie, mushroom, and spinach tofu dumplings. Eat clean without sacrificing flavour.",
+    "ingredients": ["Cabbage", "Mixed Mushroom", "Spinach", "Tofu", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_048",
-    "mealName": "Earl Grey Lavender Tea",
-    "category": "Beverages",
-    "price": 7.43,
-    "rating": 4.8,
-    "image": "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 30,
-    "description": "An organic, freshly brewed or cold-pressed refreshment to perfectly pair with your meal. Served with premium side elements.",
-    "ingredients": [
-      "Organic Seasonings",
-      "Extra Virgin Olive Oil",
-      "Select Local Produce"
-    ]
+    "mealName": "Party Pack — Mixed (80pcs)",
+    "category": "Combo Pack",
+    "price": 68.90,
+    "rating": 4.7,
+    "image": "https://images.unsplash.com/photo-1484723091739-30a097e8f929?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 20,
+    "description": "Hosting an event? The Party Pack has you covered! 80pcs of mixed dumplings for big groups. Order in advance for college events and iftar gatherings.",
+    "ingredients": ["Halal Beef", "Halal Chicken", "Fresh Prawn", "Mixed Vegetables", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_049",
-    "mealName": "Special Extra Desserts Dish",
-    "category": "Desserts",
-    "price": 17.04,
-    "rating": 4.4,
-    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 28,
-    "description": "A delicious house specialty.",
-    "ingredients": [
-      "Chef's Secret Blend"
-    ]
+    "mealName": "Weekend Special — Beef + Prawn (40pcs)",
+    "category": "Combo Pack",
+    "price": 44.90,
+    "rating": 4.5,
+    "image": "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 15,
+    "description": "Our special weekend combo — 20pcs premium beef and 20pcs fresh prawn dumplings at a bundled price. Available every Friday to Sunday.",
+    "ingredients": ["Halal Beef", "Fresh Prawn", "Ginger", "Spring Onion", "Sesame Oil", "Soy Sauce"]
   },
   {
     "mealId": "meal_050",
-    "mealName": "Special Extra Mains Dish",
-    "category": "Mains",
-    "price": 22.11,
-    "rating": 4.4,
-    "image": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&auto=format&fit=crop&q=80",
-    "prepTime": 27,
-    "description": "A delicious house specialty.",
-    "ingredients": [
-      "Chef's Secret Blend"
-    ]
+    "mealName": "Economy Bundle — Chicken + Veggie (40pcs)",
+    "category": "Combo Pack",
+    "price": 29.90,
+    "rating": 4.3,
+    "image": "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=500&auto=format&fit=crop&q=80",
+    "prepTime": 12,
+    "description": "Budget-friendly 40pcs bundle of chicken and vegetable dumplings. The go-to choice for students who want quality food without breaking the bank.",
+    "ingredients": ["Halal Chicken", "Cabbage", "Carrot", "Mushroom", "Sesame Oil", "Soy Sauce"]
   }
 ]

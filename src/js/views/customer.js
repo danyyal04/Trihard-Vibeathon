@@ -18,148 +18,215 @@ let catalogFilters = {
 let trackOrderResult = null;
 
 export const customerViews = {
-  // Render Customer Home View
+
+  // ─── 1. LANDING PAGE ────────────────────────────────────────────────────────
   renderHome(container) {
-    // Select popular meals (top 4 rated)
     const featuredMeals = [...store.state.meals]
       .sort((a, b) => b.rating - a.rating)
       .slice(0, 4);
 
-    // Categories list
-    const categories = ['All', 'Starters', 'Mains', 'Seafood', 'Vegetarian', 'Desserts', 'Beverages'];
-
-    // Select recent orders for quick reorder
-    const recentOrders = store.state.orders.slice(0, 3).map(o => {
-      const meal = store.state.meals.find(m => m.mealId === o.mealId);
-      return { ...o, meal };
-    });
+    const categories = ['All', 'Beef', 'Chicken', 'Prawn', 'Vegetable', 'Combo Pack'];
 
     container.innerHTML = `
-      <!-- Hero Banner -->
-      <section class="relative bg-primary rounded-[2rem] overflow-hidden mb-12 p-8 md:p-16 flex flex-col md:flex-row items-center justify-between gap-8 shadow-premium text-white">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-dark/80 to-transparent z-0"></div>
-        
-        <div class="max-w-xl relative z-10 space-y-5">
-          <span class="text-accent bg-accent/15 border border-accent/20 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">Gourmet Delivery</span>
-          <h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-white font-extrabold leading-tight">
-            Exquisite Hot Meals, Delivered to <span class="text-accent">Your Door</span>
-          </h1>
-          <p class="text-secondary-light text-sm md:text-base leading-relaxed">
-            Experience premium restaurant culinary creations, curated fresh daily and delivered hot under 35 minutes.
-          </p>
-          <div class="flex flex-wrap gap-4 pt-2">
-            <button onclick="window.app.switchView('catalog')" class="bg-accent hover:bg-accent-dark text-white font-semibold px-7 py-3.5 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer active:scale-95 text-sm">
-              Explore Catalog
-            </button>
-            <button onclick="window.app.switchView('catalog'); window.app.setCatalogCategory('Seafood');" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold px-7 py-3.5 rounded-2xl transition-all cursor-pointer active:scale-95 text-sm">
-              View Seafood
-            </button>
+      <!-- ── Hero Banner ─────────────────────────────────────────────────── -->
+      <section class="relative bg-primary rounded-[2rem] overflow-hidden mb-12 shadow-premium text-white">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary-dark via-primary-dark/90 to-transparent z-0"></div>
+
+        <!-- Decorative circles -->
+        <div class="absolute -top-16 -right-16 w-80 h-80 rounded-full bg-accent/10 z-0"></div>
+        <div class="absolute bottom-0 right-24 w-48 h-48 rounded-full bg-white/5 z-0"></div>
+
+        <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 p-8 md:p-14">
+          <!-- Left content -->
+          <div class="max-w-xl space-y-5">
+            <div class="flex flex-wrap items-center gap-2">
+              <span class="text-accent bg-accent/15 border border-accent/20 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">🥟 Frozen Dumplings</span>
+              <span class="text-white/70 bg-white/10 border border-white/10 px-4 py-1.5 rounded-full text-xs font-semibold">100% Halal Certified</span>
+            </div>
+            <h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-white font-extrabold leading-tight">
+              Authentic Chinese<br/>Muslim Dumplings at
+              <span class="text-accent"> KTF & Alumni UTM</span>
+            </h1>
+            <p class="text-white/70 text-sm md:text-base leading-relaxed">
+              Handcrafted frozen dumplings made fresh daily with premium halal ingredients. Pan-fry, steam, or boil in under 15 minutes — a hot, satisfying meal anytime.
+            </p>
+            <div class="flex flex-wrap gap-3 pt-2">
+              <button onclick="window.app.switchView('catalog')" class="bg-accent hover:bg-accent-dark text-white font-semibold px-7 py-3.5 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer active:scale-95 text-sm">
+                Order Now
+              </button>
+              <a href="#promotions" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold px-7 py-3.5 rounded-2xl transition-all cursor-pointer active:scale-95 text-sm">
+                View Promotions
+              </a>
+            </div>
+            <!-- Trust badges -->
+            <div class="flex flex-wrap gap-6 pt-4 border-t border-white/10 text-xs text-white/60 font-medium">
+              <span class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"/></svg>
+                JAKIM Halal Certified
+              </span>
+              <span class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Ready in 12–15 min
+              </span>
+              <span class="flex items-center gap-1.5">
+                <svg class="w-4 h-4 text-yellow-400 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                4.7 / 5 Student Rating
+              </span>
+            </div>
           </div>
-        </div>
-        
-        <!-- Hero Image Mock -->
-        <div class="relative z-10 w-full max-w-xs lg:max-w-md aspect-square rounded-full border-[8px] border-white/5 overflow-hidden shadow-2xl">
-          <img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=800&auto=format&fit=crop&q=80" alt="Premium Meal Platter" class="w-full h-full object-cover"/>
+
+          <!-- Right hero image -->
+          <div class="relative z-10 w-full max-w-xs md:max-w-sm aspect-square rounded-3xl overflow-hidden border-4 border-white/10 shadow-2xl flex-shrink-0">
+            <img
+              src="https://images.unsplash.com/photo-1496116218417-1a781b1c416c?w=600&auto=format&fit=crop&q=80"
+              alt="Hot Meal Ba Frozen Dumplings"
+              class="w-full h-full object-cover"
+              onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500'"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-primary-dark/40 to-transparent"></div>
+            <div class="absolute bottom-4 left-4 right-4 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-4 py-2.5 text-center">
+              <p class="text-white font-display font-bold text-sm">Located at KTF & Alumni UTM</p>
+              <p class="text-white/70 text-[10px]">Skudai, Johor Bahru</p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- Category quick selection -->
+      <!-- ── Promotions ──────────────────────────────────────────────────── -->
+      <section id="promotions" class="mb-12">
+        <div class="flex items-center justify-between mb-6">
+          <h2 class="text-2xl font-bold font-display text-primary">Ongoing Promotions</h2>
+          <span class="text-xs text-secondary-light bg-accent/10 text-accent px-3 py-1 rounded-full font-semibold border border-accent/20">Limited Time</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+          <!-- Promo 1 -->
+          <div class="relative bg-gradient-to-br from-accent to-accent-dark rounded-3xl p-6 text-white overflow-hidden shadow-accent-glow">
+            <div class="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/10"></div>
+            <span class="text-4xl block mb-3">🎁</span>
+            <h3 class="font-display font-bold text-lg mb-1">Buy 2 Packs, Free Delivery</h3>
+            <p class="text-white/80 text-xs leading-relaxed mb-4">Order any 2 packs of dumplings and enjoy free campus delivery. Valid all day, every day.</p>
+            <button onclick="window.app.switchView('catalog')" class="bg-white text-accent font-bold text-xs px-4 py-2 rounded-xl hover:bg-white/90 transition-all cursor-pointer active:scale-95">
+              Order Now →
+            </button>
+          </div>
+
+          <!-- Promo 2 -->
+          <div class="relative bg-gradient-to-br from-primary to-primary-light rounded-3xl p-6 text-white overflow-hidden shadow-premium">
+            <div class="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/5"></div>
+            <span class="text-4xl block mb-3">💰</span>
+            <h3 class="font-display font-bold text-lg mb-1">Combo Pack 20% OFF</h3>
+            <p class="text-white/70 text-xs leading-relaxed mb-4">All Combo Pack products are now 20% off. Stock your freezer and save big this month!</p>
+            <button onclick="window.app.setCatalogCategory('Combo Pack'); window.app.switchView('catalog');" class="bg-accent text-white font-bold text-xs px-4 py-2 rounded-xl hover:bg-accent-dark transition-all cursor-pointer active:scale-95">
+              Shop Combos →
+            </button>
+          </div>
+
+          <!-- Promo 3 -->
+          <div class="relative bg-gradient-to-br from-success to-success-dark rounded-3xl p-6 text-white overflow-hidden shadow-premium">
+            <div class="absolute -top-6 -right-6 w-28 h-28 rounded-full bg-white/10"></div>
+            <span class="text-4xl block mb-3">🎓</span>
+            <h3 class="font-display font-bold text-lg mb-1">Student Bundle — RM 22.90</h3>
+            <p class="text-white/80 text-xs leading-relaxed mb-4">30pcs of crispy chicken dumplings at an unbeatable student price. Show your UTM matric card!</p>
+            <button onclick="window.app.switchView('catalog'); window.app.setCatalogCategory('Combo Pack');" class="bg-white text-success font-bold text-xs px-4 py-2 rounded-xl hover:bg-white/90 transition-all cursor-pointer active:scale-95">
+              Get Bundle →
+            </button>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ── Category Quick-Nav ─────────────────────────────────────────── -->
       <section class="mb-12">
         <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold font-display text-primary">Browse Categories</h2>
+          <h2 class="text-2xl font-bold font-display text-primary">Browse by Type</h2>
           <button onclick="window.app.switchView('catalog')" class="text-sm font-semibold text-accent hover:text-accent-dark flex items-center gap-1 cursor-pointer">
             View All
             <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
           </button>
         </div>
-        <div class="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scroll-smooth no-scrollbar">
+        <div class="flex gap-3 overflow-x-auto pb-3 -mx-4 px-4 scroll-smooth">
           ${renderCategoryChips(categories, 'All', 'setCatalogCategory')}
         </div>
       </section>
 
-      <!-- Featured Meals grid -->
+      <!-- ── Featured Dumplings ─────────────────────────────────────────── -->
       <section class="mb-12">
-        <h2 class="text-2xl font-bold font-display text-primary mb-6">Trending Culinary Creations</h2>
+        <h2 class="text-2xl font-bold font-display text-primary mb-2">Top-Rated Dumplings</h2>
+        <p class="text-sm text-secondary-light mb-6">Our highest-rated flavours, loved by students across UTM campus.</p>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           ${featuredMeals.map(meal => renderMealCard(meal)).join('')}
         </div>
       </section>
 
-      <!-- Quick Reorder Panel for returnees -->
-      <section class="glass-card rounded-[2rem] p-8 border border-secondary/5">
-        <h3 class="font-display text-xl font-bold text-primary mb-2">Fast Reorder</h3>
-        <p class="text-xs text-secondary-light mb-6">Reorder one of your recently ordered hot meals in one single tap.</p>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          ${recentOrders.map(order => {
-            if (!order.meal) return '';
-            return `
-              <div class="flex items-center justify-between p-4 bg-background rounded-2xl border border-secondary/5 hover:border-accent/30 hover:bg-white transition-all group">
-                <div class="flex items-center gap-3">
-                  <img src="${order.meal.image}" alt="${order.meal.mealName}" class="w-12 h-12 rounded-xl object-cover border border-secondary/10" />
-                  <div>
-                    <h4 class="font-display font-semibold text-sm text-primary line-clamp-1">${order.meal.mealName}</h4>
-                    <span class="text-xs text-secondary-light">$${order.meal.price.toFixed(2)}</span>
-                  </div>
-                </div>
-                <button 
-                  onclick="window.app.addToCart('${order.meal.mealId}'); window.app.openCartDrawer();"
-                  class="bg-white hover:bg-accent hover:text-white text-accent border border-accent/20 p-2.5 rounded-xl cursor-pointer transition-all active:scale-90"
-                  title="Reorder"
-                >
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99"/>
-                  </svg>
-                </button>
-              </div>
-            `;
-          }).join('')}
+      <!-- ── How to Order ────────────────────────────────────────────────── -->
+      <section class="glass-card rounded-[2rem] p-8 border border-secondary/5 mb-12">
+        <h3 class="font-display text-xl font-bold text-primary mb-6 text-center">How to Order</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+          <div class="space-y-3">
+            <div class="w-14 h-14 bg-accent/10 rounded-2xl flex items-center justify-center text-accent mx-auto text-2xl">1️⃣</div>
+            <h4 class="font-display font-bold text-sm text-primary">Browse & Add to Cart</h4>
+            <p class="text-xs text-secondary-light leading-relaxed">Choose your favourite dumpling varieties and add them to your cart.</p>
+          </div>
+          <div class="space-y-3">
+            <div class="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center text-primary mx-auto text-2xl">2️⃣</div>
+            <h4 class="font-display font-bold text-sm text-primary">Fill in Your Details</h4>
+            <p class="text-xs text-secondary-light leading-relaxed">Enter your name, room number, and preferred pickup or delivery time.</p>
+          </div>
+          <div class="space-y-3">
+            <div class="w-14 h-14 bg-success/10 rounded-2xl flex items-center justify-center text-success mx-auto text-2xl">3️⃣</div>
+            <h4 class="font-display font-bold text-sm text-primary">Collect & Enjoy!</h4>
+            <p class="text-xs text-secondary-light leading-relaxed">Pick up from KTF & Alumni UTM or wait for campus delivery. Ready in 12–15 mins!</p>
+          </div>
+        </div>
+        <div class="text-center mt-8">
+          <button onclick="window.app.switchView('catalog')" class="bg-accent hover:bg-accent-dark text-white font-semibold px-8 py-3.5 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer active:scale-95 text-sm">
+            Start Ordering Now
+          </button>
         </div>
       </section>
     `;
   },
 
-  // Render Meals Catalog View (Search, Sort, Filters, and Paginated list)
+  // ─── 2. DUMPLING ORDERING CATALOG ───────────────────────────────────────────
   renderCatalog(container) {
-    const categories = ['All', 'Starters', 'Mains', 'Seafood', 'Vegetarian', 'Desserts', 'Beverages'];
-    
-    // Fetch query results
+    const categories = ['All', 'Beef', 'Chicken', 'Prawn', 'Vegetable', 'Combo Pack'];
     const results = dataLoader.queryMeals(catalogFilters);
 
     container.innerHTML = `
       <div class="flex flex-col lg:flex-row gap-8">
-        <!-- Sidebar Filters (desktop persistent, mobile collapsible under drawer) -->
+        <!-- Sidebar Filters -->
         <aside class="w-full lg:w-64 flex-shrink-0 space-y-6">
           <div class="glass-card rounded-[2rem] p-6 border border-secondary/5 space-y-6">
             <div>
-              <h3 class="font-display font-bold text-lg text-primary mb-4">Refine Catalog</h3>
-              
+              <h3 class="font-display font-bold text-lg text-primary mb-4">Filter Dumplings</h3>
               <!-- Search -->
               <div class="relative">
-                <input 
-                  type="text" 
+                <input
+                  type="text"
                   id="catalogSearch"
-                  value="${catalogFilters.search}" 
+                  value="${catalogFilters.search}"
                   oninput="window.app.catalogSearch(this.value)"
-                  placeholder="Search meals..."
+                  placeholder="Search dumplings..."
                   class="w-full pl-10 pr-4 py-2.5 bg-background border border-secondary/10 rounded-xl focus:outline-none focus:border-accent text-sm"
                 />
                 <svg class="w-4 h-4 text-secondary/40 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
               </div>
             </div>
 
-            <!-- Category Filter -->
+            <!-- Category -->
             <div>
               <h4 class="font-display font-semibold text-xs uppercase tracking-wider text-secondary-light mb-3">Category</h4>
               <div class="flex flex-col gap-2">
                 ${categories.map(cat => {
+                  const icons = { All: '🥟', Beef: '🥩', Chicken: '🍗', Prawn: '🦐', Vegetable: '🥦', 'Combo Pack': '📦' };
                   const isActive = cat === catalogFilters.category;
                   return `
-                    <button 
+                    <button
                       onclick="window.app.setCatalogCategory('${cat}')"
                       class="text-left px-3 py-2 rounded-xl text-sm font-medium transition-colors cursor-pointer flex items-center justify-between ${isActive ? 'bg-accent/15 text-accent-dark font-semibold' : 'text-secondary hover:bg-background/60'}"
                     >
-                      ${cat}
+                      <span class="flex items-center gap-2">${icons[cat] || ''} ${cat}</span>
                       ${isActive ? '<span class="w-1.5 h-1.5 rounded-full bg-accent"></span>' : ''}
                     </button>
                   `;
@@ -167,10 +234,10 @@ export const customerViews = {
               </div>
             </div>
 
-            <!-- Sorting -->
+            <!-- Sort -->
             <div>
               <h4 class="font-display font-semibold text-xs uppercase tracking-wider text-secondary-light mb-3">Sort By</h4>
-              <select 
+              <select
                 onchange="window.app.catalogSort(this.value)"
                 class="w-full px-3 py-2.5 bg-background border border-secondary/10 rounded-xl text-sm text-secondary focus:outline-none focus:border-accent cursor-pointer"
               >
@@ -180,21 +247,30 @@ export const customerViews = {
                 <option value="rating" ${catalogFilters.sortBy === 'rating' ? 'selected' : ''}>Customer Rating</option>
               </select>
             </div>
+
+            <!-- Halal badge -->
+            <div class="bg-success/10 border border-success/20 rounded-2xl p-4 text-center">
+              <span class="text-2xl block mb-1">✅</span>
+              <p class="text-xs font-bold text-success">All Products JAKIM Halal Certified</p>
+              <p class="text-[10px] text-secondary-light mt-1">No pork, no lard, no alcohol ingredients.</p>
+            </div>
           </div>
         </aside>
 
-        <!-- Main Catalog Results Container -->
+        <!-- Main Catalog -->
         <main class="flex-grow">
           <div class="flex items-center justify-between mb-6">
-            <h2 class="text-2xl font-bold font-display text-primary">Explore Menu</h2>
-            <span class="text-xs text-secondary-light">${results.total} Gourmet dishes available</span>
+            <div>
+              <h2 class="text-2xl font-bold font-display text-primary">Our Dumplings</h2>
+              <p class="text-xs text-secondary-light mt-1">${results.total} products available${catalogFilters.category !== 'All' ? ` in <strong>${catalogFilters.category}</strong>` : ''}</p>
+            </div>
           </div>
 
-          <!-- Meals Grid -->
           ${results.items.length === 0 ? `
             <div class="glass-card rounded-[2rem] p-12 text-center text-secondary border border-secondary/5 mt-4">
-              <svg class="w-12 h-12 mx-auto mb-4 text-secondary/35" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-              No meals matching your criteria. Try adjusting your filters.
+              <div class="text-5xl mb-4">🥟</div>
+              <p class="font-display font-semibold text-primary mb-2">No dumplings found</p>
+              <p class="text-xs text-secondary-light">Try adjusting your search or filters.</p>
             </div>
           ` : `
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -207,28 +283,24 @@ export const customerViews = {
     `;
   },
 
-  // Set catalog categories and refresh
   setCatalogCategory(cat) {
     catalogFilters.category = cat;
     catalogFilters.page = 1;
     this.refreshCatalog();
   },
 
-  // Set catalog sorting and refresh
   catalogSort(sortBy) {
     catalogFilters.sortBy = sortBy;
     catalogFilters.page = 1;
     this.refreshCatalog();
   },
 
-  // Set catalog search query and refresh
   catalogSearch(search) {
     catalogFilters.search = search;
     catalogFilters.page = 1;
     this.refreshCatalog();
   },
 
-  // Set catalog page index and refresh
   catalogPage(page) {
     catalogFilters.page = page;
     this.refreshCatalog();
@@ -241,34 +313,31 @@ export const customerViews = {
     }
   },
 
-  // Render Meal Details Modal content
+  // ─── Meal Details Modal ──────────────────────────────────────────────────────
   renderMealDetails(mealId) {
     const meal = store.state.meals.find(m => m.mealId === mealId);
     if (!meal) return '';
-    
+
     const reviews = dataLoader.getMealRatings(mealId);
 
     return `
       <div class="relative bg-white rounded-3xl max-w-4xl w-full mx-4 overflow-hidden border border-secondary/10 shadow-2xl flex flex-col md:flex-row max-h-[90vh] md:max-h-[85vh] animate-slide-up">
-        
-        <!-- Left Pane: Image -->
+
+        <!-- Left: Image -->
         <div class="w-full md:w-1/2 aspect-video md:aspect-auto relative bg-background-dark">
-          <img src="${meal.image}" alt="${meal.mealName}" class="w-full h-full object-cover"/>
-          <button 
-            onclick="window.app.closeMealDetails()"
-            class="absolute top-4 left-4 md:hidden bg-white/90 backdrop-blur-md p-2 rounded-full text-primary shadow-md cursor-pointer hover:bg-white"
-          >
+          <img src="${meal.image}" alt="${meal.mealName}" class="w-full h-full object-cover"
+            onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500'" />
+          <button onclick="window.app.closeMealDetails()" class="absolute top-4 left-4 md:hidden bg-white/90 backdrop-blur-md p-2 rounded-full text-primary shadow-md cursor-pointer hover:bg-white">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
+          <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-success border border-success/20">
+            ✅ Halal
+          </div>
         </div>
 
-        <!-- Right Pane: Info & Review Streams -->
+        <!-- Right: Details -->
         <div class="w-full md:w-1/2 p-6 md:p-8 flex flex-col justify-between overflow-y-auto">
-          <!-- Close Button (desktop) -->
-          <button 
-            onclick="window.app.closeMealDetails()"
-            class="hidden md:flex absolute top-6 right-6 bg-background hover:bg-background-dark p-2 rounded-full text-secondary hover:text-primary transition-all cursor-pointer"
-          >
+          <button onclick="window.app.closeMealDetails()" class="hidden md:flex absolute top-6 right-6 bg-background hover:bg-background-dark p-2 rounded-full text-secondary hover:text-primary transition-all cursor-pointer">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
 
@@ -276,7 +345,6 @@ export const customerViews = {
             <div>
               <span class="text-xs font-semibold text-accent uppercase tracking-wider">${meal.category}</span>
               <h2 class="font-display text-2xl font-bold text-primary mt-1">${meal.mealName}</h2>
-              
               <div class="flex items-center gap-2 mt-2">
                 <div class="flex text-accent">${renderRatingStars(meal.rating)}</div>
                 <span class="text-xs font-semibold text-primary">${meal.rating.toFixed(1)}</span>
@@ -284,13 +352,11 @@ export const customerViews = {
               </div>
             </div>
 
-            <!-- Description -->
             <div>
               <h4 class="font-display text-xs font-bold text-secondary uppercase tracking-wider mb-1.5">Description</h4>
               <p class="text-charcoal-light text-xs leading-relaxed">${meal.description}</p>
             </div>
 
-            <!-- Ingredients -->
             <div>
               <h4 class="font-display text-xs font-bold text-secondary uppercase tracking-wider mb-1.5">Key Ingredients</h4>
               <div class="flex flex-wrap gap-1.5">
@@ -298,23 +364,21 @@ export const customerViews = {
               </div>
             </div>
 
-            <!-- Preparation details -->
             <div class="flex items-center gap-4 py-3 border-y border-secondary/5 text-xs text-secondary-light">
               <span class="flex items-center gap-1">
                 <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                Prep: ${meal.prepTime} mins
+                Ready in ${meal.prepTime} mins
               </span>
               <span class="flex items-center gap-1">
                 <svg class="w-4 h-4 text-success" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12c0-1.268.63-2.39 1.593-3.068a3.745 3.745 0 011.043-3.296 3.746 3.746 0 013.296-1.043A3.746 3.746 0 0112 3c1.268 0 2.39.63 3.068 1.593a3.746 3.746 0 013.296 1.043 3.746 3.746 0 011.043 3.296A3.745 3.745 0 0121 12z"/></svg>
-                Fresh Gourmet
+                JAKIM Halal
               </span>
             </div>
 
-            <!-- Customer Reviews Section -->
             <div class="space-y-3">
-              <h4 class="font-display text-xs font-bold text-secondary uppercase tracking-wider">Reviews</h4>
+              <h4 class="font-display text-xs font-bold text-secondary uppercase tracking-wider">Customer Reviews</h4>
               <div class="space-y-3 max-h-[160px] overflow-y-auto pr-1">
-                ${reviews.length === 0 ? `<p class="text-xs text-secondary-light italic">No reviews yet.</p>` : 
+                ${reviews.length === 0 ? `<p class="text-xs text-secondary-light italic">No reviews yet. Be the first!</p>` :
                   reviews.map(rev => `
                     <div class="bg-background/50 border border-secondary/5 rounded-xl p-3 space-y-1">
                       <div class="flex items-center justify-between">
@@ -329,13 +393,12 @@ export const customerViews = {
             </div>
           </div>
 
-          <!-- Checkout / Action footer -->
           <div class="flex items-center justify-between border-t border-secondary/5 pt-4 mt-6">
             <div>
-              <span class="text-xs text-secondary-light">Unit Price</span>
-              <span class="text-xl font-extrabold text-primary block font-display">$${meal.price.toFixed(2)}</span>
+              <span class="text-xs text-secondary-light">Price per pack</span>
+              <span class="text-xl font-extrabold text-primary block font-display">RM ${meal.price.toFixed(2)}</span>
             </div>
-            <button 
+            <button
               onclick="window.app.addToCart('${meal.mealId}'); window.app.closeMealDetails();"
               class="bg-accent hover:bg-accent-dark text-white font-semibold text-sm px-6 py-3 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer active:scale-95 flex items-center gap-2"
             >
@@ -344,190 +407,194 @@ export const customerViews = {
             </button>
           </div>
         </div>
-
       </div>
     `;
   },
 
-  // Render Cart Drawer Contents
+  // ─── Cart Drawer ─────────────────────────────────────────────────────────────
   renderCartDrawer() {
     const drawerContainer = document.getElementById('cart-drawer-items');
     const footerContainer = document.getElementById('cart-drawer-footer');
     if (!drawerContainer || !footerContainer) return;
 
     const cart = store.state.cart;
-    
+
     if (cart.length === 0) {
       drawerContainer.innerHTML = `
         <div class="py-24 text-center text-secondary">
-          <svg class="w-16 h-16 mx-auto mb-4 text-secondary/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+          <div class="text-5xl mb-4">🥟</div>
           <p class="font-display font-semibold text-primary mb-1">Your cart is empty</p>
-          <p class="text-xs text-secondary-light">Explore our catalog and add hot meals.</p>
+          <p class="text-xs text-secondary-light">Browse our dumplings and start ordering!</p>
         </div>
       `;
       footerContainer.innerHTML = `
-        <button 
-          onclick="window.app.closeCartDrawer(); window.app.switchView('catalog');" 
-          class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3.5 rounded-2xl transition-all cursor-pointer text-sm"
-        >
-          Browse Meals
+        <button onclick="window.app.closeCartDrawer(); window.app.switchView('catalog');"
+          class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3.5 rounded-2xl transition-all cursor-pointer text-sm">
+          Browse Dumplings
         </button>
       `;
       return;
     }
 
-    // Load Cart Item Cards
     drawerContainer.innerHTML = cart.map(item => {
       const meal = store.state.meals.find(m => m.mealId === item.mealId);
       if (!meal) return '';
       return `
         <div class="flex items-center gap-4 p-3.5 bg-background rounded-2xl border border-secondary/5">
-          <img src="${meal.image}" alt="${meal.mealName}" class="w-16 h-16 rounded-xl object-cover border border-secondary/10" />
+          <img src="${meal.image}" alt="${meal.mealName}" class="w-16 h-16 rounded-xl object-cover border border-secondary/10"
+            onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100'" />
           <div class="flex-grow min-w-0">
             <h4 class="font-display font-semibold text-sm text-primary truncate">${meal.mealName}</h4>
-            <span class="text-xs text-secondary-light block mb-2">$${meal.price.toFixed(2)}</span>
-            
-            <!-- Adjust Qty -->
+            <span class="text-xs text-secondary-light block mb-2">RM ${meal.price.toFixed(2)}</span>
             <div class="flex items-center gap-3">
-              <button 
-                onclick="window.app.updateCartQuantity('${meal.mealId}', ${item.quantity - 1})"
-                class="w-7 h-7 bg-white border border-secondary/15 rounded-lg text-primary hover:bg-background-dark transition-all flex items-center justify-center cursor-pointer text-sm font-bold active:scale-90"
-              >
-                -
-              </button>
+              <button onclick="window.app.updateCartQuantity('${meal.mealId}', ${item.quantity - 1})"
+                class="w-7 h-7 bg-white border border-secondary/15 rounded-lg text-primary hover:bg-background-dark transition-all flex items-center justify-center cursor-pointer text-sm font-bold active:scale-90">−</button>
               <span class="text-xs font-semibold text-primary w-4 text-center">${item.quantity}</span>
-              <button 
-                onclick="window.app.updateCartQuantity('${meal.mealId}', ${item.quantity + 1})"
-                class="w-7 h-7 bg-white border border-secondary/15 rounded-lg text-primary hover:bg-background-dark transition-all flex items-center justify-center cursor-pointer text-sm font-bold active:scale-90"
-              >
-                +
-              </button>
+              <button onclick="window.app.updateCartQuantity('${meal.mealId}', ${item.quantity + 1})"
+                class="w-7 h-7 bg-white border border-secondary/15 rounded-lg text-primary hover:bg-background-dark transition-all flex items-center justify-center cursor-pointer text-sm font-bold active:scale-90">+</button>
             </div>
           </div>
-          
-          <!-- Delete button -->
-          <button 
-            onclick="window.app.removeFromCart('${meal.mealId}')" 
-            class="text-secondary/40 hover:text-accent p-2 rounded-xl hover:bg-accent/5 transition-colors cursor-pointer"
-            aria-label="Remove item"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-1.816A2.25 2.25 0 0112.25 2.25h-2.5a2.25 2.25 0 00-2.25 2.25v1.816m-3 0h10.982"/></svg>
+          <button onclick="window.app.removeFromCart('${meal.mealId}')"
+            class="text-secondary/40 hover:text-accent p-2 rounded-xl hover:bg-accent/5 transition-colors cursor-pointer" aria-label="Remove item">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-1.816A2.25 2.25 0 0012.25 2.25h-2.5a2.25 2.25 0 00-2.25 2.25v1.816m-3 0h10.982"/></svg>
           </button>
         </div>
       `;
     }).join('');
 
-    // Load Footer calculations
     const subtotal = store.getCartTotal();
-    const deliveryFee = 3.99;
+    const deliveryFee = cart.length >= 2 ? 0 : 3.00;
     const total = subtotal + deliveryFee;
 
     footerContainer.innerHTML = `
       <div class="space-y-2.5 mb-6 text-xs">
         <div class="flex items-center justify-between text-secondary-light">
-          <span>Subtotal</span>
-          <span>$${subtotal.toFixed(2)}</span>
+          <span>Subtotal</span><span>RM ${subtotal.toFixed(2)}</span>
         </div>
         <div class="flex items-center justify-between text-secondary-light">
           <span>Delivery Fee</span>
-          <span>$${deliveryFee.toFixed(2)}</span>
+          <span class="${deliveryFee === 0 ? 'text-success font-semibold' : ''}">${deliveryFee === 0 ? 'FREE (2+ packs)' : 'RM ' + deliveryFee.toFixed(2)}</span>
         </div>
         <div class="flex items-center justify-between text-sm font-bold text-primary pt-2.5 border-t border-secondary/10">
-          <span>Total Price</span>
-          <span class="font-display">$${total.toFixed(2)}</span>
+          <span>Total</span>
+          <span class="font-display">RM ${total.toFixed(2)}</span>
         </div>
       </div>
-      <button 
-        onclick="window.app.switchView('checkout'); window.app.closeCartDrawer();" 
-        class="w-full bg-accent hover:bg-accent-dark text-white font-semibold py-3.5 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer text-sm"
-      >
+      <button onclick="window.app.switchView('checkout'); window.app.closeCartDrawer();"
+        class="w-full bg-accent hover:bg-accent-dark text-white font-semibold py-3.5 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer text-sm">
         Proceed to Checkout
       </button>
     `;
   },
 
-  // Render Checkout view layout
+  // ─── 3. CHECKOUT & ORDER CONFIRMATION ────────────────────────────────────────
   renderCheckout(container) {
     const cart = store.state.cart;
     if (cart.length === 0) {
       container.innerHTML = `
         <div class="glass-card rounded-[2rem] p-12 text-center text-secondary border border-secondary/5 mt-4">
-          <p class="font-display font-bold text-lg text-primary mb-2">Checkout is unavailable</p>
-          <p class="text-xs text-secondary-light mb-6">Your shopping cart is currently empty.</p>
-          <button onclick="window.app.switchView('catalog')" class="bg-primary text-white font-semibold px-6 py-2.5 rounded-xl text-xs">Explore Menu</button>
+          <div class="text-5xl mb-4">🛒</div>
+          <p class="font-display font-bold text-lg text-primary mb-2">Your cart is empty</p>
+          <p class="text-xs text-secondary-light mb-6">Add some dumplings to your cart before checking out.</p>
+          <button onclick="window.app.switchView('catalog')" class="bg-primary text-white font-semibold px-6 py-2.5 rounded-xl text-xs">Browse Dumplings</button>
         </div>
       `;
       return;
     }
 
     const subtotal = store.getCartTotal();
-    const deliveryFee = 3.99;
+    const deliveryFee = cart.length >= 2 ? 0 : 3.00;
     const total = subtotal + deliveryFee;
 
     container.innerHTML = `
       <div class="flex flex-col lg:flex-row gap-8">
-        <!-- Delivery forms pane -->
+        <!-- Checkout Form -->
         <main class="flex-grow">
           <div class="glass-card rounded-[2rem] p-6 md:p-8 border border-secondary/5 space-y-6">
-            <h2 class="font-display text-2xl font-bold text-primary border-b border-secondary/5 pb-4">Delivery Details</h2>
-            
+            <h2 class="font-display text-2xl font-bold text-primary border-b border-secondary/5 pb-4">Delivery / Pickup Details</h2>
+
             <form id="checkoutForm" onsubmit="event.preventDefault(); window.app.submitCheckout(new FormData(this))" class="space-y-4">
               <!-- Name & Phone -->
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="space-y-1">
-                  <label class="text-xs font-semibold text-secondary-light block">Name</label>
-                  <input type="text" name="name" required placeholder="Evelyn Sterling" class="form-input-premium text-sm py-2.5" />
+                  <label class="text-xs font-semibold text-secondary-light block">Full Name <span class="text-accent">*</span></label>
+                  <input type="text" name="name" required placeholder="e.g. Ahmad bin Ali" class="form-input-premium text-sm py-2.5" />
                 </div>
                 <div class="space-y-1">
-                  <label class="text-xs font-semibold text-secondary-light block">Phone Number</label>
-                  <input type="tel" name="phone" required placeholder="+1 (555) 019-2834" class="form-input-premium text-sm py-2.5" />
+                  <label class="text-xs font-semibold text-secondary-light block">Phone Number <span class="text-accent">*</span></label>
+                  <input type="tel" name="phone" required placeholder="e.g. 012-345 6789" class="form-input-premium text-sm py-2.5" />
                 </div>
               </div>
 
-              <!-- Address -->
+              <!-- Room / Address -->
               <div class="space-y-1">
-                <label class="text-xs font-semibold text-secondary-light block">Delivery Address</label>
-                <input type="text" name="address" required placeholder="Apt 4B, 742 Evergreen Terrace, Metropolis" class="form-input-premium text-sm py-2.5" />
+                <label class="text-xs font-semibold text-secondary-light block">Room / Delivery Address at UTM <span class="text-accent">*</span></label>
+                <input type="text" name="address" required placeholder="e.g. KTF Blok A, Bilik 203 / Alumni Hostel Blok B" class="form-input-premium text-sm py-2.5" />
               </div>
 
-              <!-- Payment Method selection -->
+              <!-- Matric No (optional) -->
+              <div class="space-y-1">
+                <label class="text-xs font-semibold text-secondary-light block">Matric No. <span class="text-secondary-light font-normal">(optional — for student promos)</span></label>
+                <input type="text" name="matric" placeholder="e.g. A21CS1234" class="form-input-premium text-sm py-2.5" />
+              </div>
+
+              <!-- Pickup / Delivery preference -->
+              <div class="pt-4 border-t border-secondary/5">
+                <h3 class="font-display font-semibold text-sm text-primary mb-3">Fulfilment Method</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <label class="flex items-center gap-3 p-4 bg-background border border-secondary/15 rounded-2xl cursor-pointer hover:border-accent/40 transition-colors">
+                    <input type="radio" name="fulfil" value="pickup" checked class="accent-accent" />
+                    <div>
+                      <span class="text-sm font-medium text-primary font-display block">Self Pickup</span>
+                      <span class="text-[10px] text-secondary-light">Collect at KTF & Alumni UTM counter</span>
+                    </div>
+                  </label>
+                  <label class="flex items-center gap-3 p-4 bg-background border border-secondary/15 rounded-2xl cursor-pointer hover:border-accent/40 transition-colors">
+                    <input type="radio" name="fulfil" value="delivery" class="accent-accent" />
+                    <div>
+                      <span class="text-sm font-medium text-primary font-display block">Campus Delivery (+RM ${deliveryFee > 0 ? deliveryFee.toFixed(2) : '0.00'})</span>
+                      <span class="text-[10px] text-secondary-light">Delivered to your hostel room</span>
+                    </div>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Payment Method -->
               <div class="pt-4 border-t border-secondary/5">
                 <h3 class="font-display font-semibold text-sm text-primary mb-3">Payment Method</h3>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                   <label class="flex items-center gap-3 p-4 bg-background border border-secondary/15 rounded-2xl cursor-pointer hover:border-accent/40 transition-colors">
-                    <input type="radio" name="payment" value="card" checked class="accent-accent" />
-                    <span class="text-sm font-medium text-primary font-display">Credit / Debit Card</span>
+                    <input type="radio" name="payment" value="online" checked class="accent-accent" />
+                    <span class="text-sm font-medium text-primary font-display">Online Transfer</span>
                   </label>
                   <label class="flex items-center gap-3 p-4 bg-background border border-secondary/15 rounded-2xl cursor-pointer hover:border-accent/40 transition-colors">
-                    <input type="radio" name="payment" value="wallet" class="accent-accent" />
-                    <span class="text-sm font-medium text-primary font-display">Digital Wallet</span>
+                    <input type="radio" name="payment" value="ewallet" class="accent-accent" />
+                    <span class="text-sm font-medium text-primary font-display">Touch 'n Go / DuitNow</span>
                   </label>
                   <label class="flex items-center gap-3 p-4 bg-background border border-secondary/15 rounded-2xl cursor-pointer hover:border-accent/40 transition-colors">
                     <input type="radio" name="payment" value="cash" class="accent-accent" />
-                    <span class="text-sm font-medium text-primary font-display">Cash on Delivery</span>
+                    <span class="text-sm font-medium text-primary font-display">Cash on Pickup</span>
                   </label>
                 </div>
               </div>
 
-              <!-- Action buttons -->
+              <!-- Buttons -->
               <div class="pt-6 border-t border-secondary/5 flex justify-end gap-3">
                 <button type="button" onclick="window.app.switchView('catalog')" class="px-6 py-3 border border-secondary/15 rounded-2xl text-secondary hover:bg-background-dark font-medium text-sm transition-all cursor-pointer">
                   Cancel
                 </button>
                 <button type="submit" class="px-8 py-3 bg-accent hover:bg-accent-dark text-white font-semibold rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer text-sm">
-                  Place Order ($${total.toFixed(2)})
+                  Place Order — RM ${total.toFixed(2)}
                 </button>
               </div>
             </form>
           </div>
         </main>
 
-        <!-- Right Summary side pane -->
+        <!-- Order Summary sidebar -->
         <aside class="w-full lg:w-96 flex-shrink-0">
           <div class="glass-card rounded-[2rem] p-6 border border-secondary/5 space-y-6">
             <h3 class="font-display font-bold text-lg text-primary border-b border-secondary/5 pb-4">Order Summary</h3>
-            
-            <!-- Items list -->
             <div class="space-y-4 max-h-[240px] overflow-y-auto pr-1">
               ${cart.map(item => {
                 const meal = store.state.meals.find(m => m.mealId === item.mealId);
@@ -535,31 +602,28 @@ export const customerViews = {
                 return `
                   <div class="flex items-center justify-between text-xs">
                     <div class="flex items-center gap-2.5">
-                      <img src="${meal.image}" alt="${meal.mealName}" class="w-10 h-10 rounded-lg object-cover" />
+                      <img src="${meal.image}" alt="${meal.mealName}" class="w-10 h-10 rounded-lg object-cover"
+                        onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100'" />
                       <div>
                         <span class="font-bold text-primary font-display line-clamp-1">${meal.mealName}</span>
                         <span class="text-secondary-light">Qty: ${item.quantity}</span>
                       </div>
                     </div>
-                    <span class="font-semibold text-primary font-display">$${(meal.price * item.quantity).toFixed(2)}</span>
+                    <span class="font-semibold text-primary font-display">RM ${(meal.price * item.quantity).toFixed(2)}</span>
                   </div>
                 `;
               }).join('')}
             </div>
-
-            <!-- Ledger calculations -->
             <div class="space-y-2 border-t border-secondary/5 pt-4 text-xs">
               <div class="flex items-center justify-between text-secondary-light">
-                <span>Subtotal</span>
-                <span>$${subtotal.toFixed(2)}</span>
+                <span>Subtotal</span><span>RM ${subtotal.toFixed(2)}</span>
               </div>
               <div class="flex items-center justify-between text-secondary-light">
-                <span>Delivery Fee</span>
-                <span>$${deliveryFee.toFixed(2)}</span>
+                <span>Delivery</span>
+                <span class="${deliveryFee === 0 ? 'text-success font-semibold' : ''}">${deliveryFee === 0 ? 'FREE' : 'RM ' + deliveryFee.toFixed(2)}</span>
               </div>
               <div class="flex items-center justify-between text-sm font-bold text-primary pt-2.5 border-t border-secondary/10">
-                <span>Total Amount</span>
-                <span class="font-display">$${total.toFixed(2)}</span>
+                <span>Total</span><span class="font-display">RM ${total.toFixed(2)}</span>
               </div>
             </div>
           </div>
@@ -568,25 +632,135 @@ export const customerViews = {
     `;
   },
 
-  // Submit checkout form and place order
   submitCheckout(formData) {
     const address = formData.get('address');
     const name = formData.get('name');
     const phone = formData.get('phone');
-    
-    store.placeOrder({ address, name, phone });
+    const matric = formData.get('matric') || '';
+    const fulfil = formData.get('fulfil') || 'pickup';
+    const payment = formData.get('payment') || 'cash';
+
+    store.placeOrder({ address, name, phone, matric, fulfil, payment });
   },
 
-  // Render Live Order Tracking page
+  // ─── Order Confirmation Screen ───────────────────────────────────────────────
+  renderConfirmation(container) {
+    const activeOrder = store.state.activeOrder;
+    if (!activeOrder) {
+      window.app.switchView('home');
+      return;
+    }
+
+    const cartItems = store.state.confirmedCartSnapshot || [];
+    const tracking = store.state.delivery.find(d => d.orderId === activeOrder.orderId);
+
+    container.innerHTML = `
+      <section class="max-w-2xl mx-auto animate-slide-up">
+        <!-- Success header -->
+        <div class="text-center mb-8 space-y-3">
+          <div class="w-20 h-20 bg-success/15 border-4 border-success/30 rounded-full flex items-center justify-center mx-auto text-4xl">
+            ✅
+          </div>
+          <h1 class="font-display text-3xl font-extrabold text-primary">Order Confirmed!</h1>
+          <p class="text-secondary-light text-sm">Thank you for ordering from Hot Meal Ba. Your dumplings are being prepared!</p>
+        </div>
+
+        <!-- Order details card -->
+        <div class="glass-card rounded-[2rem] p-6 md:p-8 border border-success/20 bg-success/5 space-y-6 mb-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-secondary/10 pb-5">
+            <div>
+              <span class="text-[10px] text-success font-bold uppercase tracking-widest block mb-1">Order Reference</span>
+              <h2 class="font-display text-2xl font-extrabold text-primary">#${activeOrder.orderId}</h2>
+            </div>
+            <div class="text-left sm:text-right">
+              <span class="text-[10px] text-secondary-light block">Total Paid</span>
+              <span class="text-2xl font-extrabold text-primary font-display">RM ${activeOrder.amount.toFixed(2)}</span>
+            </div>
+          </div>
+
+          <!-- Customer info -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div>
+              <span class="text-[10px] font-bold text-secondary uppercase tracking-wider block mb-2">Customer Details</span>
+              <div class="space-y-1.5 text-charcoal">
+                <p><span class="text-secondary-light">Name:</span> <strong>${tracking && tracking.details ? tracking.details.name : '—'}</strong></p>
+                <p><span class="text-secondary-light">Phone:</span> ${tracking && tracking.details ? tracking.details.phone : '—'}</p>
+                <p><span class="text-secondary-light">Address:</span> ${tracking && tracking.details ? tracking.details.address : '—'}</p>
+              </div>
+            </div>
+            <div>
+              <span class="text-[10px] font-bold text-secondary uppercase tracking-wider block mb-2">Fulfilment Info</span>
+              <div class="space-y-1.5 text-charcoal">
+                <p><span class="text-secondary-light">Method:</span> <strong>${tracking && tracking.details && tracking.details.fulfil === 'delivery' ? '🛵 Campus Delivery' : '🏪 Self Pickup at KTF & Alumni UTM'}</strong></p>
+                <p><span class="text-secondary-light">Payment:</span> ${tracking && tracking.details ? ({online: 'Online Transfer', ewallet: "Touch 'n Go / DuitNow", cash: 'Cash on Pickup'}[tracking.details.payment] || tracking.details.payment) : '—'}</p>
+                <p><span class="text-secondary-light">Est. Ready:</span> <strong>${tracking ? tracking.estimatedTime : '~15 mins'}</strong></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Items ordered -->
+          ${cartItems.length > 0 ? `
+            <div class="border-t border-secondary/10 pt-4">
+              <span class="text-[10px] font-bold text-secondary uppercase tracking-wider block mb-3">Items Ordered</span>
+              <div class="space-y-2">
+                ${cartItems.map(item => {
+                  const meal = store.state.meals.find(m => m.mealId === item.mealId);
+                  if (!meal) return '';
+                  return `
+                    <div class="flex justify-between items-center text-xs">
+                      <span class="text-charcoal font-medium">${meal.mealName} <span class="text-secondary-light">× ${item.quantity}</span></span>
+                      <span class="font-semibold text-primary">RM ${(meal.price * item.quantity).toFixed(2)}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          ` : ''}
+        </div>
+
+        <!-- What's next -->
+        <div class="glass-card rounded-[2rem] p-6 border border-secondary/5 mb-6 space-y-4">
+          <h3 class="font-display font-semibold text-base text-primary">What Happens Next?</h3>
+          <div class="space-y-3 text-xs text-charcoal-light">
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-accent/15 text-accent flex items-center justify-center font-bold text-[10px] flex-shrink-0 mt-0.5">1</span>
+              <p>Our team is preparing your dumpling packs right now.</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-accent/15 text-accent flex items-center justify-center font-bold text-[10px] flex-shrink-0 mt-0.5">2</span>
+              <p>${tracking && tracking.details && tracking.details.fulfil === 'delivery' ? 'Your order will be delivered to your room shortly.' : 'Head over to the KTF & Alumni UTM counter to pick up your order.'}</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <span class="w-6 h-6 rounded-full bg-accent/15 text-accent flex items-center justify-center font-bold text-[10px] flex-shrink-0 mt-0.5">3</span>
+              <p>Pan-fry, steam, or boil your dumplings in 12–15 minutes. Enjoy!</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="flex flex-col sm:flex-row gap-3">
+          <button onclick="window.app.switchView('tracking')" class="flex-1 bg-primary hover:bg-primary-dark text-white font-semibold py-3.5 rounded-2xl transition-all cursor-pointer text-sm text-center">
+            Track My Order
+          </button>
+          <button onclick="window.app.switchView('home')" class="flex-1 bg-white border border-secondary/20 hover:bg-background text-primary font-semibold py-3.5 rounded-2xl transition-all cursor-pointer text-sm text-center">
+            Back to Home
+          </button>
+        </div>
+      </section>
+    `;
+  },
+
+  // ─── Live Order Tracking ─────────────────────────────────────────────────────
   renderTracking(container) {
     const activeOrder = store.state.activeOrder;
-    
+
     if (!activeOrder) {
       container.innerHTML = `
         <div class="glass-card rounded-[2rem] p-12 text-center text-secondary border border-secondary/5 mt-4">
+          <div class="text-5xl mb-4">📦</div>
           <p class="font-display font-bold text-lg text-primary mb-2">No active orders</p>
-          <p class="text-xs text-secondary-light mb-6">You have no active orders being prepared or delivered right now.</p>
-          <button onclick="window.app.switchView('catalog')" class="bg-primary text-white font-semibold px-6 py-2.5 rounded-xl text-xs">Explore Menu</button>
+          <p class="text-xs text-secondary-light mb-6">You have no orders being prepared right now.</p>
+          <button onclick="window.app.switchView('catalog')" class="bg-primary text-white font-semibold px-6 py-2.5 rounded-xl text-xs">Order Dumplings</button>
         </div>
       `;
       return;
@@ -597,70 +771,52 @@ export const customerViews = {
 
     container.innerHTML = `
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <!-- Timeline and steps -->
         <main class="lg:col-span-2 space-y-6">
           <div class="glass-card rounded-[2rem] p-6 md:p-8 border border-secondary/5 space-y-8">
             <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-secondary/5 pb-5 gap-3">
               <div>
-                <span class="text-[10px] text-accent font-semibold uppercase tracking-wider">Live tracking</span>
-                <h2 class="font-display text-2xl font-bold text-primary mt-0.5">Order #${activeOrder.orderId.substring(4) || activeOrder.orderId}</h2>
+                <span class="text-[10px] text-accent font-semibold uppercase tracking-wider">Live Tracking</span>
+                <h2 class="font-display text-2xl font-bold text-primary mt-0.5">Order #${activeOrder.orderId}</h2>
               </div>
               <div class="text-left md:text-right">
-                <span class="text-xs text-secondary-light block">Est. Arrival Time</span>
+                <span class="text-xs text-secondary-light block">Est. Ready Time</span>
                 <span class="text-lg font-bold text-primary font-display">${tracking ? tracking.estimatedTime : '--:--'}</span>
               </div>
             </div>
-
-            <!-- Horizontal Stepper -->
             ${renderTrackingStepper(activeOrder.status)}
-
-            <!-- Map Mock -->
             ${renderMockMap(activeOrder.status)}
           </div>
         </main>
 
-        <!-- Right detail card panel (driver, ratings if arrived) -->
         <aside class="space-y-6">
-          <!-- Order summary -->
           <div class="glass-card rounded-[2rem] p-6 border border-secondary/5 space-y-5">
-            <h3 class="font-display font-bold text-lg text-primary border-b border-secondary/5 pb-4">Delivery Address</h3>
+            <h3 class="font-display font-bold text-lg text-primary border-b border-secondary/5 pb-4">Order Info</h3>
             <div class="text-xs text-charcoal space-y-2 leading-relaxed">
-              <p><strong class="text-primary">Recurrent:</strong> ${tracking && tracking.details ? tracking.details.name : 'Evelyn Sterling'}</p>
-              <p><strong class="text-primary">Contact:</strong> ${tracking && tracking.details ? tracking.details.phone : '+1 (555) 019-2834'}</p>
-              <p><strong class="text-primary">Address:</strong> ${tracking && tracking.details ? tracking.details.address : 'Apt 4B, 742 Evergreen Terrace, Metropolis'}</p>
+              <p><strong class="text-primary">Customer:</strong> ${tracking && tracking.details ? tracking.details.name : '—'}</p>
+              <p><strong class="text-primary">Phone:</strong> ${tracking && tracking.details ? tracking.details.phone : '—'}</p>
+              <p><strong class="text-primary">Address:</strong> ${tracking && tracking.details ? tracking.details.address : '—'}</p>
+              <p><strong class="text-primary">Fulfilment:</strong> ${tracking && tracking.details && tracking.details.fulfil === 'delivery' ? 'Campus Delivery' : 'Self Pickup'}</p>
             </div>
           </div>
 
-          <!-- Add Review Form (Activated ONLY when order status === 'delivered') -->
           ${activeOrder.status === 'delivered' ? `
             <div class="glass-card rounded-[2rem] p-6 border border-success/20 bg-success/5 animate-slide-up space-y-4">
               <div>
-                <h4 class="font-display font-bold text-base text-primary">Enjoyed your ${meal ? meal.mealName : 'meal'}?</h4>
-                <p class="text-[11px] text-secondary-light mt-0.5">Please share your experience with us.</p>
+                <h4 class="font-display font-bold text-base text-primary">Enjoyed your ${meal ? meal.mealName : 'dumplings'}?</h4>
+                <p class="text-[11px] text-secondary-light mt-0.5">Share your experience to help other students!</p>
               </div>
-
               <form onsubmit="event.preventDefault(); window.app.submitRating('${activeOrder.mealId}', this.rating.value, this.review.value)" class="space-y-3">
-                <!-- Stars select -->
                 <div class="flex items-center gap-1">
-                  <span class="text-xs text-secondary-light mr-2">Your Rating:</span>
+                  <span class="text-xs text-secondary-light mr-2">Rating:</span>
                   <select name="rating" required class="bg-white border border-secondary/15 rounded-lg text-xs px-2.5 py-1 focus:outline-none">
-                    <option value="5">5 Stars (Excellent)</option>
-                    <option value="4">4 Stars (Good)</option>
-                    <option value="3">3 Stars (Average)</option>
-                    <option value="2">2 Stars (Poor)</option>
-                    <option value="1">1 Star (Terrible)</option>
+                    <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+                    <option value="4">⭐⭐⭐⭐ Good</option>
+                    <option value="3">⭐⭐⭐ Average</option>
+                    <option value="2">⭐⭐ Poor</option>
+                    <option value="1">⭐ Terrible</option>
                   </select>
                 </div>
-
-                <!-- Textarea -->
-                <textarea 
-                  name="review" 
-                  rows="3" 
-                  placeholder="Tell us what you liked or how we can improve..." 
-                  class="form-input-premium text-xs py-2 bg-white"
-                  required
-                ></textarea>
-
+                <textarea name="review" rows="3" placeholder="How were the dumplings? Tell us!" class="form-input-premium text-xs py-2 bg-white" required></textarea>
                 <button type="submit" class="w-full bg-success hover:bg-success-dark text-white font-semibold py-2.5 rounded-xl transition-all cursor-pointer text-xs shadow-md">
                   Submit Review
                 </button>
@@ -674,8 +830,8 @@ export const customerViews = {
                   <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                 </svg>
               </div>
-              <h4 class="font-display font-semibold text-sm text-primary mb-1">Cooking & Preparation</h4>
-              <p class="text-[10px] text-secondary-light">Review submittal unlocks automatically upon delivery confirmation.</p>
+              <h4 class="font-display font-semibold text-sm text-primary mb-1">Preparing Your Dumplings</h4>
+              <p class="text-[10px] text-secondary-light">Review becomes available after your order is collected.</p>
             </div>
           `}
         </aside>
@@ -683,143 +839,11 @@ export const customerViews = {
     `;
   },
 
-  renderApplyJob(container) {
-    container.innerHTML = `
-      <section class="relative bg-primary rounded-[2rem] overflow-hidden mb-12 p-8 md:p-16 shadow-premium text-white">
-        <div class="absolute inset-0 bg-gradient-to-r from-primary-dark/80 to-transparent z-0"></div>
-        <div class="max-w-2xl relative z-10 space-y-5">
-          <span class="text-accent bg-accent/15 border border-accent/20 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">Opportunity</span>
-          <h1 class="font-display text-3xl md:text-4xl lg:text-5xl text-white font-extrabold leading-tight">
-            Earn Extra Pocket Money as a <span class="text-accent">Dumpling Reseller</span>
-          </h1>
-          <p class="text-secondary-light text-sm md:text-base leading-relaxed">
-            University students can join our reseller programme — sell premium frozen dumplings to your campus community and earn commission on every order.
-          </p>
-        </div>
-      </section>
-
-      <div class="flex flex-col lg:flex-row gap-8">
-        <aside class="w-full lg:w-80 flex-shrink-0">
-          <div class="glass-card rounded-[2rem] p-6 border border-secondary/5 space-y-5">
-            <h3 class="font-display font-bold text-lg text-primary">Why Join Us?</h3>
-            <div class="space-y-4">
-              <div class="flex items-start gap-3">
-                <div class="w-9 h-9 bg-accent/10 rounded-xl flex items-center justify-center text-accent flex-shrink-0 mt-0.5">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                </div>
-                <div>
-                  <h4 class="font-display font-semibold text-sm text-primary">Flexible Income</h4>
-                  <p class="text-xs text-secondary-light leading-relaxed">Earn commission on every sale — work around your class schedule.</p>
-                </div>
-              </div>
-              <div class="flex items-start gap-3">
-                <div class="w-9 h-9 bg-success/10 rounded-xl flex items-center justify-center text-success flex-shrink-0 mt-0.5">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.636 50.636 0 00-2.658-.813A59.906 59.906 0 0112 3.493a59.903 59.903 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.717 50.717 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5"/></svg>
-                </div>
-                <div>
-                  <h4 class="font-display font-semibold text-sm text-primary">Campus-Friendly</h4>
-                  <p class="text-xs text-secondary-light leading-relaxed">No upfront cost, no inventory — designed for students.</p>
-                </div>
-              </div>
-              <div class="flex items-start gap-3">
-                <div class="w-9 h-9 bg-primary/10 rounded-xl flex items-center justify-center text-primary flex-shrink-0 mt-0.5">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0H6.375c-.621 0-1.125-.504-1.125-1.125V14.25m17.25 0V6.375c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v7.875m17.25 0h-1.5"/></svg>
-                </div>
-                <div>
-                  <h4 class="font-display font-semibold text-sm text-primary">We Handle Delivery</h4>
-                  <p class="text-xs text-secondary-light leading-relaxed">Collect orders and addresses — we ship directly to your customers.</p>
-                </div>
-              </div>
-              <div class="flex items-start gap-3">
-                <div class="w-9 h-9 bg-yellow-100 rounded-xl flex items-center justify-center text-yellow-600 flex-shrink-0 mt-0.5">
-                  <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z"/></svg>
-                </div>
-                <div>
-                  <h4 class="font-display font-semibold text-sm text-primary">Community Network</h4>
-                  <p class="text-xs text-secondary-light leading-relaxed">Join a growing network of student entrepreneurs across campuses.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </aside>
-
-        <main class="flex-grow">
-          <div class="glass-card rounded-[2rem] p-6 md:p-8 border border-secondary/5 space-y-6">
-            <h2 class="font-display text-2xl font-bold text-primary border-b border-secondary/5 pb-4">Student Reseller Application</h2>
-            <form id="applyJobForm" onsubmit="event.preventDefault(); window.app.submitApplication(new FormData(this))" class="space-y-4">
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="space-y-1">
-                  <label class="text-xs font-semibold text-secondary-light block">Full Name</label>
-                  <input type="text" name="fullName" required placeholder="e.g. Ahmad bin Abdullah" class="form-input-premium text-sm py-2.5" />
-                </div>
-                <div class="space-y-1">
-                  <label class="text-xs font-semibold text-secondary-light block">Student ID</label>
-                  <input type="text" name="studentId" required placeholder="e.g. A21CS1234" class="form-input-premium text-sm py-2.5" />
-                </div>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="space-y-1">
-                  <label class="text-xs font-semibold text-secondary-light block">University / Institution</label>
-                  <input type="text" name="university" required placeholder="e.g. Universiti Teknologi Malaysia" class="form-input-premium text-sm py-2.5" />
-                </div>
-                <div class="space-y-1">
-                  <label class="text-xs font-semibold text-secondary-light block">Faculty / Department</label>
-                  <input type="text" name="faculty" required placeholder="e.g. Faculty of Computing" class="form-input-premium text-sm py-2.5" />
-                </div>
-              </div>
-              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div class="space-y-1">
-                  <label class="text-xs font-semibold text-secondary-light block">Email Address</label>
-                  <input type="email" name="email" required placeholder="e.g. ahmad@graduate.utm.my" class="form-input-premium text-sm py-2.5" />
-                </div>
-                <div class="space-y-1">
-                  <label class="text-xs font-semibold text-secondary-light block">Phone Number</label>
-                  <input type="tel" name="phone" required placeholder="e.g. +60 12-345 6789" class="form-input-premium text-sm py-2.5" />
-                </div>
-              </div>
-              <div class="space-y-1">
-                <label class="text-xs font-semibold text-secondary-light block">Why do you want to become a reseller?</label>
-                <textarea name="motivation" rows="4" required placeholder="Tell us about your motivation and how you plan to sell frozen dumplings on your campus..." class="form-input-premium text-sm py-2.5"></textarea>
-              </div>
-              <div class="pt-2">
-                <label class="flex items-start gap-3 cursor-pointer">
-                  <input type="checkbox" name="agree" required class="accent-accent mt-0.5" />
-                  <span class="text-xs text-secondary-light leading-relaxed">I confirm that I am a registered university student and agree to the reseller programme terms and conditions.</span>
-                </label>
-              </div>
-              <div class="pt-6 border-t border-secondary/5 flex justify-end gap-3">
-                <button type="button" onclick="window.app.switchView('home')" class="px-6 py-3 border border-secondary/15 rounded-2xl text-secondary hover:bg-background-dark font-medium text-sm transition-all cursor-pointer">Cancel</button>
-                <button type="submit" class="px-8 py-3 bg-accent hover:bg-accent-dark text-white font-semibold rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer text-sm">Submit Application</button>
-              </div>
-            </form>
-          </div>
-        </main>
-      </div>
-    `;
-  },
-
-  submitApplication(formData) {
-    const application = {
-      fullName: formData.get('fullName'),
-      studentId: formData.get('studentId'),
-      university: formData.get('university'),
-      faculty: formData.get('faculty'),
-      email: formData.get('email'),
-      phone: formData.get('phone'),
-      motivation: formData.get('motivation'),
-      submittedAt: new Date().toISOString()
-    };
-    const apps = JSON.parse(localStorage.getItem('gk_applications') || '[]');
-    apps.push(application);
-    localStorage.setItem('gk_applications', JSON.stringify(apps));
-    window.app.showFloatingAlert('Application submitted successfully! We will contact you soon.', 'success');
-    window.app.switchView('home');
-  },
-
+  // ─── Track Order Search ──────────────────────────────────────────────────────
   renderTrackOrder(container) {
     const statusLabels = {
-      'received': 'Order Received', 'preparing': 'Preparing', 'cooking': 'Cooking',
-      'out_for_delivery': 'Out for Delivery', 'delivered': 'Delivered'
+      'received': 'Order Received', 'preparing': 'Preparing Pack', 'cooking': 'Packing',
+      'out_for_delivery': 'Out for Delivery', 'delivered': 'Collected / Delivered'
     };
     const statusColors = {
       'received': 'bg-blue-100 text-blue-700', 'preparing': 'bg-yellow-100 text-yellow-700',
@@ -841,7 +865,7 @@ export const customerViews = {
             <div class="flex flex-col md:flex-row md:items-center justify-between border-b border-secondary/5 pb-5 gap-3">
               <div>
                 <span class="text-[10px] text-accent font-semibold uppercase tracking-wider">Order Found</span>
-                <h2 class="font-display text-2xl font-bold text-primary mt-0.5">Order #${order.orderId}</h2>
+                <h2 class="font-display text-2xl font-bold text-primary mt-0.5">#${order.orderId}</h2>
               </div>
               <span class="px-4 py-1.5 rounded-full text-xs font-bold ${statusColors[order.status] || 'bg-gray-100 text-gray-700'}">
                 ${statusLabels[order.status] || order.status}
@@ -852,19 +876,18 @@ export const customerViews = {
               <div class="space-y-3">
                 <h4 class="font-display font-semibold text-xs uppercase tracking-wider text-secondary-light">Order Details</h4>
                 <div class="text-xs text-charcoal space-y-2 leading-relaxed">
-                  <p><strong class="text-primary">Meal:</strong> ${meal ? meal.mealName : 'N/A'}</p>
-                  <p><strong class="text-primary">Quantity:</strong> ${order.quantity}</p>
-                  <p><strong class="text-primary">Amount:</strong> $${order.amount.toFixed(2)}</p>
-                  <p><strong class="text-primary">Date:</strong> ${new Date(order.orderDate).toLocaleDateString([], { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+                  <p><strong class="text-primary">Item:</strong> ${meal ? meal.mealName : 'N/A'}</p>
+                  <p><strong class="text-primary">Quantity:</strong> ${order.quantity} pack(s)</p>
+                  <p><strong class="text-primary">Amount:</strong> RM ${order.amount.toFixed(2)}</p>
+                  <p><strong class="text-primary">Date:</strong> ${new Date(order.orderDate).toLocaleDateString('en-MY', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                 </div>
               </div>
               <div class="space-y-3">
                 <h4 class="font-display font-semibold text-xs uppercase tracking-wider text-secondary-light">Delivery Info</h4>
                 <div class="text-xs text-charcoal space-y-2 leading-relaxed">
                   <p><strong class="text-primary">Customer:</strong> ${customer ? customer.name : 'Guest'}</p>
-                  <p><strong class="text-primary">Est. Arrival:</strong> ${tracking ? tracking.estimatedTime : 'N/A'}</p>
-                  <p><strong class="text-primary">Driver:</strong> ${tracking ? tracking.driverName : 'N/A'}</p>
-                  <p><strong class="text-primary">Contact:</strong> ${tracking ? tracking.driverPhone : 'N/A'}</p>
+                  <p><strong class="text-primary">Est. Ready:</strong> ${tracking ? tracking.estimatedTime : 'N/A'}</p>
+                  <p><strong class="text-primary">Handled by:</strong> ${tracking ? tracking.driverName : 'Hot Meal Ba Team'}</p>
                 </div>
               </div>
             </div>
@@ -873,9 +896,9 @@ export const customerViews = {
       } else {
         resultHtml = `
           <div class="glass-card rounded-[2rem] p-12 text-center border border-secondary/5">
-            <svg class="w-12 h-12 mx-auto mb-4 text-secondary/35" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+            <div class="text-4xl mb-4">🔍</div>
             <p class="font-display font-bold text-lg text-primary mb-2">Order Not Found</p>
-            <p class="text-xs text-secondary-light">No order matches "${trackOrderResult.query}". Please check the order ID and try again.</p>
+            <p class="text-xs text-secondary-light">No order matches "<strong>${trackOrderResult.query}</strong>". Please check your order ID and try again.</p>
           </div>
         `;
       }
@@ -888,10 +911,10 @@ export const customerViews = {
               ${recentOrders.map(o => `
                 <button onclick="window.app.trackOrderLookup('${o.orderId}')" class="w-full flex items-center justify-between p-4 bg-background rounded-2xl border border-secondary/5 hover:border-accent/30 hover:bg-white transition-all cursor-pointer text-left">
                   <div class="flex items-center gap-3">
-                    ${o.meal ? `<img src="${o.meal.image}" alt="${o.meal.mealName}" class="w-10 h-10 rounded-xl object-cover border border-secondary/10" />` : ''}
+                    ${o.meal ? `<img src="${o.meal.image}" alt="${o.meal.mealName}" class="w-10 h-10 rounded-xl object-cover border border-secondary/10" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100'" />` : '<div class="w-10 h-10 rounded-xl bg-background-dark flex items-center justify-center text-lg">🥟</div>'}
                     <div>
                       <span class="font-display font-semibold text-sm text-primary block">${o.orderId}</span>
-                      <span class="text-xs text-secondary-light">${o.meal ? o.meal.mealName : 'Unknown'} · $${o.amount.toFixed(2)}</span>
+                      <span class="text-xs text-secondary-light">${o.meal ? o.meal.mealName : 'Dumplings'} · RM ${o.amount.toFixed(2)}</span>
                     </div>
                   </div>
                   <span class="px-3 py-1 rounded-full text-[10px] font-bold ${statusColors[o.status] || 'bg-gray-100 text-gray-700'}">${statusLabels[o.status] || o.status}</span>
@@ -907,12 +930,12 @@ export const customerViews = {
       <section class="max-w-3xl mx-auto space-y-8">
         <div class="text-center space-y-3">
           <h1 class="font-display text-3xl md:text-4xl font-extrabold text-primary">Track Your Order</h1>
-          <p class="text-sm text-secondary-light">Enter your order ID to check the real-time status of your delivery.</p>
+          <p class="text-sm text-secondary-light">Enter your order ID to check the live status of your dumpling order.</p>
         </div>
         <div class="glass-card rounded-[2rem] p-6 md:p-8 border border-secondary/5">
           <form onsubmit="event.preventDefault(); window.app.trackOrderLookup(this.orderId.value)" class="flex flex-col sm:flex-row gap-3">
             <div class="relative flex-grow">
-              <input type="text" name="orderId" id="trackOrderInput" placeholder="Enter Order ID (e.g. ord_1234)" class="form-input-premium text-sm py-3 pl-11" value="${trackOrderResult ? trackOrderResult.query : ''}" />
+              <input type="text" name="orderId" placeholder="Enter Order ID (e.g. ord_0001)" class="form-input-premium text-sm py-3 pl-11" value="${trackOrderResult ? trackOrderResult.query : ''}" />
               <svg class="w-5 h-5 text-secondary/40 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
             </div>
             <button type="submit" class="bg-accent hover:bg-accent-dark text-white font-semibold px-8 py-3 rounded-xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer text-sm whitespace-nowrap">Track Order</button>
@@ -935,6 +958,195 @@ export const customerViews = {
     if (store.state.activeView === 'track-order' && container) {
       this.renderTrackOrder(container);
     }
+  },
+
+  // ─── 4. SELLER REGISTRATION ──────────────────────────────────────────────────
+  renderApplyJob(container) {
+    container.innerHTML = `
+      <section class="relative bg-primary rounded-[2rem] overflow-hidden mb-12 shadow-premium text-white">
+        <div class="absolute inset-0 bg-gradient-to-r from-primary-dark/90 to-transparent z-0"></div>
+        <div class="absolute -top-10 -right-10 w-64 h-64 rounded-full bg-accent/10 z-0"></div>
+        <div class="max-w-2xl relative z-10 space-y-5 p-8 md:p-14">
+          <span class="text-accent bg-accent/15 border border-accent/20 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider">Seller Programme</span>
+          <h1 class="font-display text-3xl md:text-4xl lg:text-5xl text-white font-extrabold leading-tight">
+            Become a Frozen Dumpling <span class="text-accent">Seller</span>
+          </h1>
+          <p class="text-white/70 text-sm md:text-base leading-relaxed">
+            UTM students can join our reseller programme — sell premium halal frozen dumplings to your campus community and earn commission on every order. No upfront cost, no inventory to manage.
+          </p>
+        </div>
+      </section>
+
+      <div class="flex flex-col lg:flex-row gap-8">
+        <!-- Benefits sidebar -->
+        <aside class="w-full lg:w-80 flex-shrink-0">
+          <div class="glass-card rounded-[2rem] p-6 border border-secondary/5 space-y-5">
+            <h3 class="font-display font-bold text-lg text-primary">Why Become a Seller?</h3>
+            <div class="space-y-4">
+              ${[
+                { icon: '💰', color: 'bg-accent/10 text-accent', title: 'Earn Commission', desc: 'Get RM 1.50–RM 3.00 per pack sold, paid weekly to your bank account.' },
+                { icon: '📅', color: 'bg-success/10 text-success', title: 'Flexible Hours', desc: 'Sell around your class schedule — no fixed shifts required.' },
+                { icon: '🚚', color: 'bg-primary/10 text-primary', title: 'We Handle Supply', desc: 'We pack and supply the dumplings — you just collect orders and payments.' },
+                { icon: '🎓', color: 'bg-yellow-100 text-yellow-600', title: 'Student-Friendly', desc: 'Designed for UTM students. No experience needed, just a phone and network!' }
+              ].map(b => `
+                <div class="flex items-start gap-3">
+                  <div class="w-9 h-9 ${b.color} rounded-xl flex items-center justify-center flex-shrink-0 mt-0.5 text-lg">${b.icon}</div>
+                  <div>
+                    <h4 class="font-display font-semibold text-sm text-primary">${b.title}</h4>
+                    <p class="text-xs text-secondary-light leading-relaxed">${b.desc}</p>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+
+            <!-- Info box -->
+            <div class="bg-accent/5 border border-accent/15 rounded-2xl p-4 text-xs text-secondary-light leading-relaxed">
+              <strong class="text-primary block mb-1">Settlement Info</strong>
+              Commissions are calculated every Sunday and transferred to your registered bank account by Monday. You can view your settlement status in the Seller Portal.
+            </div>
+          </div>
+        </aside>
+
+        <!-- Registration Form -->
+        <main class="flex-grow">
+          <div class="glass-card rounded-[2rem] p-6 md:p-8 border border-secondary/5 space-y-6">
+            <h2 class="font-display text-2xl font-bold text-primary border-b border-secondary/5 pb-4">Seller Registration Form</h2>
+
+            <form id="applyJobForm" onsubmit="event.preventDefault(); window.app.submitApplication(new FormData(this))" class="space-y-4">
+
+              <!-- Personal info -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-secondary-light block">Full Name <span class="text-accent">*</span></label>
+                  <input type="text" name="fullName" required placeholder="e.g. Nurul Ain binti Ahmad" class="form-input-premium text-sm py-2.5" />
+                </div>
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-secondary-light block">Matric / IC Number <span class="text-accent">*</span></label>
+                  <input type="text" name="studentId" required placeholder="e.g. A21CS1234" class="form-input-premium text-sm py-2.5" />
+                </div>
+              </div>
+
+              <!-- UTM info -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-secondary-light block">Faculty / Department <span class="text-accent">*</span></label>
+                  <input type="text" name="faculty" required placeholder="e.g. Faculty of Computing" class="form-input-premium text-sm py-2.5" />
+                </div>
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-secondary-light block">Year of Study <span class="text-accent">*</span></label>
+                  <select name="year" required class="form-input-premium text-sm py-2.5">
+                    <option value="">Select year...</option>
+                    <option value="1">Year 1</option>
+                    <option value="2">Year 2</option>
+                    <option value="3">Year 3</option>
+                    <option value="4">Year 4</option>
+                    <option value="postgrad">Postgraduate</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Contact -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-secondary-light block">Email Address <span class="text-accent">*</span></label>
+                  <input type="email" name="email" required placeholder="e.g. nurul@graduate.utm.my" class="form-input-premium text-sm py-2.5" />
+                </div>
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-secondary-light block">WhatsApp Number <span class="text-accent">*</span></label>
+                  <input type="tel" name="phone" required placeholder="e.g. 012-345 6789" class="form-input-premium text-sm py-2.5" />
+                </div>
+              </div>
+
+              <!-- Selling details -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-secondary-light block">Intended Selling Location <span class="text-accent">*</span></label>
+                  <input type="text" name="location" required placeholder="e.g. KTF Block A, Dewan Makan KTF" class="form-input-premium text-sm py-2.5" />
+                </div>
+                <div class="space-y-1">
+                  <label class="text-xs font-semibold text-secondary-light block">Expected Weekly Sales (packs) <span class="text-accent">*</span></label>
+                  <select name="weeklyVolume" required class="form-input-premium text-sm py-2.5">
+                    <option value="">Select range...</option>
+                    <option value="1-10">1–10 packs</option>
+                    <option value="11-30">11–30 packs</option>
+                    <option value="31-50">31–50 packs</option>
+                    <option value="50+">50+ packs</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Bank account for settlement -->
+              <div class="pt-4 border-t border-secondary/5">
+                <h3 class="font-display font-semibold text-sm text-primary mb-3">Settlement / Payment Details</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div class="space-y-1">
+                    <label class="text-xs font-semibold text-secondary-light block">Bank Name <span class="text-accent">*</span></label>
+                    <select name="bank" required class="form-input-premium text-sm py-2.5">
+                      <option value="">Select bank...</option>
+                      <option value="Maybank">Maybank</option>
+                      <option value="CIMB">CIMB Bank</option>
+                      <option value="RHB">RHB Bank</option>
+                      <option value="Public Bank">Public Bank</option>
+                      <option value="Bank Islam">Bank Islam</option>
+                      <option value="Bank Rakyat">Bank Rakyat</option>
+                      <option value="BSN">BSN</option>
+                      <option value="AmBank">AmBank</option>
+                    </select>
+                  </div>
+                  <div class="space-y-1">
+                    <label class="text-xs font-semibold text-secondary-light block">Bank Account Number <span class="text-accent">*</span></label>
+                    <input type="text" name="bankAccount" required placeholder="e.g. 1234567890" class="form-input-premium text-sm py-2.5" />
+                  </div>
+                </div>
+              </div>
+
+              <!-- Motivation -->
+              <div class="space-y-1">
+                <label class="text-xs font-semibold text-secondary-light block">Why do you want to become a seller? <span class="text-accent">*</span></label>
+                <textarea name="motivation" rows="3" required placeholder="Tell us about your motivation and how you plan to sell dumplings to your campus community..." class="form-input-premium text-sm py-2.5"></textarea>
+              </div>
+
+              <!-- Agreement -->
+              <div class="pt-2">
+                <label class="flex items-start gap-3 cursor-pointer">
+                  <input type="checkbox" name="agree" required class="accent-accent mt-0.5" />
+                  <span class="text-xs text-secondary-light leading-relaxed">I confirm that I am a registered UTM student and I agree to the Hot Meal Ba seller programme terms and conditions. I understand that settlement will be made weekly to the bank account provided.</span>
+                </label>
+              </div>
+
+              <div class="pt-6 border-t border-secondary/5 flex justify-end gap-3">
+                <button type="button" onclick="window.app.switchView('home')" class="px-6 py-3 border border-secondary/15 rounded-2xl text-secondary hover:bg-background-dark font-medium text-sm transition-all cursor-pointer">Cancel</button>
+                <button type="submit" class="px-8 py-3 bg-accent hover:bg-accent-dark text-white font-semibold rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer text-sm">Submit Application</button>
+              </div>
+            </form>
+          </div>
+        </main>
+      </div>
+    `;
+  },
+
+  submitApplication(formData) {
+    const application = {
+      fullName: formData.get('fullName'),
+      studentId: formData.get('studentId'),
+      faculty: formData.get('faculty'),
+      year: formData.get('year'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      location: formData.get('location'),
+      weeklyVolume: formData.get('weeklyVolume'),
+      bank: formData.get('bank'),
+      bankAccount: formData.get('bankAccount'),
+      motivation: formData.get('motivation'),
+      submittedAt: new Date().toISOString()
+    };
+
+    const apps = JSON.parse(localStorage.getItem('hmb_seller_applications') || '[]');
+    apps.push(application);
+    localStorage.setItem('hmb_seller_applications', JSON.stringify(apps));
+
+    window.app.showFloatingAlert('Application submitted! We will contact you via WhatsApp within 2–3 working days.', 'success');
+    window.app.switchView('home');
   }
 };
 
