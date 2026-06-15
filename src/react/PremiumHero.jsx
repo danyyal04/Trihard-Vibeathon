@@ -40,6 +40,53 @@ const flour = [
   [66, 25, 4], [73, 42, 3], [48, 18, 2], [82, 31, 4]
 ];
 
+function DumplingSVG({ className, style }) {
+  return (
+    <svg className={className} style={style} viewBox="0 0 100 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M 12 44 Q 50 6 88 44 Q 78 58 50 58 Q 22 58 12 44 Z"
+        fill="currentColor"
+        opacity="0.18"
+      />
+      <path
+        d="M 12 40 Q 50 2 88 40 Q 78 54 50 54 Q 22 54 12 40 Z"
+        fill="#ffffff"
+        stroke="currentColor"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M 28 28 Q 33 22 38 28"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M 44 23 Q 50 16 56 23"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+      <path
+        d="M 62 28 Q 67 22 72 28"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+const dumplings = [
+  { left: 10, top: 15, size: 68, rotate: -25, delay: 0, duration: 12 },
+  { left: 78, top: 20, size: 84, rotate: 35, delay: 2, duration: 16 },
+  { left: 45, top: 8, size: 55, rotate: 10, delay: 1, duration: 10 },
+  { left: 85, top: 75, size: 76, rotate: -45, delay: 3, duration: 14 },
+  { left: 5, top: 65, size: 80, rotate: 15, delay: 1.5, duration: 18 },
+  { left: 32, top: 85, size: 60, rotate: 50, delay: 4, duration: 13 },
+];
+
 function PremiumHero() {
   const sectionRef = useRef(null);
   const reduceMotion = useReducedMotion();
@@ -58,27 +105,63 @@ function PremiumHero() {
   const introY = useTransform(progress, [0, 0.2], [0, -36]);
   const pullAmount = useTransform(progress, [0.04, 0.92], [0, 1]);
   const noodleOpacity = useTransform(progress, [0.12, 0.16], [0, 1]);
+  const dumplingOpacity = useTransform(progress, [0, 0.2], [0.4, 0.9]);
   const haloScale = useTransform(progress, [0, 1], [0.84, 1.12]);
   const finalOpacity = useTransform(progress, [0.88, 0.98], [0, 1]);
   const progressWidth = useTransform(progress, [0, 1], ['0%', '100%']);
   const noodlePaths = [
-    useTransform(pullAmount, (value) => noodlePath(value, 348, 338, -14)),
-    useTransform(pullAmount, (value) => noodlePath(value, 351, 346, -7)),
+    useTransform(pullAmount, (value) => noodlePath(value, 338, 318, -20)),
+    useTransform(pullAmount, (value) => noodlePath(value, 346, 336, -10)),
     useTransform(pullAmount, (value) => noodlePath(value, 354, 354, 0)),
-    useTransform(pullAmount, (value) => noodlePath(value, 357, 362, 7)),
-    useTransform(pullAmount, (value) => noodlePath(value, 360, 370, 14))
+    useTransform(pullAmount, (value) => noodlePath(value, 362, 372, 10)),
+    useTransform(pullAmount, (value) => noodlePath(value, 370, 390, 20))
   ];
-  const upperChopstick = useTransform(pullAmount, (value) => chopstickPath(value, -7, -58));
-  const lowerChopstick = useTransform(pullAmount, (value) => chopstickPath(value, 7, -21));
+  const upperChopstick = useTransform(pullAmount, (value) => chopstickPath(value, -20, -58));
+  const lowerChopstick = useTransform(pullAmount, (value) => chopstickPath(value, 20, -21));
   const gripPath = useTransform(pullAmount, (value) => {
     const y = noodleTopY(value);
-    return `M346 ${y - 4} Q354 ${y + 8} 362 ${y + 4}`;
+    return `M334 ${y - 4} Q354 ${y + 12} 374 ${y + 4}`;
   });
 
   return (
     <section ref={sectionRef} className="pull-story" aria-labelledby="pull-story-title">
       <div className="pull-story-sticky">
         <div className="pull-story-grid" aria-hidden="true" />
+
+        {/* Floating Dumplings Background */}
+        <motion.div
+          className="pull-story-dumplings"
+          style={reduceMotion ? {} : { opacity: dumplingOpacity }}
+          aria-hidden="true"
+        >
+          {dumplings.map((d, index) => (
+            <motion.div
+              key={index}
+              className="pull-story-dumpling-item"
+              style={{
+                left: `${d.left}%`,
+                top: `${d.top}%`,
+                width: d.size,
+                height: d.size * 0.64,
+                color: 'rgba(176, 97, 67, 0.76)',
+              }}
+              animate={reduceMotion ? {} : {
+                x: [0, index % 2 ? 25 : -25, 0],
+                y: [0, index % 3 ? -30 : 30, 0],
+                rotate: [d.rotate, d.rotate + 15, d.rotate - 15, d.rotate],
+              }}
+              transition={{
+                duration: d.duration,
+                delay: d.delay,
+                repeat: Infinity,
+                ease: 'easeInOut',
+              }}
+            >
+              <DumplingSVG />
+            </motion.div>
+          ))}
+        </motion.div>
+
         <motion.div className="pull-story-halo" style={{ scale: haloScale }} aria-hidden="true" />
 
         <motion.header
@@ -149,8 +232,8 @@ function PremiumHero() {
               />
               <path d="M133 585 C192 613 262 626 350 626 C438 626 508 613 567 585" fill="none" stroke="#c97c5d" strokeWidth="8" opacity=".9" />
               <path d="M232 680 C288 699 412 699 468 680" fill="none" stroke="#415a77" strokeWidth="5" strokeLinecap="round" opacity=".72" />
-              <path d="M190 552 C242 510 305 588 358 544 C409 502 469 583 518 542" fill="none" stroke="#f2d29b" strokeWidth="18" strokeLinecap="round" />
-              <path d="M208 570 C263 527 320 584 373 560 C425 537 464 571 494 556" fill="none" stroke="#dfad72" strokeWidth="12" strokeLinecap="round" />
+              <path d="M190 552 C242 510 305 588 358 544 C409 502 469 583 518 542" fill="none" stroke="#f2d29b" strokeWidth="30" strokeLinecap="round" />
+              <path d="M208 570 C263 527 320 584 373 560 C425 537 464 571 494 556" fill="none" stroke="#dfad72" strokeWidth="22" strokeLinecap="round" />
               <circle cx="229" cy="535" r="13" fill="#2a9d8f" />
               <circle cx="478" cy="534" r="11" fill="#2a9d8f" />
               <circle cx="435" cy="576" r="9" fill="#c97c5d" />
