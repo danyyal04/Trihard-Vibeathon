@@ -96,7 +96,7 @@ export const customerViews = {
       .sort((a, b) => b.rating - a.rating)
       .slice(0, 4);
 
-    const categories = ['All', 'Beef', 'Chicken', 'Prawn', 'Vegetable', 'Combo Pack'];
+    const categories = ['All', 'Dumplings', 'Soup Noodles', 'Dry Noodles', 'Fried Noodles', 'Rice', 'Drinks'];
 
     container.innerHTML = `
       <div id="premium-hero-root"></div>
@@ -159,10 +159,10 @@ export const customerViews = {
         </div>
       </section>
 
-      <!-- ── Featured Dumplings ─────────────────────────────────────────── -->
+      <!-- ── Featured Dishes ───────────────────────────────────────────── -->
       <section class="mb-12">
-        <h2 class="text-2xl font-bold font-display text-primary mb-2">Top-Rated Dumplings</h2>
-        <p class="text-sm text-secondary-light mb-6">Our highest-rated flavours, loved by students across UTM campus.</p>
+        <h2 class="text-2xl font-bold font-display text-primary mb-2">Top-Rated Dishes</h2>
+        <p class="text-sm text-secondary-light mb-6">Our highest-rated items, loved by students across UTM campus.</p>
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           ${featuredMeals.map(meal => renderMealCard(meal)).join('')}
         </div>
@@ -204,9 +204,9 @@ export const customerViews = {
     }
   },
 
-  // ─── 2. DUMPLING ORDERING CATALOG ───────────────────────────────────────────
+  // ─── 2. FOOD ORDERING CATALOG ───────────────────────────────────────────────
   renderCatalog(container) {
-    const categories = ['All', 'Beef', 'Chicken', 'Prawn', 'Vegetable', 'Combo Pack'];
+    const categories = ['All', 'Dumplings', 'Soup Noodles', 'Dry Noodles', 'Fried Noodles', 'Rice', 'Drinks'];
     const results = dataLoader.queryMeals(catalogFilters);
 
     container.innerHTML = `
@@ -215,7 +215,7 @@ export const customerViews = {
         <aside class="w-full lg:w-64 flex-shrink-0 space-y-6">
           <div class="glass-card rounded-[2rem] p-6 border border-secondary/5 space-y-6">
             <div>
-              <h3 class="font-display font-bold text-lg text-primary mb-4">Filter Dumplings</h3>
+              <h3 class="font-display font-bold text-lg text-primary mb-4">Filter Menu</h3>
               <!-- Search -->
               <div class="relative">
                 <input
@@ -223,7 +223,7 @@ export const customerViews = {
                   id="catalogSearch"
                   value="${catalogFilters.search}"
                   oninput="window.app.catalogSearch(this.value)"
-                  placeholder="Search dumplings..."
+                  placeholder="Search menu..."
                   class="w-full pl-10 pr-4 py-2.5 bg-background border border-secondary/10 rounded-xl focus:outline-none focus:border-accent text-sm"
                 />
                 <svg class="w-4 h-4 text-secondary/40 absolute left-3.5 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
@@ -235,7 +235,7 @@ export const customerViews = {
               <h4 class="font-display font-semibold text-xs uppercase tracking-wider text-secondary-light mb-3">Category</h4>
               <div class="flex flex-col gap-2">
                 ${categories.map(cat => {
-                  const icons = { All: '🥟', Beef: '🥩', Chicken: '🍗', Prawn: '🦐', Vegetable: '🥦', 'Combo Pack': '📦' };
+                  const icons = { All: '🍽️', Dumplings: '🥟', 'Soup Noodles': '🍜', 'Dry Noodles': '🥢', 'Fried Noodles': '🥘', Rice: '🍚', Drinks: '🥤' };
                   const isActive = cat === catalogFilters.category;
                   return `
                     <button
@@ -277,15 +277,15 @@ export const customerViews = {
         <main class="flex-grow">
           <div class="flex items-center justify-between mb-6">
             <div>
-              <h2 class="text-2xl font-bold font-display text-primary">Our Dumplings</h2>
+              <h2 class="text-2xl font-bold font-display text-primary">Our Menu</h2>
               <p class="text-xs text-secondary-light mt-1">${results.total} products available${catalogFilters.category !== 'All' ? ` in <strong>${catalogFilters.category}</strong>` : ''}</p>
             </div>
           </div>
 
           ${results.items.length === 0 ? `
             <div class="glass-card rounded-[2rem] p-12 text-center text-secondary border border-secondary/5 mt-4">
-              <div class="text-5xl mb-4">🥟</div>
-              <p class="font-display font-semibold text-primary mb-2">No dumplings found</p>
+              <div class="text-5xl mb-4">🍽️</div>
+              <p class="font-display font-semibold text-primary mb-2">No items found</p>
               <p class="text-xs text-secondary-light">Try adjusting your search or filters.</p>
             </div>
           ` : `
@@ -745,8 +745,8 @@ export const customerViews = {
         <div class="glass-card rounded-[2rem] p-12 text-center text-secondary border border-secondary/5 mt-4">
           <div class="text-5xl mb-4">🛒</div>
           <p class="font-display font-bold text-lg text-primary mb-2">Your cart is empty</p>
-          <p class="text-xs text-secondary-light mb-6">Add some dumplings to your cart before checking out.</p>
-          <button onclick="window.app.switchView('catalog')" class="bg-primary text-white font-semibold px-6 py-2.5 rounded-xl text-xs">Browse Dumplings</button>
+          <p class="text-xs text-secondary-light mb-6">Add some food to your cart before checking out.</p>
+          <button onclick="window.app.switchView('catalog')" class="bg-primary text-white font-semibold px-6 py-2.5 rounded-xl text-xs">Order Food</button>
         </div>
       `;
       return;
@@ -1010,7 +1010,7 @@ export const customerViews = {
           <div class="text-5xl mb-4">📦</div>
           <p class="font-display font-bold text-lg text-primary mb-2">No active orders</p>
           <p class="text-xs text-secondary-light mb-6">You have no orders being prepared right now.</p>
-          <button onclick="window.app.switchView('catalog')" class="bg-primary text-white font-semibold px-6 py-2.5 rounded-xl text-xs">Order Dumplings</button>
+          <button onclick="window.app.switchView('catalog')" class="bg-primary text-white font-semibold px-6 py-2.5 rounded-xl text-xs">Order Food</button>
         </div>
       `;
       return;
@@ -1685,8 +1685,29 @@ export const customerViews = {
     apps.push(application);
     localStorage.setItem('hmb_seller_applications', JSON.stringify(apps));
 
-    window.app.showFloatingAlert('Application submitted! We will contact you via WhatsApp within 2–3 working days.', 'success');
-    window.app.switchView('home');
+    const form = document.getElementById('applyJobForm');
+    if (form) {
+      const wrapper = form.closest('section') || form.parentElement;
+      wrapper.innerHTML = `
+        <div class="flex flex-col items-center justify-center text-center py-16 px-6 animate-slide-up">
+          <div class="w-20 h-20 rounded-full bg-success/10 flex items-center justify-center mb-6">
+            <svg class="w-10 h-10 text-success" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/>
+            </svg>
+          </div>
+          <h2 class="font-display font-bold text-2xl text-primary mb-2">Application Submitted!</h2>
+          <p class="text-secondary-light text-sm max-w-xs mb-2">
+            Thank you, <span class="font-semibold text-charcoal">${application.fullName}</span>!
+          </p>
+          <p class="text-secondary-light text-sm max-w-xs mb-8">
+            We will review your application and contact you at <span class="font-semibold text-charcoal">${application.email}</span> or via WhatsApp within <strong>2–3 working days</strong>.
+          </p>
+          <button onclick="window.app.switchView('home')" class="px-8 py-3 bg-accent hover:bg-accent-dark text-white font-semibold rounded-2xl shadow-accent-glow hover:shadow-none transition-all text-sm cursor-pointer">
+            Back to Home
+          </button>
+        </div>
+      `;
+    }
   }
 };
 
