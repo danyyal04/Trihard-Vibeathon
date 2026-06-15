@@ -9,7 +9,8 @@ class AppStore {
       orders: [],
       delivery: [],
       ratings: [],
-      cart: [], // [{ mealId, quantity }]
+      cart: [], // [{ mealId, quantity, addedBy }]
+      tableSession: null, // { tableNo, myName, members: [{ name, avatar, tone }] }
       activeOrder: null, // Order currently being tracked by customer
       selectedMealId: null, // For details modal
       adminSelectedCustomerId: null, // Admin details view drawer
@@ -74,15 +75,36 @@ class AppStore {
     }
   }
 
+  // --- Table Session ---
+  joinTable({ tableNo, myName }) {
+    const tones = ['bg-pink-400','bg-blue-400','bg-indigo-500','bg-amber-500','bg-teal-500','bg-violet-400','bg-rose-400'];
+    const sess = this.state.tableSession;
+    const existingMembers = sess ? [...sess.members] : [];
+    // Add self if not already present
+    const selfAlready = existingMembers.find(m => m.name === myName);
+    if (!selfAlready) {
+      existingMembers.push({ name: myName, avatar: myName.slice(0,2).toUpperCase(), tone: tones[existingMembers.length % tones.length] });
+    }
+    this.setState({
+      tableSession: { tableNo, myName, members: existingMembers }
+    });
+  }
+
+  leaveTable() {
+    this.setState({ tableSession: null });
+    this.clearCart();
+  }
+
   // --- Cart Actions ---
   addToCart(mealId, qty = 1) {
     const cart = [...this.state.cart];
-    const existingIndex = cart.findIndex(item => item.mealId === mealId);
+    const myName = this.state.tableSession?.myName || 'Guest';
+    const existingIndex = cart.findIndex(item => item.mealId === mealId && item.addedBy === myName);
     
     if (existingIndex > -1) {
       cart[existingIndex].quantity += qty;
     } else {
-      cart.push({ mealId, quantity: qty });
+      cart.push({ mealId, quantity: qty, addedBy: myName });
     }
 
     this.saveCart(cart);
