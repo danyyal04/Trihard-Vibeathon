@@ -163,6 +163,8 @@ class App {
 
     // 2. Render view container
     if (this.viewContainer) {
+      window.unmountPremiumHero?.();
+
       // Clear viewport
       this.viewContainer.innerHTML = '';
       
@@ -193,6 +195,9 @@ class App {
           break;
         case 'track-order':
           customerViews.renderTrackOrder(this.viewContainer);
+          break;
+        case 'review-shared-order':
+          customerViews.renderReviewSharedOrder(this.viewContainer);
           break;
         case 'admin-customers':
           adminViews.renderCustomers(this.viewContainer);
@@ -327,4 +332,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
   app.start();
 });
-

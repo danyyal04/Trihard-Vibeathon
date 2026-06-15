@@ -12,7 +12,7 @@ export function renderRatingStars(rating) {
       html += `<svg class="w-4 h-4 text-accent fill-current" viewBox="0 0 20 20">
         <defs>
           <linearGradient id="halfStar">
-            <stop offset="50%" stop-color="#0AADAD"/>
+            <stop offset="50%" stop-color="#C97C5D"/>
             <stop offset="50%" stop-color="#E0DCD3"/>
           </linearGradient>
         </defs>
