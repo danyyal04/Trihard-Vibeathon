@@ -31,6 +31,13 @@ let sharedPaymentStatuses = {
   Emily: 'pending'
 };
 
+let sharedOnlinePaymentChannels = {
+  Sarah: 'qr',
+  Alex: 'tng',
+  John: 'qr',
+  Emily: 'duitnow'
+};
+
 const sharedOrderRows = [
   { id: 1, customer: 'Sarah', avatar: 'SR', item: 'Chicken Dumplings', qty: 2, price: 12.00, image: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=200&auto=format&fit=crop&q=80' },
   { id: 2, customer: 'Sarah', avatar: 'SR', item: 'Iced Tea', qty: 1, price: 4.00, image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?w=200&auto=format&fit=crop&q=80' },
@@ -463,7 +470,7 @@ export const customerViews = {
               <span class="text-xl font-extrabold text-primary block font-display">RM ${meal.price.toFixed(2)}</span>
             </div>
             <button
-              onclick="window.app.addToCart('${meal.mealId}'); window.app.closeMealDetails();"
+              onclick="if (window.app.addToCart('${meal.mealId}')) { window.app.closeMealDetails(); }"
               class="bg-accent hover:bg-accent-dark text-white font-semibold text-sm px-6 py-3 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer active:scale-95 flex items-center gap-2"
             >
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15"/></svg>
@@ -482,128 +489,306 @@ export const customerViews = {
     if (!drawerContainer || !footerContainer) return;
 
     const cart = store.state.cart;
-    
+    const session = store.state.tableSession;
+
+    const tablePickerMarkup = `
+      <div class="space-y-4">
+        <div class="bg-primary/5 border border-primary/15 rounded-2xl p-4">
+          <p class="text-xs font-bold uppercase tracking-wider text-primary mb-1">Step 1</p>
+          <h4 class="font-display text-sm font-bold text-primary">Choose Table For Shared Cart</h4>
+          <p class="text-xs text-secondary-light mt-1">Select the same table as your members, enter your name, then start adding items.</p>
+        </div>
+
+        <div class="space-y-2">
+          <label class="text-xs font-semibold text-secondary-light block">Your Name</label>
+          <input id="cart-session-name" type="text" placeholder="e.g. Sarah" class="form-input-premium text-sm py-2.5" />
+        </div>
+
+        <div class="space-y-2">
+          <p class="text-xs font-semibold text-secondary-light">Select Table</p>
+          <div id="table-picker-grid" class="grid grid-cols-4 gap-2">
+            ${['T01','T02','T03','T04','T05','T06','T07','T08'].map(table => `
+              <button
+                type="button"
+                data-table="${table}"
+                class="table-btn h-10 rounded-xl border border-secondary/10 bg-white text-secondary text-xs font-semibold transition-all hover:border-primary/40"
+              >
+                ${table}
+              </button>
+            `).join('')}
+          </div>
+        </div>
+
+        <div class="space-y-2">
+          <p class="text-xs font-semibold text-secondary-light">Current Members</p>
+          <div id="cart-members-list" class="flex flex-wrap gap-2 min-h-[34px] items-center rounded-xl border border-secondary/10 bg-background px-2.5 py-2">
+            <span class="text-xs text-secondary-light italic">Select a table to view members.</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    const wireTablePicker = () => {
+      requestAnimationFrame(() => {
+        const grid = document.getElementById('table-picker-grid');
+        if (!grid) return;
+
+        const currentTable = session?.tableNo || window._chosenTable || null;
+        const paintMembers = (tableNo) => {
+          const members = window._tableMembers?.[tableNo] || [];
+          const list = document.getElementById('cart-members-list');
+          if (!list) return;
+          if (!tableNo) {
+            list.innerHTML = '<span class="text-xs text-secondary-light italic">Select a table to view members.</span>';
+            return;
+          }
+          if (members.length === 0) {
+            list.innerHTML = '<span class="text-xs text-secondary-light italic">No members yet - be the first!</span>';
+            return;
+          }
+          list.innerHTML = members.map(m => `
+            <span class="flex items-center gap-1.5 bg-background border border-secondary/10 rounded-full pl-1 pr-3 py-0.5">
+              <span class="w-5 h-5 rounded-full ${m.tone} text-white text-[9px] font-bold flex items-center justify-center">${m.av}</span>
+              <span class="text-xs font-medium text-primary">${m.name}</span>
+            </span>
+          `).join('');
+        };
+
+        grid.querySelectorAll('.table-btn').forEach(btn => {
+          const isActive = currentTable && btn.dataset.table === currentTable;
+          if (isActive) {
+            btn.classList.add('bg-primary', 'text-white', 'border-primary', 'shadow-md');
+            btn.classList.remove('border-secondary/10', 'bg-white', 'text-secondary');
+            window._chosenTable = btn.dataset.table;
+          }
+
+          btn.addEventListener('click', () => {
+            grid.querySelectorAll('.table-btn').forEach(b => {
+              b.classList.remove('bg-primary', 'text-white', 'border-primary', 'shadow-md');
+              b.classList.add('border-secondary/10', 'bg-white', 'text-secondary');
+            });
+            btn.classList.add('bg-primary', 'text-white', 'border-primary', 'shadow-md');
+            btn.classList.remove('border-secondary/10', 'bg-white', 'text-secondary');
+            window._chosenTable = btn.dataset.table;
+            paintMembers(btn.dataset.table);
+          });
+        });
+
+        paintMembers(window._chosenTable || currentTable);
+      });
+    };
+
+    if (!session) {
+      drawerContainer.innerHTML = tablePickerMarkup;
+      footerContainer.innerHTML = `
+        <div class="space-y-2">
+          <button
+            onclick="window.app.confirmJoinTable()"
+            class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3.5 rounded-2xl transition-all cursor-pointer text-sm"
+          >
+            Join Table & Start Shared Cart
+          </button>
+          <button
+            onclick="window.app.switchView('catalog'); window.app.closeCartDrawer();"
+            class="w-full bg-white border border-secondary/15 text-secondary hover:bg-background-dark font-semibold py-3.5 rounded-2xl transition-all cursor-pointer text-sm"
+          >
+            Browse Meals
+          </button>
+        </div>
+      `;
+      wireTablePicker();
+      return;
+    }
+
+    const groupedCart = Object.values(cart.reduce((acc, item) => {
+      const meal = store.state.meals.find((m) => m.mealId === item.mealId);
+      if (!meal) return acc;
+      if (!acc[item.mealId]) {
+        acc[item.mealId] = {
+          mealId: item.mealId,
+          mealName: meal.mealName,
+          image: meal.image,
+          unitPrice: meal.price,
+          quantity: 0,
+          total: 0,
+          members: new Set()
+        };
+      }
+      acc[item.mealId].quantity += item.quantity;
+      acc[item.mealId].total += meal.price * item.quantity;
+      acc[item.mealId].members.add(item.addedBy || session.myName);
+      return acc;
+    }, {}));
+
+    const tableMembers = session.members || [];
+    const memberMap = (tableMembers || []).reduce((acc, member) => {
+      acc[member.name] = member;
+      return acc;
+    }, {});
+
+    const memberOrderSummary = Object.values(cart.reduce((acc, item) => {
+      const memberName = item.addedBy || session.myName;
+      const meal = store.state.meals.find((m) => m.mealId === item.mealId);
+      if (!meal) return acc;
+
+      if (!acc[memberName]) {
+        const meta = memberMap[memberName] || {};
+        acc[memberName] = {
+          name: memberName,
+          avatar: meta.avatar || memberName.slice(0, 2).toUpperCase(),
+          tone: meta.tone || 'bg-secondary',
+          items: {}
+        };
+      }
+
+      if (!acc[memberName].items[item.mealId]) {
+        acc[memberName].items[item.mealId] = {
+          mealName: meal.mealName,
+          quantity: 0
+        };
+      }
+
+      acc[memberName].items[item.mealId].quantity += item.quantity;
+      return acc;
+    }, {}));
+
+    const otherMemberOrders = memberOrderSummary.filter((entry) => entry.name !== session.myName);
+
     if (cart.length === 0) {
       drawerContainer.innerHTML = `
-        <div class="py-24 text-center text-secondary">
-          <svg class="w-16 h-16 mx-auto mb-4 text-secondary/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
-          <p class="font-display font-semibold text-primary mb-1">Your cart is empty</p>
-          <p class="text-xs text-secondary-light">Explore our catalog and add hot meals.</p>
+        <div class="space-y-4">
+          <div class="rounded-2xl border border-secondary/10 bg-background p-4">
+            <div class="flex items-center justify-between gap-2">
+              <div>
+                <p class="text-[10px] font-bold uppercase tracking-wider text-secondary-light">Shared Table</p>
+                <h4 class="font-display text-sm font-bold text-primary mt-0.5">${session.tableNo}</h4>
+              </div>
+              <button onclick="window.app.leaveTable()" class="text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-secondary/15 text-secondary hover:bg-white transition-colors cursor-pointer">Change Table</button>
+            </div>
+            <div class="flex flex-wrap gap-1.5 mt-3">
+              ${tableMembers.map(member => `
+                <span class="flex items-center gap-1.5 bg-white border border-secondary/10 rounded-full pl-1 pr-2.5 py-0.5">
+                  <span class="w-5 h-5 rounded-full ${member.tone} text-white text-[9px] font-bold flex items-center justify-center">${member.avatar}</span>
+                  <span class="text-[11px] font-medium text-primary">${member.name}</span>
+                </span>
+              `).join('')}
+            </div>
+          </div>
+
+          <div class="py-14 text-center text-secondary">
+            <svg class="w-16 h-16 mx-auto mb-4 text-secondary/20" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"/></svg>
+            <p class="font-display font-semibold text-primary mb-1">No shared items yet</p>
+            <p class="text-xs text-secondary-light">Add dumplings for table ${session.tableNo} to build your shared cart.</p>
+          </div>
         </div>
       `;
 
       footerContainer.innerHTML = `
-        <button 
-          onclick="window.app.closeCartDrawer(); window.app.switchView('catalog');" 
+        <button
+          onclick="window.app.switchView('catalog'); window.app.closeCartDrawer();"
           class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-3.5 rounded-2xl transition-all cursor-pointer text-sm"
         >
-          Browse Meals
+          Add Items For ${session.tableNo}
         </button>
       `;
-
-      // Wire up table selection highlights in the same tick
-      requestAnimationFrame(() => {
-        const grid = document.getElementById('table-picker-grid');
-        if (!grid) return;
-        grid.querySelectorAll('.table-btn').forEach(btn => {
-          btn.addEventListener('click', () => {
-            grid.querySelectorAll('.table-btn').forEach(b => {
-              b.classList.remove('bg-primary','text-white','border-primary','shadow-md');
-              b.classList.add('border-secondary/10','bg-white','text-secondary');
-            });
-            btn.classList.add('bg-primary','text-white','border-primary','shadow-md');
-            btn.classList.remove('border-secondary/10','bg-white','text-secondary');
-            // Show simulated members
-            const members = window._tableMembers?.[btn.dataset.table] || [];
-            const list = document.getElementById('cart-members-list');
-            if (list) {
-              if (members.length === 0) {
-                list.innerHTML = '<span class="text-xs text-secondary-light italic">No members yet — be the first!</span>';
-              } else {
-                list.innerHTML = members.map(m => `
-                  <span class="flex items-center gap-1.5 bg-background border border-secondary/10 rounded-full pl-1 pr-3 py-0.5">
-                    <span class="w-5 h-5 rounded-full ${m.tone} text-white text-[9px] font-bold flex items-center justify-center">${m.av}</span>
-                    <span class="text-xs font-medium text-primary">${m.name}</span>
-                  </span>
-                `).join('');
-              }
-            }
-            // Store chosen table in a temporary variable for confirmJoinTable
-            window._chosenTable = btn.dataset.table;
-          });
-        });
-      });
-
       return;
     }
 
-    // Load Cart Item Cards
-    drawerContainer.innerHTML = cart.map(item => {
-      const meal = store.state.meals.find(m => m.mealId === item.mealId);
-      if (!meal) return '';
-      return `
-        <div class="flex items-center gap-4 p-3.5 bg-background rounded-2xl border border-secondary/5">
-          <img src="${meal.image}" alt="${meal.mealName}" class="w-16 h-16 rounded-xl object-cover border border-secondary/10" />
-          <div class="flex-grow min-w-0">
-            <h4 class="font-display font-semibold text-sm text-primary truncate">${meal.mealName}</h4>
-            <span class="text-xs text-secondary-light block mb-2">$${meal.price.toFixed(2)}</span>
-            
-            <!-- Adjust Qty -->
-            <div class="flex items-center gap-3">
-              <button 
-                onclick="window.app.updateCartQuantity('${meal.mealId}', ${item.quantity - 1})"
-                class="w-7 h-7 bg-white border border-secondary/15 rounded-lg text-primary hover:bg-background-dark transition-all flex items-center justify-center cursor-pointer text-sm font-bold active:scale-90"
-              >
-                -
-              </button>
-              <span class="text-xs font-semibold text-primary w-4 text-center">${item.quantity}</span>
-              <button 
-                onclick="window.app.updateCartQuantity('${meal.mealId}', ${item.quantity + 1})"
-                class="w-7 h-7 bg-white border border-secondary/15 rounded-lg text-primary hover:bg-background-dark transition-all flex items-center justify-center cursor-pointer text-sm font-bold active:scale-90"
-              >
-                +
-              </button>
+    drawerContainer.innerHTML = `
+      <div class="space-y-4">
+        <div class="rounded-2xl border border-secondary/10 bg-background p-4 space-y-3">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <p class="text-[10px] font-bold uppercase tracking-wider text-secondary-light">Shared Table</p>
+              <h4 class="font-display text-sm font-bold text-primary mt-0.5">${session.tableNo} - Shared Cart</h4>
+            </div>
+            <button onclick="window.app.leaveTable()" class="text-[11px] font-semibold px-2.5 py-1 rounded-lg border border-secondary/15 text-secondary hover:bg-white transition-colors cursor-pointer">Change Table</button>
+          </div>
+          <div class="flex flex-wrap gap-1.5">
+            ${tableMembers.map(member => `
+              <span class="flex items-center gap-1.5 bg-white border border-secondary/10 rounded-full pl-1 pr-2.5 py-0.5">
+                <span class="w-5 h-5 rounded-full ${member.tone} text-white text-[9px] font-bold flex items-center justify-center">${member.avatar}</span>
+                <span class="text-[11px] font-medium text-primary">${member.name}</span>
+              </span>
+            `).join('')}
+          </div>
+        </div>
+
+        ${groupedCart.map(item => `
+          <div class="flex items-center gap-3 p-3.5 bg-background rounded-2xl border border-secondary/5">
+            <img src="${item.image}" alt="${item.mealName}" class="w-14 h-14 rounded-xl object-cover border border-secondary/10" onerror="this.src='https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=100'"/>
+            <div class="flex-grow min-w-0 space-y-1">
+              <h4 class="font-display font-semibold text-sm text-primary truncate">${item.mealName}</h4>
+              <p class="text-[11px] text-secondary-light">RM ${item.unitPrice.toFixed(2)} each</p>
+              <p class="text-[11px] text-secondary-light truncate">Added by: ${Array.from(item.members).join(', ')}</p>
+            </div>
+            <div class="text-right">
+              <p class="text-xs font-bold text-primary">x${item.quantity}</p>
+              <p class="text-xs font-display font-bold text-primary">RM ${item.total.toFixed(2)}</p>
             </div>
           </div>
-          
-          <!-- Delete button -->
-          <button 
-            onclick="window.app.removeFromCart('${meal.mealId}')" 
-            class="text-secondary/40 hover:text-accent p-2 rounded-xl hover:bg-accent/5 transition-colors cursor-pointer"
-            aria-label="Remove item"
-          >
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-1.816A2.25 2.25 0 0112.25 2.25h-2.5a2.25 2.25 0 00-2.25 2.25v1.816m-3 0h10.982"/></svg>
-          </button>
+        `).join('')}
+
+        <div class="rounded-2xl border border-secondary/10 bg-white p-4 space-y-3">
+          <div class="flex items-center justify-between gap-2">
+            <h4 class="font-display text-sm font-bold text-primary">Other Members' Orders</h4>
+            <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-primary/10 text-primary">${otherMemberOrders.length}</span>
+          </div>
+
+          ${otherMemberOrders.length === 0 ? `
+            <p class="text-xs text-secondary-light">No other members have added items yet.</p>
+          ` : `
+            <div class="space-y-2.5">
+              ${otherMemberOrders.map((member) => `
+                <div class="rounded-xl border border-secondary/10 bg-background p-3 space-y-2">
+                  <div class="flex items-center gap-2">
+                    <span class="w-6 h-6 rounded-full ${member.tone} text-white text-[10px] font-bold flex items-center justify-center">${member.avatar}</span>
+                    <p class="text-xs font-semibold text-primary">${member.name}</p>
+                  </div>
+                  <div class="space-y-1.5">
+                    ${Object.values(member.items).map((entry) => `
+                      <div class="flex items-center justify-between text-[11px]">
+                        <span class="text-secondary truncate pr-2">${entry.mealName}</span>
+                        <span class="font-semibold text-primary">x${entry.quantity}</span>
+                      </div>
+                    `).join('')}
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+          `}
         </div>
-      `;
-    }).join('');
+      </div>
+    `;
 
     // Load Footer calculations
     const subtotal = store.getCartTotal();
-    const deliveryFee = 3.99;
-    const total = subtotal + deliveryFee;
 
     footerContainer.innerHTML = `
       <div class="space-y-2.5 mb-6 text-xs">
         <div class="flex items-center justify-between text-secondary-light">
           <span>Subtotal</span>
-          <span>$${subtotal.toFixed(2)}</span>
-        </div>
-        <div class="flex items-center justify-between text-secondary-light">
-          <span>Delivery Fee</span>
-          <span>$${deliveryFee.toFixed(2)}</span>
+          <span>RM ${subtotal.toFixed(2)}</span>
         </div>
         <div class="flex items-center justify-between text-sm font-bold text-primary pt-2.5 border-t border-secondary/10">
-          <span>Total Price</span>
-          <span class="font-display">$${total.toFixed(2)}</span>
+          <span>Grand Total</span>
+          <span class="font-display">RM ${subtotal.toFixed(2)}</span>
         </div>
       </div>
-      <button 
-        onclick="window.app.switchView('checkout'); window.app.closeCartDrawer();" 
-        class="w-full bg-accent hover:bg-accent-dark text-white font-semibold py-3.5 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer text-sm"
-      >
-        Proceed to Checkout
-      </button>
+      <div class="space-y-2">
+        <button
+          onclick="window.app.switchView('review-shared-order'); window.app.closeCartDrawer();"
+          class="w-full bg-accent hover:bg-accent-dark text-white font-semibold py-3.5 rounded-2xl shadow-accent-glow hover:shadow-none transition-all cursor-pointer text-sm"
+        >
+          Review Shared Order
+        </button>
+        <button
+          onclick="window.app.switchView('catalog'); window.app.closeCartDrawer();"
+          class="w-full bg-white border border-secondary/15 text-secondary hover:bg-background-dark font-semibold py-3 rounded-2xl transition-all cursor-pointer text-sm"
+        >
+          Add More Items
+        </button>
+      </div>
     `;
   },
 
@@ -1110,6 +1295,7 @@ export const customerViews = {
         rows: personRows,
         subtotal,
         method: sharedPaymentSelections[name] || 'online',
+        onlineChannel: sharedOnlinePaymentChannels[name] || 'qr',
         status: sharedPaymentStatuses[name] || 'pending'
       };
     });
@@ -1211,12 +1397,45 @@ export const customerViews = {
               </div>
               ${entry.method === 'online' ? `
                 <div class="bg-success/5 border border-success/20 rounded-2xl p-3.5 space-y-3">
-                  <div class="grid grid-cols-4 gap-2 text-center">
-                    <div class="bg-white border border-secondary/10 rounded-xl p-2 text-[10px] font-semibold text-secondary">QR</div>
-                    <div class="bg-white border border-secondary/10 rounded-xl p-2 text-[10px] font-semibold text-secondary">Touch 'n Go</div>
-                    <div class="bg-white border border-secondary/10 rounded-xl p-2 text-[10px] font-semibold text-secondary">DuitNow</div>
-                    <div class="bg-white border border-secondary/10 rounded-xl p-2 text-[10px] font-semibold text-secondary">Online Banking</div>
+                  <div class="grid grid-cols-3 gap-2 text-center">
+                    <button onclick="window.app.setSharedOnlinePaymentChannel('${entry.name}','qr')" class="rounded-xl p-2 text-[10px] font-semibold border transition-colors cursor-pointer ${entry.onlineChannel === 'qr' ? 'bg-success/10 border-success/30 text-success' : 'bg-white border-secondary/10 text-secondary hover:bg-background'}">QR</button>
+                    <button onclick="window.app.setSharedOnlinePaymentChannel('${entry.name}','tng')" class="rounded-xl p-2 text-[10px] font-semibold border transition-colors cursor-pointer ${entry.onlineChannel === 'tng' ? 'bg-success/10 border-success/30 text-success' : 'bg-white border-secondary/10 text-secondary hover:bg-background'}">Touch 'n Go</button>
+                    <button onclick="window.app.setSharedOnlinePaymentChannel('${entry.name}','duitnow')" class="rounded-xl p-2 text-[10px] font-semibold border transition-colors cursor-pointer ${entry.onlineChannel === 'duitnow' ? 'bg-success/10 border-success/30 text-success' : 'bg-white border-secondary/10 text-secondary hover:bg-background'}">DuitNow</button>
                   </div>
+
+                  ${entry.onlineChannel === 'qr' ? `
+                    <div class="rounded-xl border border-secondary/10 bg-white p-3 flex items-center gap-3">
+                      <div class="w-16 h-16 rounded-lg border border-secondary/10 bg-white p-1 grid grid-cols-5 grid-rows-5 gap-0.5 flex-shrink-0">
+                        <span class="bg-primary rounded-sm"></span><span class="bg-primary rounded-sm"></span><span class="bg-background rounded-sm"></span><span class="bg-primary rounded-sm"></span><span class="bg-primary rounded-sm"></span>
+                        <span class="bg-background rounded-sm"></span><span class="bg-primary rounded-sm"></span><span class="bg-primary rounded-sm"></span><span class="bg-background rounded-sm"></span><span class="bg-primary rounded-sm"></span>
+                        <span class="bg-primary rounded-sm"></span><span class="bg-background rounded-sm"></span><span class="bg-primary rounded-sm"></span><span class="bg-primary rounded-sm"></span><span class="bg-background rounded-sm"></span>
+                        <span class="bg-primary rounded-sm"></span><span class="bg-primary rounded-sm"></span><span class="bg-background rounded-sm"></span><span class="bg-primary rounded-sm"></span><span class="bg-primary rounded-sm"></span>
+                        <span class="bg-background rounded-sm"></span><span class="bg-primary rounded-sm"></span><span class="bg-primary rounded-sm"></span><span class="bg-background rounded-sm"></span><span class="bg-primary rounded-sm"></span>
+                      </div>
+                      <div class="min-w-0">
+                        <p class="text-xs font-semibold text-primary">Scan QR to pay RM ${entry.subtotal.toFixed(2)}</p>
+                        <p class="text-[11px] text-secondary-light">Supported by DuitNow QR and Touch 'n Go.</p>
+                      </div>
+                    </div>
+                  ` : ''}
+
+                  ${entry.onlineChannel === 'tng' ? `
+                    <div class="rounded-xl border border-secondary/10 bg-white p-3 space-y-1.5">
+                      <p class="text-xs font-semibold text-primary">Touch 'n Go eWallet</p>
+                      <p class="text-[11px] text-secondary-light">Merchant ID: TNG-DUMPLING-2026</p>
+                      <p class="text-[11px] text-secondary-light">Amount: RM ${entry.subtotal.toFixed(2)}</p>
+                    </div>
+                  ` : ''}
+
+                  ${entry.onlineChannel === 'duitnow' ? `
+                    <div class="rounded-xl border border-secondary/10 bg-white p-3 space-y-1.5">
+                      <p class="text-xs font-semibold text-primary">DuitNow Transfer</p>
+                      <p class="text-[11px] text-secondary-light">Account: DUMPLING.SHARED@duitnow</p>
+                      <p class="text-[11px] text-secondary-light">Ref: ${tableNo}-${entry.name.toUpperCase()}</p>
+                      <p class="text-[11px] text-secondary-light">Amount: RM ${entry.subtotal.toFixed(2)}</p>
+                    </div>
+                  ` : ''}
+
                   <button onclick="window.app.markParticipantPaid('${entry.name}')" class="w-full bg-success hover:bg-success-dark text-white font-semibold py-2.5 rounded-xl transition-all cursor-pointer text-sm">Pay Now</button>
                 </div>
               ` : `
@@ -1279,6 +1498,17 @@ export const customerViews = {
     if (sharedPaymentStatuses[name] === 'cash' && method === 'online') {
       sharedPaymentStatuses[name] = 'pending';
     }
+    if (!sharedOnlinePaymentChannels[name]) {
+      sharedOnlinePaymentChannels[name] = 'qr';
+    }
+    const container = document.getElementById('view-container');
+    if (store.state.activeView === 'review-shared-order' && container) {
+      this.renderReviewSharedOrder(container);
+    }
+  },
+
+  setSharedOnlinePaymentChannel(name, channel) {
+    sharedOnlinePaymentChannels[name] = channel;
     const container = document.getElementById('view-container');
     if (store.state.activeView === 'review-shared-order' && container) {
       this.renderReviewSharedOrder(container);
@@ -1286,7 +1516,16 @@ export const customerViews = {
   },
 
   markParticipantPaid(name) {
+    const channel = sharedOnlinePaymentChannels[name] || 'qr';
+    const channelLabel = {
+      qr: 'QR',
+      tng: "Touch 'n Go",
+      duitnow: 'DuitNow'
+    };
     sharedPaymentStatuses[name] = 'paid';
+    if (window.app && typeof window.app.showFloatingAlert === 'function') {
+      window.app.showFloatingAlert(`${name} payment received via ${channelLabel[channel] || 'Online Payment'}.`, 'success');
+    }
     const container = document.getElementById('view-container');
     if (store.state.activeView === 'review-shared-order' && container) {
       this.renderReviewSharedOrder(container);
@@ -1316,6 +1555,7 @@ export const customerViews = {
   },
 
   // ─── 4. SELLER REGISTRATION ──────────────────────────────────────────────────
+  
   renderApplyJob(container) {
     container.innerHTML = `
       <section class="relative bg-primary rounded-[2rem] overflow-hidden mb-12 shadow-premium text-white">
@@ -1327,7 +1567,7 @@ export const customerViews = {
             Become a Frozen Dumpling <span class="text-accent">Seller</span>
           </h1>
           <p class="text-white/70 text-sm md:text-base leading-relaxed">
-            UTM students can join our reseller programme — sell premium halal frozen dumplings to your campus community and earn commission on every order. No upfront cost, no inventory to manage.
+            UTM students can join our reseller programme - sell premium halal frozen dumplings to your campus community and earn commission on every order. No upfront cost, no inventory to manage.
           </p>
         </div>
       </section>
@@ -1339,9 +1579,9 @@ export const customerViews = {
             <h3 class="font-display font-bold text-lg text-primary">Why Become a Seller?</h3>
             <div class="space-y-4">
               ${[
-                { icon: '💰', color: 'bg-accent/10 text-accent', title: 'Earn Commission', desc: 'Get RM 1.50–RM 3.00 per pack sold, paid weekly to your bank account.' },
-                { icon: '📅', color: 'bg-success/10 text-success', title: 'Flexible Hours', desc: 'Sell around your class schedule — no fixed shifts required.' },
-                { icon: '🚚', color: 'bg-primary/10 text-primary', title: 'We Handle Supply', desc: 'We pack and supply the dumplings — you just collect orders and payments.' },
+                { icon: '💰', color: 'bg-accent/10 text-accent', title: 'Earn Commission', desc: 'Get RM 1.50-RM 3.00 per pack sold, paid weekly to your bank account.' },
+                { icon: '⏰', color: 'bg-success/10 text-success', title: 'Flexible Hours', desc: 'Sell around your class schedule - no fixed shifts required.' },
+                { icon: '🚚', color: 'bg-primary/10 text-primary', title: 'We Handle Supply', desc: 'We pack and supply the dumplings - you just collect orders and payments.' },
                 { icon: '🎓', color: 'bg-yellow-100 text-yellow-600', title: 'Student-Friendly', desc: 'Designed for UTM students. No experience needed, just a phone and network!' }
               ].map(b => `
                 <div class="flex items-start gap-3">
@@ -1422,9 +1662,9 @@ export const customerViews = {
                   <label class="text-xs font-semibold text-secondary-light block">Expected Weekly Sales (packs) <span class="text-accent">*</span></label>
                   <select name="weeklyVolume" required class="form-input-premium text-sm py-2.5">
                     <option value="">Select range...</option>
-                    <option value="1-10">1–10 packs</option>
-                    <option value="11-30">11–30 packs</option>
-                    <option value="31-50">31–50 packs</option>
+                    <option value="1-10">1-10 packs</option>
+                    <option value="11-30">11-30 packs</option>
+                    <option value="31-50">31-50 packs</option>
                     <option value="50+">50+ packs</option>
                   </select>
                 </div>
@@ -1515,6 +1755,7 @@ window.app.submitCheckout = customerViews.submitCheckout.bind(customerViews);
 window.app.submitApplication = customerViews.submitApplication.bind(customerViews);
 window.app.trackOrderLookup = customerViews.trackOrderLookup.bind(customerViews);
 window.app.setSharedPaymentMethod = customerViews.setSharedPaymentMethod.bind(customerViews);
+window.app.setSharedOnlinePaymentChannel = customerViews.setSharedOnlinePaymentChannel.bind(customerViews);
 window.app.markParticipantPaid = customerViews.markParticipantPaid.bind(customerViews);
 window.app.markParticipantCash = customerViews.markParticipantCash.bind(customerViews);
 

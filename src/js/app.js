@@ -73,8 +73,14 @@ class App {
 
   // Proxies for cart mutations
   addToCart(mealId, qty = 1) {
+    if (!store.state.tableSession) {
+      this.openCartDrawer();
+      this.showFloatingAlert('Choose a table and your name before adding shared items.', 'info');
+      return false;
+    }
     store.addToCart(mealId, qty);
     this.openCartDrawer(); // Automatically slide drawer open
+    return true;
   }
 
   removeFromCart(mealId) {
